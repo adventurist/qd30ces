@@ -1,0 +1,23 @@
+
+
+
+#cesiumContainer  {
+  max-height: 2em;
+  max-width: 2em;
+}
+
+/*#map-form {
+  background-color: #1B9EF9;
+  font-weight: 700;
+  font: 42px sans-serif;
+  width: 4em;
+  line-height: 1.5;
+  text-align: center;
+  color: #2AFF00;;
+  display: block;
+  border: 3px solid #E8C8FF;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  /*float: left;*/
+  /*position: absolute;
+}*/

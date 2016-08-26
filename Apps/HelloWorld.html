@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Use correct character set. -->
+  <meta charset="utf-8">
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>Hello World!</title>
+  <script src="../Build/CesiumUnminified/Cesium.js"></script>
+  <script src='http://livejs.com/live.js'></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src='../node_modules/mousetrap/mousetrap.min.js'></script>
+  <script src="../quartier.js"></script>
+  <style>
+      @import url(../Build/Cesium/Widgets/widgets.css);
+      // @import url(../css/csMap.css);
+      html, body {
+          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+      }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <!-- <div id="formContainer">
+    <form><select id="buildingChoose" name="select" onchange="buildingSelect();">
+  <option value="Monkay">Monkay 1</option>
+  <option value="YoSimian" selected>YoSimian 2</option>
+  <option value="Thickey">Their ape 3</option>
+</select></form></div> -->
+  <script>
+
+  // var viewer = new Cesium.Viewer('cesiumContainer');
+  Cesium.BingMapsApi.defaultKey = 'mqrOOSbN2SMpDuWhHx0W~HVi_IW2A0UwRAV1xLIZuTQ~AnSezO-xLZ4_s1rf8ydB6Wf0aRdKtw_znPffJQ9qKbntyOPWFvitPVAvxT0v6dib';
+
+  var viewer = new Cesium.Viewer('cesiumContainer', {
+      animation : false,
+      homeButton : false,
+      vrButton : false,
+      infoBox : true,
+      sceneModePicker: false,
+      selectionIndicator: true,
+      timeline : false,
+      navigationHelpButton : false,
+      navigationInstructionsInitiallyVisible: false,
+      scene3DOnly : true,
+      shadows : true,
+      terrainShadows : true,
+
+
+      // imageryProvider : new Cesium.createOpenStreetMapImageryProvider({
+          // url : 'https://b.tile.openstreetmap.org'
+      // }),
+      baseLayerPicker : true
+
+  });
+  var scene = viewer.scene;
+  var ellipsoid = scene.globe.ellipsoid;
+  var canvas = viewer.canvas;
+  var layers = viewer.scene.imageryLayers;
+
+
+
+    canvas.onclick = function() {
+        canvas.focus();
+    };
+    var dataSource = Cesium.GeoJsonDataSource.load('../data/quartier2.json').then(function(data)  {
+      viewer.dataSources.add(data);
+      viewer.zoomTo(data);
+      var entities = data.entities.values;
+      console.log(entities.length);
+      var colorHash = {};
+      for (var i = 0; i < entities.length; i++) {
+          var entity = entities[i];
+          var name = entity.name;
+          var color = colorHash[name];
+          if (!color) {
+              color = Cesium.Color.fromRandom({
+                  alpha : 1.0
+              });
+              colorHash[name] = color;
+          }
+          entity.polygon.material = '../data/img/qd30roof.png';
+          entity.polygon.outline = true;
+          entity.polygon.outlineColor = Cesium.Color.BLUE;
+
+          entity.polygon.extrudedHeight = entity.properties.level * 10;
+      }
+    });
+    console.log(viewer);
+    //yeah
+
+
+    // var entity = viewer.entities.add({
+    // position: Cesium.Cartesian3.fromDegrees(-103.0, 40.0),
+    // ellipse : {
+    //   semiMinorAxis : 250000.0,
+    //   semiMajorAxis : 400000.0,
+    //   material : Cesium.Color.BLUE.withAlpha(0.5),
+    //   height: 250000,
+    //   extrudedHeight: 1000,
+    //   outline: true,
+    //   outlineColor: Cesium.Color.BLUE,
+    //   outlineWidth: 2.0
+    // }
+    // });
+    // console.log(viewer);
+    // viewer.zoomTo(viewer.entities);
+    //
+    // var ellipse = entity.ellipse;
+    // ellipse.material = '../data/img/angdog.jpg';
+    //
+    // var entity = viewer.entities.add({
+    // polyline : {
+    //     positions : Cesium.Cartesian3.fromDegreesArray([-77, 35,
+    // 													-89.1, 34.7]),
+    //     width : 5,
+    //     material : new Cesium.PolylineGlowMaterialProperty({
+    //       glowPower : 0.2,
+    //       color : Cesium.Color.BLUE
+    //     })
+    //   }
+    // });
+    // viewer.zoomTo(viewer.entities);
+    //
+    //
+    // var mHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+    // mHandler.setInputAction(function(click) {
+    //   var alertTxt = '';
+    //   // function addToMessage(key, value)  {
+    //   //   alertTxt = key + ': ' + value + '\n';
+    //   // }
+    //   console.log('middleclick');
+    //
+    //   var pickedObj = scene.pick(click.position);
+    //   // console.log(pickedObj);
+    //
+    // }, Cesium.ScreenSpaceEventType.MIDDLE_CLICK);
+
+    //
+    //
+    // var handler = new Cesium.ScreenSpaceEventHandler(scene.canvas),
+    //      onEarthClick = function (e) {
+    //       //  console.log(e);
+    //          if (e.which == 3) {//right button
+    //              $(this).unbind('mousedown', onEarthClick);
+    //
+    //              Earth.variables.currentModel.longitude = parseFloat(longitudeString);
+    //              Earth.variables.currentModel.latitude = parseFloat(latitudeString);
+    //              Earth.variables.currentModel.altitude = parseFloat(heightString);
+    //
+    //              setModelToCesium(Earth.variables.currentModel);
+    //          }
+    //      };
+    //
+    //
+    //  var positiongeo = Cesium.Cartesian3.fromDegrees(-73.434109422458732, 45.445890270262630, 0);
+    //             var screenLoc = Cesium.SceneTransforms.wgs84ToWindowCoordinates(scene, positiongeo)
+    //             var res = scene.pick(screenLoc);
+    // console.log(res);
+    // console.log(screenLoc);
+    //
+    // var sEntity = new Cesium.Entity('Title to put in the infobox');
+    // sEntity.description = {
+    //   getValue : function() {
+    //       return 'HTML to display in the infobox';
+    //   }
+    // };
+    // viewer.selectedEntity = sEntity;
+
+    // console.log(viewer.dataSources);
+    //
+    // console.log(viewer.infoBox);
+    viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";
+
+  var lastTime = Cesium.getTimestamp();
+  var lastPosition = viewer.scene.camera.position.clone();
+
+
+  // canvas.addEventListener('click', function(e) {
+  //   // var mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
+  //   // console.log(mousePosition);
+  //   // var picked = viewer.scene.pick(mousePosition);
+  //   // viewer.selectedEntity = picked;
+  //   // // var picked = viewer.scene.pick(mousePosition);
+  //   // console.log(picked);
+  //   // viewer.selectedEntity = picked;
+  //
+  // });
+
+
+  //  handler.setInputAction(function (movement) {
+  //      var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, ellipsoid);
+  //      if (cartesian) {
+  //          cartographic = ellipsoid.cartesianToCartographic(cartesian);
+  //          longitudeString = Cesium.Math.toDegrees(cartographic.longitude).toFixed(15);
+  //          latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(15);
+  //          heightString = Cesium.Math.toDegrees(cartographic.height).toFixed(15);
+  //         console.log(movement);
+  //         //  console.log(longitudeString + ':' + latitudeString);
+  //      }
+  //  }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+
+  // var pickRay = viewer.camera.getPickRay(windowPosition);
+  // var featuresPromise = viewer.imageryLayers.pickImageryLayerFeatures(pickRay, viewer.scene);
+  // if (!Cesium.defined(featuresPromise)) {
+  //     console.log('No features picked.');
+  // } else {
+  //     Cesium.when(featuresPromise, function(features) {
+  //         // This function is called asynchronously when the list if picked features is available.
+  //         console.log('Number of features: ' + features.length);
+  //         if (features.length > 0) {
+  //             console.log('First feature name: ' + features[0].name);
+  //         }
+  //     });
+  // }
+
+  // function preRender(scene) {
+  //     var time = Cesium.getTimestamp();
+  //     var position = scene.camera.position;
+  //     if (!Cesium.Cartesian3.equalsEpsilon(lastPosition, position, Cesium.Math.EPSILON4)) {
+  //         document.getElementById('viewChanged').style.display = 'block';
+  //         lastTime = time;
+  //     } else if (time - lastTime > 250) {
+  //         //hide the 'view changed' message after 250 ms of inactivity
+  //         lastTime = time;
+  //         document.getElementById('viewChanged').style.display = 'none';
+  //     }
+  //     lastPosition = position.clone();
+  // }
+
+  // viewer.scene.preRender.addEventListener(preRender);
+
+  </script>
+
+  <script>
+
+  // var mEvent = document.createEvent('Event');
+  //
+  // mEvent.initEvent('mKeyPress', true, true);
+  //
+  //
+  //   var container = document.querySelector("#cesiumContainer");
+  //   // container.addEventListener("")
+  //   // container.addEventListener('mKeyPress', function(d) {
+  //   //   console.log(d);
+  //   // }, false);
+  //   // })
+  //   container.onkeypress = function(jigga){console.log(jigga.keyCode)};
+  //
+  //   window.onload = function()  {
+  //     container.focus();
+  //   }
+  //   Mousetrap.bind('ctrl+shift+k', function() { console.log('jigga'); });
+  </script>
+
+  <script>
+
+  // function buildingSelect() {
+  //   console.log('selection');
+  //   var box = document.getElementById('buildingChoose');
+  //   var val = box.options[box.selectedIndex].value;
+  //   alert(val);
+  // }
+</script>
+
+<!-- <script src="./qd30.js"></script> -->
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2016-06-05T02:19:02Z",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "way/28222641",
+      "properties": {
+        "@id": "way/28222641",
+        "addr:city": "Brossard",
+        "addr:housenumber": "9380",
+        "addr:postcode": "J4Y 0B3",
+        "addr:street": "Boulevard Leduc",
+        "building": "yes",
+        "level": "1"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.4356609,
+              45.4443138
+            ],
+            [
+              -73.4354528,
+              45.4441768
+            ],
+            [
+              -73.435023,
+              45.444481
+            ],
+            [
+              -73.4353632,
+              45.4447142
+            ],
+            [
+              -73.4356465,
+              45.4445105
+            ],
+            [
+              -73.4356609,
+              45.4443138
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/28222664",
+      "properties": {
+        "@id": "way/28222664",
+        "addr:city": "Brossard",
+        "addr:housenumber": "9350",
+        "addr:postcode": "J4Y 0B3",
+        "addr:street": "Boulevard Leduc",
+        "amenity": "cinema",
+        "building": "yes",
+        "level": "3",
+        "name": "Cineplex Odeon"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.4346436,
+              45.4461225
+            ],
+            [
+              -73.4348003,
+              45.4461422
+            ],
+            [
+              -73.4349268,
+              45.4460486
+            ],
+            [
+              -73.4347222,
+              45.4458735
+            ],
+            [
+              -73.4347647,
+              45.4458384
+            ],
+            [
+              -73.434644,
+              45.4457694
+            ],
+            [
+              -73.4346708,
+              45.4457338
+            ],
+            [
+              -73.4341242,
+              45.4453832
+            ],
+            [
+              -73.434086,
+              45.4454006
+            ],
+            [
+              -73.4339642,
+              45.4453143
+            ],
+            [
+              -73.4339212,
+              45.4453417
+            ],
+            [
+              -73.4336823,
+              45.4451986
+            ],
+            [
+              -73.43352,
+              45.4453196
+            ],
+            [
+              -73.4335852,
+              45.4453828
+            ],
+            [
+              -73.4334953,
+              45.4454569
+            ],
+            [
+              -73.4338002,
+              45.4457268
+            ],
+            [
+              -73.4337471,
+              45.4457749
+            ],
+            [
+              -73.434131,
+              45.4460126
+            ],
+            [
+              -73.4341872,
+              45.4459781
+            ],
+            [
+              -73.4345698,
+              45.4461778
+            ],
+            [
+              -73.4346436,
+              45.4461225
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/28223847",
+      "properties": {
+        "@id": "way/28223847",
+        "addr:city": "Brossard",
+        "addr:housenumber": "9320",
+        "addr:postcode": "J4Y 0B3",
+        "addr:street": "Boulevard Leduc",
+        "building": "yes",
+        "level": "1",
+        "name": "Indigo",
+        "shop": "books"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.4363477,
+              45.4446494
+            ],
+            [
+              -73.4368996,
+              45.4442518
+            ],
+            [
+              -73.4366276,
+              45.4440637
+            ],
+            [
+              -73.436191,
+              45.4443821
+            ],
+            [
+              -73.4361787,
+              45.4445325
+            ],
+            [
+              -73.4363477,
+              45.4446494
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/38094658",
+      "properties": {
+        "@id": "way/38094658",
+        "addr:city": "Brossard",
+        "addr:housenumber": "9316",
+        "addr:postcode": "J4Y 0B3",
+        "addr:street": "Boulevard Leduc",
+        "amenity": "pub;restaurant",
+        "building": "yes",
+        "cuisine": "european",
+        "level": "1",
+        "name": "Les 3 Brasseurs"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.4363278,
+              45.4456655
+            ],
+            [
+              -73.4361197,
+              45.4455206
+            ],
+            [
+              -73.4358557,
+              45.4457081
+            ],
+            [
+              -73.4360621,
+              45.4458507
+            ],
+            [
+              -73.4363278,
+              45.4456655
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "way/306851963",
+      "properties": {
+        "@id": "way/306851963",
+        "addr:city": "Brossard",
+        "addr:housenumber": "9330",
+        "addr:postcode": "J4Y 0B3",
+        "addr:street": "Boulevard Leduc",
+        "amenity": "restaurant",
+        "building": "yes",
+        "capacity": "150",
+        "cuisine": "american",
+        "level": "1",
+        "name": "Elixor",
+        "opening_hours": "Mo-Fr 11:00-23:00; Sa-Su 10:00-23:00",
+        "smoking": "no",
+        "website": "http://www.elixor.com",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.4362185,
+              45.4447198
+            ],
+            [
+              -73.4360101,
+              45.4445632
+            ],
+            [
+              -73.4358701,
+              45.4445678
+            ],
+            [
+              -73.4357707,
+              45.4446409
+            ],
+            [
+              -73.43552,
+              45.4448317
+            ],
+            [
+              -73.4358137,
+              45.4450208
+            ],
+            [
+              -73.4362185,
+              45.4447198
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
