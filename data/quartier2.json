@@ -14,8 +14,10 @@
         "addr:postcode": "J4Y 0B3",
         "addr:street": "Boulevard Leduc",
         "building": "yes",
-        "level": "1"
-      },
+        "name": "La Fabrique à boire",
+        "level": "1",
+        "color": "#f475a9",
+        "description": "<div id='fabrique'><h2>La Fabrique à boire</h2><img src='https://s3.amazonaws.com/dix30/wp-content/uploads/2015/01/fabrique-120x84.png'></img><div id='business-details'>Nous fabriquons et vous le buvez!</div></div>"},
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -60,7 +62,9 @@
         "amenity": "cinema",
         "building": "yes",
         "level": "3",
-        "name": "Cineplex Odeon"
+        "name": "Cineplex Odeon",
+        "color": "#6acdca",
+        "description": "<div id='cineplex'><h2>Cineplex Odeon</h2><img src='http://gamealot.ca/wp/wp-content/uploads/2014/09/Cineplex_Odeon.jpg'></img><div id='business-details'>Venez s'amuser!</div></div>"
       },
       "geometry": {
         "type": "Polygon",
@@ -166,7 +170,8 @@
         "building": "yes",
         "level": "1",
         "name": "Indigo",
-        "shop": "books"
+        "shop": "books",
+        "color": "#f475a9"
       },
       "geometry": {
         "type": "Polygon",
@@ -213,7 +218,8 @@
         "building": "yes",
         "cuisine": "european",
         "level": "1",
-        "name": "Les 3 Brasseurs"
+        "name": "Les 3 Brasseurs",
+        "color": "#6acdca"
       },
       "geometry": {
         "type": "Polygon",
@@ -261,7 +267,8 @@
         "opening_hours": "Mo-Fr 11:00-23:00; Sa-Su 10:00-23:00",
         "smoking": "no",
         "website": "http://www.elixor.com",
-        "wheelchair": "yes"
+        "wheelchair": "yes",
+        "color": "#f475a9"
       },
       "geometry": {
         "type": "Polygon",
