@@ -48,6 +48,8 @@
   </div>
 
   <script>
+
+    document.getElementById("cesiumContainer").removeAttribute("tabIndex");
     var anchorParent = document.getElementById('categories');
 
     var anchorElements = anchorParent.getElementsByTagName('a');
@@ -139,7 +141,7 @@
   // tonerLayer.brightness = 2.0;
 
   canvas.setAttribute('tabindex', '0');
-  canvas.focus();
+  // canvas.focus();
   canvas.addEventListener("keypress", function(param)  {
     console.log(param);
     var keyValue = parseInt(param.key);
