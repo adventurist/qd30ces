@@ -122,7 +122,7 @@
       baseLayerPicker : false
 
   });
-
+  console.log(viewer);
   var scene = viewer.scene;
   var ellipsoid = scene.globe.ellipsoid;
   var canvas = viewer.canvas;
@@ -273,7 +273,7 @@
   // function preRender(scene) {
   //     var time = Cesium.getTimestamp();
   //     var position = scene.camera.position;
-  //     if (!Cesium.Cartesian3.equalsEpsilon(lastPosition, position, Cesium.Math.EPSILON4)) {
+  //     if (!Cesium.Cartesian3 .equalsEpsilon(lastPosition, position, Cesium.Math.EPSILON4)) {
   //         document.getElementById('viewChanged').style.display = 'block';
   //         lastTime = time;
   //     } else if (time - lastTime > 250) {
