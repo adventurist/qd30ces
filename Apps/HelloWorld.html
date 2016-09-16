@@ -9,11 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
   <title>Hello World!</title>
   <script src="../Build/CesiumUnminified/Cesium.js"></script>
-  <script src='http://livejs.com/live.js'></script>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-  <script src='../node_modules/mousetrap/mousetrap.min.js'></script>
+  <script src='http://livejs.com/live.js'></script>
   <style>
       @import url(../Build/Cesium/Widgets/widgets.css);
+      @import url(../css/util.css);
       @import url(../css/csMap.css);
       html, body {
           width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
@@ -47,6 +47,22 @@
 
   </div>
 
+  <div id='nav-arrows'>
+    <div id='nav-up'>
+
+    </div>
+
+    <div id='nav-left'>
+
+    </div>
+    <div id='nav-right'>
+
+    </div>
+    <div id='nav-down'>
+
+    </div>
+  </div>
+
   <script>
 
     document.getElementById("cesiumContainer").removeAttribute("tabIndex");
@@ -68,6 +84,40 @@
           }
         }
       }
+    }
+
+    var navParent = document.getElementById('nav-arrows');
+    navParent.tabIndex = 1;
+
+    var navElements = navParent.getElementsByTagName('div');
+
+    for (var i=0; i < navElements.length; i++) {
+      console.log(navElements[i]);
+      navElements[i].addEventListener('click', function(param) {
+
+        var x = camera.position.x;
+        var y = camera.position.y;
+        var z = camera.position.z;
+
+        switch(param.srcElement.id) {
+          case 'nav-up':
+            camera.position.z = z + 25;
+            break;
+
+          case 'nav-down':
+            camera.position.z = z - 25;
+            break;
+
+          case 'nav-left':
+            camera.position.x = x - 25;
+            break;
+
+          case 'nav-right':
+            camera.position.x = x + 25;
+            break;
+
+        }
+      })
     }
 
     // var cinema = document.getElementById('cineplex');
@@ -122,7 +172,7 @@
       baseLayerPicker : false
 
   });
-  console.log(viewer);
+  var camera = viewer.camera;
   var scene = viewer.scene;
   var ellipsoid = scene.globe.ellipsoid;
   var canvas = viewer.canvas;
@@ -193,11 +243,6 @@
       }
       // console.log(viewer.dataSources.get(0).entities);
     });
-
-
-
-
-
 
 
 

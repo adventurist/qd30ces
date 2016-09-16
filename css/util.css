@@ -1,0 +1,46 @@
+#nav-arrows {
+  top: 8%;
+  left: 2%;
+  width:8em;
+  height:8em;
+  position: relative;
+  display: inline-block;
+}
+
+#nav-up {
+  position: relative;
+  margin-bottom: 2.5%;
+  width:2em;
+  height:2em;
+  left: 14.25%;
+  background-image: url(../gfx/up.svg);
+  background-color: #ffffff;
+}
+
+#nav-left {
+  width:2em;
+  height:2em;
+  display: inline-block;
+  background-image: url(../gfx/left.svg);
+  background-color: #ffffff;
+}
+#nav-right {
+  width:2em;
+  height:2em;
+  display: inline-block;
+  background-image: url(../gfx/right.svg);
+  background-color: #ffffff;
+}
+#nav-down {
+  position: relative;
+  left: 14.25%;
+  width:2em;
+  height:2em;
+  margin-top: -1%;
+  background-image: url(../gfx/down.svg);
+  background-color: #ffffff;
+}
+
+#nav-up:hover, #nav-down:hover, #nav-left:hover, #nav-right:hover {
+  opacity: 0.3;
+}

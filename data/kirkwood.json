@@ -10,12 +10,14 @@
       "properties": {
         "@id": "way/442106309",
         "addr:city": "Ottawa",
-        "addr:housenumber": "1042",
-        "addr:postcode": "K1Z6A7",
-        "addr:street": "Merivale Rd",
+        "addr:housenumber": "999",
+        "addr:postcode": "H8G8F9",
+        "addr:street": "My Road",
         "building": "apartments",
         "building:levels": "3",
-        "levels": "3"
+        "levels": "3",
+        "level": "3",
+        "description": "<div id='welcome'><h2>WELCOME TO MY HOME</h2></div>"
       },
       "geometry": {
         "type": "Polygon",
