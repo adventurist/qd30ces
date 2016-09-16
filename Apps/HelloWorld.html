@@ -46,19 +46,27 @@
 
 
   </div>
+  <div class='nav-ui-wrap'>
+    <div id='zoom'>
+      <div id='zoom-in'>
+      </div>
 
-  <div id='nav-arrows'>
-    <div id='nav-up'>
-
-    </div>
-
-    <div id='nav-left'>
-
-    </div>
-    <div id='nav-right'>
+      <div id='zoom-out'>
+      </div>
 
     </div>
-    <div id='nav-down'>
+
+
+    <div id='nav-arrows'>
+      <div id='nav-up'>
+      </div>
+
+      <div id='nav-left'>
+      </div>
+      <div id='nav-down'>
+      </div>
+      <div id='nav-right'>
+      </div>
 
     </div>
   </div>
@@ -87,14 +95,17 @@
     }
 
     var navParent = document.getElementById('nav-arrows');
-    navParent.tabIndex = 1;
 
     var navElements = navParent.getElementsByTagName('div');
+    navElements[0].tabIndex = 5;
+    navElements[1].tabIndex = 6;
+    navElements[2].tabIndex = 7;
+    navElements[3].tabIndex = 8;
+
 
     for (var i=0; i < navElements.length; i++) {
-      console.log(navElements[i]);
-      navElements[i].addEventListener('click', function(param) {
-
+      navElements[i].onclick = function(param) {
+      console.log('navclick');
         var x = camera.position.x;
         var y = camera.position.y;
         var z = camera.position.z;
@@ -117,7 +128,80 @@
             break;
 
         }
-      })
+      }
+      navElements[i].onkeyup = function(param) {
+
+        var x = camera.position.x;
+        var y = camera.position.y;
+        var z = camera.position.z;
+
+        switch(param.srcElement.id) {
+          case 'nav-up':
+            if (param.keyCode == 13) {
+              camera.position.z = z + 25;
+            }
+            break;
+
+          case 'nav-down':
+            if (param.keyCode == 13) {
+              camera.position.z = z - 25;
+            }
+            break;
+
+          case 'nav-left':
+            if (param.keyCode == 13) {
+              camera.position.x = x - 25;
+            }
+            break;
+
+          case 'nav-right':
+            if (param.keyCode == 13) {
+              camera.position.x = x + 25;
+            }
+            break;
+          }
+      }
+    }
+
+    var zoomParent = document.getElementById('zoom');
+
+    var zoomElements = zoomParent.getElementsByTagName('div');
+    zoomElements[0].tabIndex = 9;
+    zoomElements[1].tabIndex = 10;
+
+
+    for (var i=0; i < zoomElements.length; i++) {
+      zoomElements[i].onclick = function(param) {
+        var y = camera.position.y;
+
+        switch(param.srcElement.id) {
+          case 'zoom-in':
+            camera.position.y = y + 25;
+            break;
+
+          case 'zoom-out':
+            camera.position.y = y - 25;
+            break;
+        }
+      }
+
+      navElements[i].onkeyup = function(param) {
+        var y = camera.position.y;
+
+        switch(param.srcElement.id) {
+          case 'zoom-in':
+            if (param.keyCode == 13) {
+              camera.position.y = y + 160;
+            }
+            break;
+
+          case 'zoom-out':
+            if (param.keyCode == 13) {
+              camera.position.y = y - 160;
+            }
+            break;
+          }
+      }
     }
 
     // var cinema = document.getElementById('cineplex');
@@ -191,19 +275,19 @@
   // tonerLayer.brightness = 2.0;
 
   canvas.setAttribute('tabindex', '0');
-  // canvas.focus();
-  canvas.addEventListener("keypress", function(param)  {
-    console.log(param);
-    var keyValue = parseInt(param.key);
-    console.log(keyValue);
-    if (keyValue > 0 && keyValue < 10) {
-      console.log('We in range');
-      var mId = viewer.dataSources.get(0).entities.values[keyValue - 1].id;
-      var mEntity = viewer.dataSources.get(0).entities.getById(mId);
-      viewer.selectedEntity = mEntity;
-    }
-
-  });
+  // // canvas.focus();
+  // canvas.addEventListener("keypress", function(param)  {
+  //   console.log(param);
+  //   var keyValue = parseInt(param.key);
+  //   console.log(keyValue);
+  //   if (keyValue > 0 && keyValue < 10) {
+  //     console.log('We in range');
+  //     var mId = viewer.dataSources.get(0).entities.values[keyValue - 1].id;
+  //     var mEntity = viewer.dataSources.get(0).entities.getById(mId);
+  //     viewer.selectedEntity = mEntity;
+  //   }
+  //
+  // });
 
 
 
