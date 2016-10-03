@@ -16,15 +16,15 @@
 #cesiumContainer  {
   /*max-width: 85%;*/
   /*float: left;*/
-  min-width: 85%;
+  width: 75%;
   display: inline-block;
   position: absolute;
 }
 
 #form-wrap {
-  max-width: 15%;
+  width: 25%;
   float: right;
-  margin-right: 5%;
+  margin: 1.5%;
   display: inline-block;
   font-size: 120%;
   list-style: none;

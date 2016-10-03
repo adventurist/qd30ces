@@ -1,0 +1,595 @@
+@import 'variables';
+
+@import 'stylesheet-header';
+@import 'stylesheet-sidenav';
+@import 'stylesheet-footer';
+
+//// CSS RESET ////
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+// HTML5 display-role reset for older browsers
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+//// GLOBAL THEME ////
+// Classes to turn things different colours
+.bg-black { background-color: $black; color: $white;}
+.bg-white { background-color: $white;}
+.bg-turq { background-color: $turq;}
+.bg-orange { background-color: $orange;}
+.bg-violet { background-color: $violet;}
+.bg-yellow { background-color: $yellow;}
+.bg-cyan { background-color: $cyan;}
+.bg-pink { background-color: $pink;}
+.bg-grey { background-color: $grey;}
+.bg-grey-dk { background-color: $grey-dk;}
+.bg-grey-lt { background-color: $grey-lt;}
+
+
+//// TEXT FORMATTING ////
+// Font faces. Some weird hacks for IE compatibility.
+@font-face {
+  font-family: 'Metric';
+	src: url('./fonts/Metric-Regular.eot');
+  src: local('☺︎'),
+		url('./fonts/Metric-Regular.woff') format('woff'),
+		url('./fonts/Metric-Regular.otf') format('opentype');
+  font-weight: $reg-weight;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Metric';
+	src: url('./fonts/Metric-RegularItalic.eot');
+  src: local('☺︎'),
+		url('./fonts/Metric-RegularItalic.woff') format('woff'),
+		url('./fonts/Metric-RegularItalic.otf');
+  font-weight: $reg-weight;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Metric';
+	src: url('./fonts/Metric-Semibold.eot');
+  src: local('☺︎'),
+		url('./fonts/Metric-Semibold.woff') format('woff'),
+		url('./fonts/Metric-Semibold.otf');
+  font-weight: $semibold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Metric';
+	src: url('./fonts/Metric-SemiboldItalic.eot');
+  src: local('☺︎'),
+		url('./fonts/Metric-SemiboldItalic.woff') format('woff'),
+		url('./fonts/Metric-SemiboldItalic.otf');
+  font-weight: $semibold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Metric';
+	src: url('./fonts/Metric-Bold.eot');
+  src: local('☺︎'),
+		url('./fonts/Metric-Bold.woff') format('woff'),
+		url('./fonts/Metric-Bold.otf');
+  font-weight: $bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Metric';
+	src: url('./fonts/Metric-BoldItalic.eot');
+  src: local('☺︎'),
+		url('./fonts/Metric-BoldItalic.woff') format('woff'),
+		url('./fonts/Metric-BoldItalic.otf');
+  font-weight: $bold;
+  font-style: italic;
+}
+
+body {
+  font-family: 'Metric', sans-serif;
+  font-weight: $reg-weight;
+  font-style: normal;
+}
+
+span.reg-weight { font-weight: $reg-weight; }
+span.semibold { font-weight: $semibold; }
+span.bold { font-weight: $bold; }
+span.italic { font-style: italic; }
+
+span.xlarge		{ font-size: $xlarge; }
+span.large		{ font-size: $large; }
+span.reg-size	{ font-size: $reg-size; }
+span.small		{ font-size: $small; }
+span.xsmall		{ font-size: $xsmall; }
+
+.title {
+	font-size: $reg-size;
+	font-weight: $reg-weight;
+	letter-spacing: 6px;
+	text-transform: uppercase;
+}
+.smallcaps {
+	font-size: $xsmall;
+	font-weight: $reg-weight;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}	
+.largecaps {
+	font-size: $large;
+	font-weight: $semibold;
+	text-transform: uppercase;
+}
+.readmore {
+	font-size: $small;
+	font-weight: $reg-weight;
+	font-style: italic;
+}
+
+.nowrap { white-space: nowrap; }
+
+h1 {}
+h2 { 
+	@extend .title;
+}
+h3 {
+	font-weight: $semibold;
+	font-size: $xlarge;
+	> a {
+		text-decoration: none;
+		&:hover, &:focus {
+			color: $black;
+			text-decoration: underline;
+		}
+	}
+}
+h4 {}
+p {
+	font-weight: $reg-weight;
+	font-size: $reg-size;
+	line-height: 1.8em;
+} p + p {
+	margin-top: 1.8em;
+} p + p:last-of-type {
+	margin-bottom: 1.8em;
+}
+
+a, a:visited, a:active {
+	color: $black; text-decoration: underline;
+	&:hover, &:focus {
+		color: $black;
+		background-color: $yellow;
+	}
+}
+header, footer, aside {
+	a, a:visited, a:active {
+		color: $black; text-decoration: none;
+		&:hover, &:focus { color: $grey-dk; background-color: transparent; text-decoration: underline;}
+	}
+}
+
+
+input[type=text], input[type=email] {
+	border: none;
+	border-bottom: 1px solid $black;
+	height: 15px;
+	padding: 8px 25px 2px 5px;
+	width: 160px;
+	font-family: 'Metric';
+	font-size: $small;
+	&:focus { outline: 2px solid $yellow; }
+}
+input[type=submit] {
+	background-color: $black;
+	color: $white;
+	border: none;
+	border: 1px solid $white;
+	height: 25px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	&:hover, &:focus {
+		background-color: $grey-lt;
+		color: $black;
+	}
+}
+button {
+	background-color: white;
+	color: black;
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
+// Contact forms
+form.contact-form {
+	input[type=text], textarea {
+		padding: 5px;
+		border: 1px solid $black;
+		&:focus {
+			outline: 2px solid $yellow;
+		}
+	}
+}
+
+//// POSITIONING ////
+
+// For any page with a split main-left, sidebar-right layout
+.container-right {
+	width: 25%;
+	padding-left: 1%;
+	padding-right: 4%;
+	display: block;
+	float: right;
+}
+.container-left {
+	display: block;
+	width: 68%;
+}
+
+// For any page with a centered, single-column layout
+.container-center {
+	position: relative;
+	width: 70%;
+	clear: both;
+	padding: 30px 15%;
+	margin-top: 60px;
+}
+
+
+//// MISC formatting, decorative elements, spacing, etc. ////
+
+// Hack fix for the weird footer width thing. Something is causing x overflow on tiny screens.
+
+body { overflow-x: hidden; }
+
+main {
+	clear: both;
+	overflow: hidden;	
+//	background-color: $white;
+}
+
+#main-container {
+//	background-color: $white;
+}
+
+#main-image {
+	width: 100%;
+	height: 520px;
+	overflow: hidden;
+	background-image: url(../img/bg-grid.svg);
+	background-repeat: repeat;
+	z-index: -1;
+	
+	&.default > #main-image-container {
+		> img {
+			width: auto;
+			height: auto;
+		}
+	}
+	
+	&.smallsize > #main-image-container {
+		position: relative;
+		left: 50%;
+		margin-left: -320px;
+		top: 50%;
+		margin-top: -240px;
+		
+		height: 480px;
+		width: 640px;
+		overflow: hidden;
+		
+		img {
+			width: 100%;
+			height: auto;
+			@include shadow-std;
+		}
+	}
+	
+	// Main image takes up 100% screen width, while vertically cropped & centered.
+	// Minimum width of 1200. Ideal w:h ratio between 4:3 and 3:2.
+	&.fullsize > #main-image-container {
+		margin: 0;
+		left: auto;
+		height: 100%;
+		width: 100%;
+		> img {
+			vertical-align: middle;
+			position: relative;
+			width: 100%;
+			min-height: 520px;
+
+			top: 50%;
+			@include transformer(translateY(-50%));
+		}
+	}
+	
+	&.noimage {
+		height: 200px;
+		> #main-image-container {
+			display: none;
+		}
+		
+	}
+}
+
+#main-container {
+	@include shadow-top;
+	position: relative;
+	background-color: $white;
+	padding-bottom: 100px;
+}
+
+// Broad-stroke formatting for the square/rectangle that's used everywhere, notably as the container for the "title" of each site.
+.box {
+	padding: 5px;
+	margin: 0 auto;
+	
+	> div {
+		border: 1px solid $white;
+		padding: 10px;
+	}
+	
+	&.main {
+		top: 30px;
+	}
+	
+	// If it's also classed as a title, the text is horizontally and vertically centered.
+	&.title {
+		display: table;
+		position: relative;
+		> div {
+			display: table-cell;
+			vertical-align: middle;
+			> div {
+				padding: 15px 30px;
+				text-align: center;
+				word-wrap: break-word;
+			}
+		}
+	}
+	
+	// If it's classed as .inset, it is shifted up 30px to overlap the image. This is only applied where DIX30 itself has control over the image so that they can ensure that nothing important is being covered up by the .box
+	&.inset { top: -30px; }
+	
+	// If it's a "wide" box its width stretches with the screen and it is given a minimum width
+	&.wide {
+		width: 50%;
+		min-width: 500px;
+	}
+	
+	// If it's a "square" then it has a set width/height
+	&.square {
+		min-width: 180px;
+		width: 180px;
+		
+		min-height: 180px;
+		height: 180px;
+		
+		top: -60px;
+	}
+
+}
+
+// Small hack to deal with opacity of elements containing both icon image & text
+a.icon-link:hover, a.icon-link:focus {
+	opacity: 1;
+	> .icon-container {
+		.popout, .popout:before, .popout:after { opacity: 1; }
+	}
+	img, > div[class$=icon-txt] { opacity: $opac; }
+}
+
+// Menu close button
+.menu-close {
+	display: block;
+	position: absolute;
+
+	cursor: default;
+	> span {
+		display: none;
+		position: relative;
+		bottom: 7px;
+		right: 5px;
+		color: $grey-dk;
+		text-transform: uppercase;
+		font-size: $small;
+
+	}
+}
+
+// Formatting of the little info popouts that show up on hover, for certain icons
+.popout {
+	position: absolute;
+	display: none;
+	top: 120%;
+	left: 0;
+	padding: 5px 5px 2px 5px;
+	height: auto;
+	pointer-events: none;
+	background-color: $white;
+	border: 1px solid #000;
+	
+	z-index: 200;
+}
+ .popout:after, .popout:before {
+	bottom: 100%;
+	left: 10px;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+} .popout:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-bottom-color: #fff;
+	border-width: 5px;
+	margin-left: -5px;
+} .popout:before {
+	border-color: rgba(0, 0, 0, 0);
+	border-bottom-color: #000;
+	border-width: 6px;
+	margin-left: -6px;
+}
+			
+
+//// RESPONSIVE BEHAVIOUR ////
+
+@media all and (min-width: $width-desktop + 1) {
+	
+	#main-image {
+		height: 600px;
+	}
+	
+	.container-right {
+		width: 18%;
+	}
+	.container-left {
+		width: 75%;
+	}
+	
+	.icon:not(.icon-search) { width: 28px; height: 28px; }
+	.icon-tall { width: 28px; height: 56px; margin-top: -15px; }
+	.icon-wide { width: 39px; height: 28px; }
+}
+
+@media all and (max-width: $width-desktop) {
+	
+	.icon { width: 23px; height: 23px; }
+	.icon-tall { width: 23px; height: 46px; margin-top: -11px;}
+	.icon-wide { width: 32px; height: 23px; }
+}
+
+@media all and (max-width: $width-tablet) {
+	
+	.container-right { width: 28%; }
+	.container-left { width: 65%; }
+	
+	.icon { width: 21px; height: 21px; }
+	.icon-tall { width: 21px; height: 42px; margin-top: -10px; }
+	.icon-wide { width: 29px; height: 21px; }
+}
+
+@media all and (max-width: $width-phone-landscape) {
+	
+	#main-image.smallsize {
+		height: 90vw;
+		
+		#main-image-container {
+			margin: 0;
+			margin-top: 18vw;
+			left: auto; top: auto;
+			width: 100%;
+			height: calc(90vw - 104px);
+
+			> img {
+			}
+		}
+	}
+	
+	#main-image.fullsize {
+		text-align: center;
+		height: 582px;
+		#main-image-container{
+			margin-top: 62px;
+			img {
+				width: auto;
+				min-height: 520px;
+				height: 520px;
+				top: 20px;
+
+				left: 50%;
+				@include transformer(translateX(-50%));	
+			}
+		}
+	}
+	
+	.box.wide {
+		width: calc(100% - 10px);
+		min-width: 300px;
+	}
+	
+	.container-right {
+		padding: 20px;
+		position: relative;
+		clear: both;
+		border: 1px solid $grey-lt;
+		float: none;
+		width: auto;
+		margin: 80px 20px;
+	}
+	
+	.container-left {
+		width: 100%;
+		margin: 0;
+	}
+	
+	.container-center {
+		padding: 20px;
+		width: calc(100% - 40px);
+	}
+	
+}
+
+@media all and (max-width: $width-phone) {
+	#main-image.smallsize {
+		height: 95vw;
+		
+		#main-image-container {
+			margin-top: 95px;
+
+			> img {
+				position: absolute;
+				margin: auto;
+				top: 0; bottom: 0;
+			}
+		}
+	}
+}
+
+@media all and (max-width: $width-phone-sm) {
+}
+
+//// MISC CLEANUP
+html.mouseuser *:focus {
+	outline: 0;
+}

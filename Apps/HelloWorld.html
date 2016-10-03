@@ -25,10 +25,27 @@
 
   <div id="form-wrap">
 
+    <div class='map-sidebar'>
+      <ul>
+        <li><button>SHOPPING</button></li>
+        <li><button>DINING</button></li>
+        <li><button>ENTERTAINMENT</button></li>
+        <li><button>OFFICES</button></li>
+        <li><button>ZONES</button></li>
+      </ul>
+
+      <div class='map-sidebar-search'>
+        <form id='map-search' class='searchbar'>
+          <label for='mapsearch'>Search</label>
+          <input type='text' name='search' value='Search...' id='topsearch'/>
+          <input type='image' src='./img/icon_search-b.svg' class='icon icon-search' alt='Submit'/>
+        </form>
+      </div>
+    </div>
 
     <div class="form-container">
       <form role="search" method="get" class="search-form">
-        <ul class="categories" id="categories">
+        <ul class="categories" id="categories">Categories
           <li class="entertainment"><a href="#">Entertainment</a></li>
           <ul class="movies">
             <li value="cineplex"><a href="#" id="cineplex">Cineplex Odeon</a></li>
@@ -43,6 +60,51 @@
         </ul><br>
       </form>
     </div>
+      <!-- <div class='map-controls'>
+        <div class='map-zoom'>
+          <button title='Zoom in'>+</button><br/>
+          <button title='Zoom out'>-</button>
+        </div>
+
+        <div class='map-navigate'>
+          <button title='Move up'>&uarr;</button><br/>
+          <button title='Move left'>&larr;</button><button title='Move down'>&darr;</button><button title='Move right'>&rarr;</button>
+        </div>
+
+        <div class='map-legend'>
+          <button title='Open legend' class='legend'>?</button>
+          <div class='map-legend-info'>
+            <div class='legend-title'>Legend</div>
+            <div class='closelegend'>
+              <button class='closemenu' title='Close legend'>
+                <span class='smallcaps'>Close</span>
+                <img class='icon' src='./img/icon_menuclose-greydk.svg' alt=''/>
+              </button>
+            </div>
+
+            <div class='legend-row'>
+              <img class='icon' src='./img/icon_mappointer-b.svg' alt='Icon of a map pointer'/>
+              <div>Selected</div>
+            </div>
+            <div class='legend-row'>
+              <img class='icon' src='./img/icon_mappointer-w_outlined.svg' alt='Icon of a map pointer'/>
+              <div>Highlighted (e.g. search results)</div>
+            </div>
+            <div class='legend-row'>
+              <img class='icon' src='./img/icon_grill.svg' alt='Icon of a square with a diagonal grill pattern'/>
+              <div>Has a current event</div>
+            </div>
+
+            <div class='legend-controls'>
+              <img class='legend-control-icon' src='./img/map-zoom.svg' alt='Icon of plus/minus buttons'/>
+              <div>Zoom</div>
+              <img class='legend-control-icon' src='./img/map-navigate.svg' alt='Icon of arrow keys'/>
+              <div>Navigate</div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
 
 
   </div>
@@ -72,7 +134,27 @@
   </div>
 
   <script>
+  console.log(require);
 
+  var svgDataDeclare = "data:image/svg+xml,";
+  var svgCircle = '<path fill-rule="evenodd" clip-rule="evenodd" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M114,45.2        c0,23.6-42.7,95.6-42.7,95.6s-42.7-72-42.7-95.6c0-23.6,19.1-42.7,42.7-42.7C94.9,2.5,114,21.6,114,45.2z M71.3,28.6        c-10.3,0-18.6,8.3-18.6,18.6c0,10.3,8.3,18.6,18.6,18.6c10.3,0,18.6-8.3,18.6-18.6C89.8,36.9,81.5,28.6,71.3,28.6z"/>';
+  var svgPrefix = '<svg version="1.1" id="Layer_1">';
+  var svgSuffix = "</svg>";
+  var svgString = svgPrefix + svgCircle + svgSuffix;
+
+  // create the cesium entity
+  var svgEntityImage = svgDataDeclare + svgString;
+
+
+
+  </script>
+
+  <script>
+
+    var dataJson = $.getJSON("../data/quartier2.json", function(json) {
+      console.log(json);
+    });
+    console.log(dataJson);
     document.getElementById("cesiumContainer").removeAttribute("tabIndex");
     var anchorParent = document.getElementById('categories');
 
@@ -81,14 +163,56 @@
     for (var i=0; i < anchorElements.length; i++) {
       anchorElements[i].onclick = function(param) {
         var choice = param.srcElement.innerHTML;
-        console.log(choice);
         var length = viewer.dataSources.get(0).entities.values.length;
         for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++)  {
           var entity = viewer.dataSources.get(0).entities.values[i];
-          console.log(entity.properties.name.toLowerCase());
-          console.log(choice.toLowerCase());
+
           if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
             viewer.selectedEntity = entity;
+
+            // var findCoord = entity.polygon.hierarchy.getValue(viewer.clock.currentTime).positions[0];
+            // console.log(findCoord);
+            //
+            // var selectedPin = viewer.entities.add({
+            //     name : 'Selected Boutique',
+            //     position : Cesium.Cartesian3(findCoord[0], findCoord[1], findCoord[2]),
+            //     billboard : {
+            //         image : pinBuilder.fromUrl('../gfx/markPin.png', Cesium.Color.BLACK, 96),
+            //         verticalOrigin : Cesium.VerticalOrigin.BOTTOM+200
+            //     }
+            // });
+
+            var features = dataJson.responseJSON.features;
+
+            for (var j = 0; j < features.length; j++) {
+
+              if (entity.id == features[j].id) {
+                var mid = Math.round(features[j].geometry.coordinates[0].length / 4);
+                // console.log(mid);
+                var geometry = features[j].geometry.coordinates[0][mid];
+                // console.log(geometry);
+                var selectedPin = viewer.entities.add({
+                    name : 'Selected Boutique',
+                    position : Cesium.Cartesian3.fromDegrees(geometry[0], geometry[1]),
+                    billboard : {
+                        image : pinBuilder.fromUrl('../gfx/markPin.png', Cesium.Color.BLACK, 168),
+                        verticalOrigin : Cesium.VerticalOrigin.BOTTOM
+                    }
+                });
+                // var selectedPin = viewer.entities.add({
+                //     name : 'Selected Boutique',
+                //     position : Cesium.Cartesian3.fromDegrees(geometry[0], geometry[1]),
+                //     billboard : {
+                //         image : pinBuilder.fromUrl('../gfx/markPin.png', Cesium.Color.BLACK, 96),
+                //         verticalOrigin : Cesium.VerticalOrigin.BOTTOM+200
+                //     }
+                // });
+              }
+
+            }
+
+
+
           }
         }
       }
@@ -105,7 +229,7 @@
 
     for (var i=0; i < navElements.length; i++) {
       navElements[i].onclick = function(param) {
-      console.log('navclick');
+
         var x = camera.position.x;
         var y = camera.position.y;
         var z = camera.position.z;
@@ -137,6 +261,7 @@
 
         switch(param.srcElement.id) {
           case 'nav-up':
+
             if (param.keyCode == 13) {
               camera.position.z = z + 25;
             }
@@ -185,9 +310,9 @@
         }
       }
 
-      navElements[i].onkeyup = function(param) {
-        var y = camera.position.y;
+      zoomElements[i].onkeyup = function(param) {
 
+        var y = camera.position.y;
         switch(param.srcElement.id) {
           case 'zoom-in':
             if (param.keyCode == 13) {
@@ -262,6 +387,8 @@
   var canvas = viewer.canvas;
   var layers = viewer.scene.imageryLayers;
 
+  var pinBuilder = new Cesium.PinBuilder();
+
   var globe = viewer.scene.globe;
   globe.imageryLayers.removeAll();
   globe.baseColor = Cesium.Color.fromCssColorString('#f3f3f3');
@@ -291,7 +418,7 @@
 
 
 
-    var dataSource = Cesium.GeoJsonDataSource.load('../data/quartier2.json').then(function(data)  {
+    var dataSource = Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
       viewer.dataSources.add(data);
       viewer.zoomTo(data);
       var entities = data.entities.values;
@@ -326,6 +453,14 @@
           }
       }
       // console.log(viewer.dataSources.get(0).entities);
+      // viewer.entities.add({
+      //   position: Cesium.Cartesian3.fromDegrees(-73.434109422458732, 45.445890270262630),
+      //   billboard: {
+      //     image: svgEntityImage,
+      //     scale: 5.0,
+      //     verticalOrigin : Cesium.VerticalOrigin.BOTTOM+600
+      //   }
+      // });
     });
 
 

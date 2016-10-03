@@ -1,0 +1,80 @@
+//// TEST CODE, BROWSER HACKS, ETC. ////
+@mixin testborder($colour) { border: 1px solid $colour; }
+@mixin transformer($transform) { -webkit-transform: $transform; -ms-transform: $transform; transform: $transform; }
+
+//// BRAND COLOURS
+// Primary:
+$black: #000000;
+$white: #ffffff;
+
+// Secondary colours; light/background
+$turq: #69c0ba;
+$orange: #f2963f;
+$yellow: #fcc300;
+$cyan: #5ec5ec;
+$pink: #e7518f;
+$grey-lt: #9c9d9f;
+$grey: #9c9d9f;
+
+// Secondary colours; dark/foreground
+$violet: #a4017c;
+$grey-dk: #6d6f72;
+
+//// TEXT
+$xlarge: 140%;
+$large: 120%;
+$reg-size: 100%;
+$small: 85%;
+$xsmall: 75%;
+
+$reg-weight: 400;
+$semibold: 600;
+$bold: 700;
+
+
+//// MISC variables and mixins
+$opac: 0.7;
+$margin-hoz: 20px;
+
+@mixin shadow-std { box-shadow: 0 0 10px -2px #000; }
+@mixin shadow-lt { box-shadow: 0 0 10px -4px #000; }
+@mixin shadow-top { box-shadow: 0 -6px 10px -8px #000; }
+@mixin shadow-bottom { box-shadow: 0 6px 10px -8px #000; }
+@mixin shadow-left { box-shadow: -10px 0px 10px -10px #000; }
+
+
+//// ANIMATIONS & TRANSITIONS ////
+@mixin trans($name, $duration) {
+	-webkit-transition: $name $duration;
+	-moz-transition: $name $duration;
+	transition: $name $duration;
+}
+
+@mixin anim($name, $duration) {
+	-webkit-animation: $name $duration forwards;
+	animation: $name $duration forwards;
+}
+
+@keyframes opac-in {
+	from { opacity: 0; }			
+	to { opacity: 1; }
+} @-webkit-keyframes opac-in {
+	from { opacity: 0; }
+	to { opacity: 1; }			
+}
+
+@keyframes opac-out {
+	from { opacity: 1; }			
+	to { opacity: 0; }
+} @-webkit-keyframes opac-out {
+	from { opacity: 1; }
+	to { opacity: 0; }			
+}
+
+
+//// RESPONSIVE ////
+$width-desktop: 1195px;
+$width-tablet: 991px;
+$width-phone-landscape: 767px;
+$width-phone: 479px;
+$width-phone-sm: 319px;
