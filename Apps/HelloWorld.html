@@ -52,7 +52,7 @@
           </ul>
           <li class="other"><a href="#">Other</a></li>
           <ul class="drinking">
-            <li value="fabrique"><a href="#">La Fabrique à Boire</a></li>
+            <!-- <li value="fabrique"><a href="#">La Fabrique à Boire</a></li> -->
           </ul>
           <ul class="reading-and-stuff">
             <li value="Indigo"><a href="#">Indigo</a></li>
@@ -359,7 +359,7 @@
       // var colorHash = {};
       for (var i = 0; i < entities.length; i++) {
           var entity = entities[i];
-          var name = entity.name;
+          // var name = entity.name;
           // var color = colorHash[name];
           // if (!color) {
           //     color = Cesium.Color.fromRandom({
@@ -381,15 +381,18 @@
           if (entity.properties.hasOwnProperty("description")) {
             entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
               + '</div>';
-          } else {
-            entity.description = 'This is THE test';
           }
+          // else {
+          //   entity.description = 'This is THE test';
+          // }
+            console.log('yeah we here');
       }
-      console.log('yeah we here');
 
-      for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++) {
-        console.log(viewer.dataSources.get(0).entities.values[i].name);
-      }
+
+      // for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++) {
+      //   console.log(viewer.dataSources.get(0).entities.values[i].name);
+      // }
+
     });
 
 
@@ -483,13 +486,13 @@
 
   <script>
 
-  var dataJson = $.getJSON("../data/quartier3.json", function(json) {
-    // console.log(json);
-  });
+  // var dataJson = $.getJSON("../data/quartier3.json", function(json) {
+  //   // console.log(json);
+  // });
   // console.log(viewer.dataSources.get(0).isLoading);
 
-  setTimeout(function(){
-
+  // setTimeout(function(){
+  //
     document.getElementById("cesiumContainer").removeAttribute("tabIndex");
     var anchorParent = document.getElementById('categories');
     console.log(anchorParent);
@@ -508,55 +511,59 @@
         console.log('clicked');
         var choice = param.srcElement.innerHTML;
         var length = viewer.dataSources.get(0).entities.values.length;
-        console.log(length);
-        console.log(choice);
-        console.log(viewer.dataSources.get(0).entities);
+
         for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++)  {
           var entity = viewer.dataSources.get(0).entities.values[i];
-          console.log(entity.properties);
-          // if (entity.properties.hasOwnProperty(name)) {
+          console.log(entity.properties.hasOwnProperty.name);
+          if (entity.properties.name != undefined) {
             console.log("Name property found");
+            console.log(choice.toLowerCase() + ":" + entity.properties.name.toLowerCase());
             if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
               viewer.selectedEntity = entity;
-              var features = dataJson.responseJSON.features;
 
-              for (var j = 0; j < features.length; j++) {
 
-                if (entity.id == features[j].id) {
-                  var mid = Math.round(features[j].geometry.coordinates[0].length / 4);
-                  // console.log(mid);
-                  var geometry = features[j].geometry.coordinates[0][mid];
-                  // console.log(geometry);
-                  var selectedPin = viewer.entities.add({
-                      name : 'Selected Boutique',
-                      position : Cesium.Cartesian3.fromDegrees(geometry[0], geometry[1]),
-                      billboard : {
-                          image : pinBuilder.fromUrl('../gfx/markPin.png', Cesium.Color.BLACK, 168),
-                          verticalOrigin : Cesium.VerticalOrigin.BOTTOM
-                      }
-                  });
-                  // var selectedPin = viewer.entities.add({
-                  //     name : 'Selected Boutique',
-                  //     position : Cesium.Cartesian3.fromDegrees(geometry[0], geometry[1]),
-                  //     billboard : {
-                  //         image : pinBuilder.fromUrl('../gfx/markPin.png', Cesium.Color.BLACK, 96),
-                  //         verticalOrigin : Cesium.VerticalOrigin.BOTTOM+200
-                  //     }
-                  // });
-                }
 
-              }
+
+              // var features = dataJson.responseJSON.features;
+              //
+              // for (var j = 0; j < features.length; j++) {
+              //
+              //   if (entity.id == features[j].id) {
+              //     var mid = Math.round(features[j].geometry.coordinates[0].length / 4);
+              //     // console.log(mid);
+              //     var geometry = features[j].geometry.coordinates[0][mid];
+              //     // console.log(geometry);
+              //     var selectedPin = viewer.entities.add({
+              //         name : 'Selected Boutique',
+              //         position : Cesium.Cartesian3.fromDegrees(geometry[0], geometry[1]),
+              //         billboard : {
+              //             image : pinBuilder.fromUrl('../gfx/markPin.png', Cesium.Color.BLACK, 168),
+              //             verticalOrigin : Cesium.VerticalOrigin.BOTTOM
+              //         }
+              //     });
+              //     // var selectedPin = viewer.entities.add({
+              //     //     name : 'Selected Boutique',
+              //     //     position : Cesium.Cartesian3.fromDegrees(geometry[0], geometry[1]),
+              //     //     billboard : {
+              //     //         image : pinBuilder.fromUrl('../gfx/markPin.png', Cesium.Color.BLACK, 96),
+              //     //         verticalOrigin : Cesium.VerticalOrigin.BOTTOM+200
+              //     //     }
+              //     // });
+              //   }
+              //
+              // }
 
 
 
             }
+          }
           // } else {
-          //   console.log('Missing name property');
-          // }
+            // console.log('Missing name property');
+
         }
       }
     }
-  }, 5000);
+  // }, 5000);
 
   </script>
 
