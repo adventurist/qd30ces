@@ -1,0 +1,79 @@
+.cesium-widget-credits, .cesium-viewer-fullscreenContainer {
+  display: none!important;
+}
+
+.cesium-infoBox  {
+  width: 600px;
+  height: 550px;
+  background: white;
+  text-align: center;
+}
+
+.cesium-infoBox-iframe  {
+  width: 600px;
+  height: 550px;
+  background: white;
+}
+
+.cesium-infoBox-description {
+  color: #001919;
+  font-size: 120%;
+}
+
+.cesium-infoBox-description h1 {
+  font-size: 135%;
+}
+
+.cesium-infoBox-description img {
+  padding-left: 25%;
+  height: 33%;
+}
+
+#business-details {
+  width: 480px;
+}
+
+#cesiumContainer  {
+  /*max-width: 85%;*/
+  /*float: left;*/
+  width: 75%;
+  display: inline-block;
+  position: absolute;
+}
+
+#form-wrap {
+  width: 25%;
+  float: right;
+  margin: 1.5%;
+  display: inline-block;
+  font-size: 120%;
+  list-style: none;
+}
+
+#form-wrap ul,
+#form-wrap li {
+  list-style: none;
+}
+
+#form-wrap ul {
+  font-size: 150;
+  font-weight: 700;
+}
+
+#form-wrap li:first-child {
+  padding-top: 2%;
+}
+
+#form-wrap li {
+  padding-left: 1%;
+}
+
+#form-wrap a {
+  text-decoration: none;
+  font-size: 120%;
+  color: #0eaa00;
+}
+
+#form-wrap a:hover, #form-wrap a:focus {
+  color: red;
+}
