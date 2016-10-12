@@ -32,50 +32,6 @@
         <br>
       </form>
     </div>
-      <!-- <div class='map-controls'>
-        <div class='map-zoom'>
-          <button title='Zoom in'>+</button><br/>
-          <button title='Zoom out'>-</button>
-        </div>
-
-        <div class='map-navigate'>
-          <button title='Move up'>&uarr;</button><br/>
-          <button title='Move left'>&larr;</button><button title='Move down'>&darr;</button><button title='Move right'>&rarr;</button>
-        </div>
-
-        <div class='map-legend'>
-          <button title='Open legend' class='legend'>?</button>
-          <div class='map-legend-info'>
-            <div class='legend-title'>Legend</div>
-            <div class='closelegend'>
-              <button class='closemenu' title='Close legend'>
-                <span class='smallcaps'>Close</span>
-                <img class='icon' src='./img/icon_menuclose-greydk.svg' alt=''/>
-              </button>
-            </div>
-
-            <div class='legend-row'>
-              <img class='icon' src='./img/icon_mappointer-b.svg' alt='Icon of a map pointer'/>
-              <div>Selected</div>
-            </div>
-            <div class='legend-row'>
-              <img class='icon' src='./img/icon_mappointer-w_outlined.svg' alt='Icon of a map pointer'/>
-              <div>Highlighted (e.g. search results)</div>
-            </div>
-            <div class='legend-row'>
-              <img class='icon' src='./img/icon_grill.svg' alt='Icon of a square with a diagonal grill pattern'/>
-              <div>Has a current event</div>
-            </div>
-
-            <div class='legend-controls'>
-              <img class='legend-control-icon' src='./img/map-zoom.svg' alt='Icon of plus/minus buttons'/>
-              <div>Zoom</div>
-              <img class='legend-control-icon' src='./img/map-navigate.svg' alt='Icon of arrow keys'/>
-              <div>Navigate</div>
-            </div>
-          </div>
-        </div>
-      </div> -->
   </div>
   <div class='nav-ui-wrap'>
     <div id='zoom'>
@@ -96,6 +52,8 @@
       <div id='nav-right'>
       </div>
     </div>
+
+    <div id = 'nav-reset'>
   </div>
 
   <script>
@@ -113,12 +71,14 @@
 
   <script>
     var navParent = document.getElementById('nav-arrows');
+    var navReset = document.getElementById('nav-reset');
 
     var navElements = navParent.getElementsByTagName('div');
     navElements[0].tabIndex = 5;
     navElements[1].tabIndex = 6;
     navElements[2].tabIndex = 7;
     navElements[3].tabIndex = 8;
+    navReset.tabIndex = 9;
 
     for (var i=0; i < navElements.length; i++) {
       navElements[i].onclick = function(param) {
@@ -143,7 +103,6 @@
           case 'nav-right':
             camera.position.x = x + 25;
             break;
-
         }
       }
       navElements[i].onkeyup = function(param) {
@@ -158,26 +117,35 @@
             if (param.keyCode == 13) {
               camera.position.z = z + 25;
             }
-            break;
+          break;
 
           case 'nav-down':
             if (param.keyCode == 13) {
               camera.position.z = z - 25;
             }
-            break;
+          break;
 
           case 'nav-left':
             if (param.keyCode == 13) {
               camera.position.x = x - 25;
             }
-            break;
+          break;
 
           case 'nav-right':
             if (param.keyCode == 13) {
               camera.position.x = x + 25;
             }
-            break;
-          }
+          break;
+        }
+      }
+
+      navReset.onclick = function(param) {
+        gotoChinatown();
+      }
+      navReset.onkeyup = function(param) {
+        if (param.keyCode == 13) {
+          gotoChinatown();
+        }
       }
     }
 
@@ -251,7 +219,7 @@
           //     url : 'http://tile.stamen.com/watercolor/',
           // 'https://b.tile.openstreetmap.org'
       // }),
-      baseLayerPicker : true
+      baseLayerPicker : false
   });
   var camera = viewer.camera;
   var scene = viewer.scene;
@@ -268,21 +236,38 @@
   }));
   tonerLayer.alpha = 0.8;
 
-  canvas.setAttribute('tabindex', '0');
+  canvas.setAttribute('tabindex', -1);
 
   var dataSource = Cesium.GeoJsonDataSource.load('../data/chinatown2.json').then(function(data)  {
-  // var dataSource = Cesium.GeoJsonDataSource.load('http://qd30.dev/map-data-raw').then(function(data) {
-    console.log(data);
     viewer.dataSources.add(data);
     viewer.zoomTo(data);
     var entities = data.entities.values;
-    console.log('loaded');
+    var colorsUsed = [];
+    var materialKeys = Object.keys(Cesium.Material);
+    console.log(materialKeys);
+    var matCount = 0;
     for (var i = 0; i < entities.length; i++) {
       var entity = entities[i];
+      var color = Cesium.Color.fromRandom({
+        minimumAlpha : 1.0
+      });
+      var colorRepeat = false;
+      for (var c = 0; c < colorsUsed.length; c++) {
+        if (colorsUsed[c] == color) {
+          colorRepeat = true;
+        }
+      }
+      if (colorRepeat == false) {
+        colorsUsed[i] = color;
+        entity.polygon.material = color;
+      } else {
+
+      }
       entity.polygon.outline = true;
       entity.polygon.outlineWidth = 1;
       entity.polygon.outlineColor = Cesium.Color.BLACK;
-      entity.polygon.material = Cesium.Color.fromRandom();
+
+
       if (entity.properties.hasOwnProperty("Levels")) {
         entity.polygon.extrudedHeight = 0.8 * (entity.properties.Levels * 3);
       } else if (entity.properties.hasOwnProperty("building:levels")) {
@@ -301,13 +286,6 @@
         entity.polygon.material = '../data/blog/glass_wall_2.jpg';
       }
 
-    //
-    //   entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
-    //
-    //   if (entity.properties.hasOwnProperty("color")) {
-    //     entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
-    //   }
-    //
       if (entity.properties.hasOwnProperty("description")) {
         entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
           + '</div>';
@@ -318,12 +296,9 @@
   viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";
 
   var qdDataSource = Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
-  // var dataSource = Cesium.GeoJsonDataSource.load('http://qd30.dev/map-data-raw').then(function(data) {
-    console.log(data);
+
     viewer.dataSources.add(data);
-    // viewer.zoomTo(data);
     var entities = data.entities.values;
-    console.log('loaded');
     for (var i = 0; i < entities.length; i++) {
       var entity = entities[i];
       entity.polygon.outline = true;
@@ -343,42 +318,15 @@
     }
   });
 
-
   var frame = viewer.infoBox.frame;
 
   frame.addEventListener('load', function () {
-      var cssLink = frame.contentDocument.createElement('link');
-      cssLink.href = Cesium.buildModuleUrl('../../css/csMap.css');
-      cssLink.rel = 'stylesheet';
-      cssLink.type = 'text/css';
-      frame.contentDocument.head.appendChild(cssLink);
+    var cssLink = frame.contentDocument.createElement('link');
+    cssLink.href = Cesium.buildModuleUrl('../../css/csMap.css');
+    cssLink.rel = 'stylesheet';
+    cssLink.type = 'text/css';
+    frame.contentDocument.head.appendChild(cssLink);
   }, false);
-
-  </script>
-
-  <script>
-    document.getElementById("cesiumContainer").removeAttribute("tabIndex");
-    // var anchorParent = document.getElementById('categories');
-    // var anchorElements = anchorParent.getElementsByTagName('a');
-    //
-    // for (var i=0; i < anchorElements.length; i++) {
-    //   anchorElements[i].onclick = function(param) {
-    //     var choice = param.srcElement.innerHTML;
-    //     var length = viewer.dataSources.get(0).entities.values.length;
-    //
-    //     for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++)  {
-    //       var entity = viewer.dataSources.get(0).entities.values[i];
-    //       if (entity.properties.name != undefined) {
-    //         if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
-    //           viewer.selectedEntity = entity;
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-  </script>
-
-  <script>
 
     var uiObject = new Array();
     var ajaxTry = $.ajax({
@@ -396,10 +344,98 @@
             uiObject[i].name = entity.properties.name;
           }
         }
+
+        var form = document.getElementById('categories');
+        for (var j = 0; j < 25; j++) {
+          if (uiObject[j].hasOwnProperty('name')) {
+            var e = document.createElement('li');
+            e.setAttribute('value', uiObject[j].name);
+            var a = document.createElement('a');
+            a.setAttribute('name', 'link' + '-' + uiObject[j].name);
+            a.setAttribute('href', '#');
+            a.innerHTML = uiObject[j].name;
+            e.appendChild(a);
+            form.appendChild(e);
+          }
+        }
+        console.log(form);
+
+
+        document.getElementById("cesiumContainer").removeAttribute("tabIndex");
+        var anchorElements = form.getElementsByTagName('a');
+
+        for (var i=0; i < anchorElements.length; i++) {
+          anchorElements[i].onclick = function(param) {
+            var choice = param.srcElement.innerHTML;
+            var length = viewer.dataSources.get(0).entities.values.length;
+
+            for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++)  {
+              var entity = viewer.dataSources.get(0).entities.values[i];
+              if (entity.properties.name != undefined) {
+                if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
+                  viewer.selectedEntity = entity;
+                  viewer.zoomTo(viewer.selectedEntity, {heading: Cesium.Math.toRadians(5.0), pitch: Cesium.Math.toRadians(-45), range: 500});
+
+                }
+              }
+            }
+          }
+        }
+        document.onload = function() {
+          form.firstElementChild.focus();
+        }
       }
     });
-    var form = document.getElementById('map-form');
-    console.log(form);
+
+    var container = document.getElementById("cesiumContainer");
+    document.onkeydown = function(param) {
+      console.log(param.keyCode);
+      if (param.keyCode == 81) {
+        gotoQD30();
+      }
+
+      if (param.keyCode == 79) {
+        gotoChinatown();
+      }
+    }
+
+    function gotoChinatown() {
+      var pos = Cesium.Ellipsoid.WGS84.cartesianToCartographic(new Cesium.Cartesian3(
+      1108169.336, -4348068.129,
+      4519755));
+      pos.latitude = Cesium.Math.toDegrees(pos.latitude);
+      pos.longitude = Cesium.Math.toDegrees(pos.longitude);
+
+      viewer.camera.flyTo({
+        destination : Cesium.Cartesian3.fromDegrees(pos.longitude, pos.latitude + 0.003, pos.height - 400),
+        orientation : {
+            heading : Cesium.Math.toRadians(-1.4),
+            pitch : Cesium.Math.toRadians(-41.0),
+            roll : 0.0
+        }
+      });
+    }
+
+    function gotoQD30() {
+      var pos = Cesium.Ellipsoid.WGS84.cartesianToCartographic(new Cesium.Cartesian3(1277910.987, -4297973.570, 4521595.815));
+      pos.latitude = Cesium.Math.toDegrees(pos.latitude);
+      pos.longitude = Cesium.Math.toDegrees(pos.longitude);
+
+      viewer.camera.flyTo({
+        destination : Cesium.Cartesian3.fromDegrees(pos.longitude, pos.latitude, pos.height),
+        orientation : {
+            heading : Cesium.Math.toRadians(5.0),
+            pitch : Cesium.Math.toRadians(-35.0),
+            roll : 0.0
+        }
+      });
+    }
+
+    // document.onclick = function(param) {
+    //   if (viewer.selectedEntity == undefined) {
+    //     gotoChinatown();
+    //   }
+    // }
   </script>
 
 </body>
