@@ -5,12 +5,30 @@
   width: 600px;
   height: 480px;
   background: white;
+  text-align: center;
 }
 
 .cesium-infoBox-iframe  {
   width: 600px;
   height: 480px;
   background: white;
+}
+
+.cesium-infoBox-description {
+  color: #001919;
+  font-size: 120%;
+}
+
+.cesium-infoBox-description h1 {
+  font-size: 135%;
+}
+
+.cesium-infoBox-description img {
+  padding-left: 25%;
+}
+
+#business-details {
+  width: 480px;
 }
 
 #cesiumContainer  {

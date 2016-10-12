@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Use correct character set. -->
+  <meta charset="utf-8">
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>Hello World!</title>
+  <script src="../Build/CesiumUnminified/Cesium.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src='http://livejs.com/live.js'></script>
+  <style>
+      @import url(../Build/Cesium/Widgets/widgets.css);
+      @import url(../css/util.css);
+      @import url(../css/csMap.css);
+      html, body {
+          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+      }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+
+  <div id="form-wrap">
+
+    <div class="form-container">
+      <form id="map-form" role="search" method="get" class="search-form">
+        <ul class="categories" id="categories">Categories
+        </ul>
+        <br>
+      </form>
+    </div>
+      <!-- <div class='map-controls'>
+        <div class='map-zoom'>
+          <button title='Zoom in'>+</button><br/>
+          <button title='Zoom out'>-</button>
+        </div>
+
+        <div class='map-navigate'>
+          <button title='Move up'>&uarr;</button><br/>
+          <button title='Move left'>&larr;</button><button title='Move down'>&darr;</button><button title='Move right'>&rarr;</button>
+        </div>
+
+        <div class='map-legend'>
+          <button title='Open legend' class='legend'>?</button>
+          <div class='map-legend-info'>
+            <div class='legend-title'>Legend</div>
+            <div class='closelegend'>
+              <button class='closemenu' title='Close legend'>
+                <span class='smallcaps'>Close</span>
+                <img class='icon' src='./img/icon_menuclose-greydk.svg' alt=''/>
+              </button>
+            </div>
+
+            <div class='legend-row'>
+              <img class='icon' src='./img/icon_mappointer-b.svg' alt='Icon of a map pointer'/>
+              <div>Selected</div>
+            </div>
+            <div class='legend-row'>
+              <img class='icon' src='./img/icon_mappointer-w_outlined.svg' alt='Icon of a map pointer'/>
+              <div>Highlighted (e.g. search results)</div>
+            </div>
+            <div class='legend-row'>
+              <img class='icon' src='./img/icon_grill.svg' alt='Icon of a square with a diagonal grill pattern'/>
+              <div>Has a current event</div>
+            </div>
+
+            <div class='legend-controls'>
+              <img class='legend-control-icon' src='./img/map-zoom.svg' alt='Icon of plus/minus buttons'/>
+              <div>Zoom</div>
+              <img class='legend-control-icon' src='./img/map-navigate.svg' alt='Icon of arrow keys'/>
+              <div>Navigate</div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+  </div>
+  <div class='nav-ui-wrap'>
+    <div id='zoom'>
+      <div id='zoom-in'>
+      </div>
+      <div id='zoom-out'>
+      </div>
+    </div>
+
+
+    <div id='nav-arrows'>
+      <div id='nav-up'>
+      </div>
+      <div id='nav-left'>
+      </div>
+      <div id='nav-down'>
+      </div>
+      <div id='nav-right'>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  var svgDataDeclare = "data:image/svg+xml,";
+  var svgCircle = '<path fill-rule="evenodd" clip-rule="evenodd" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M114,45.2        c0,23.6-42.7,95.6-42.7,95.6s-42.7-72-42.7-95.6c0-23.6,19.1-42.7,42.7-42.7C94.9,2.5,114,21.6,114,45.2z M71.3,28.6        c-10.3,0-18.6,8.3-18.6,18.6c0,10.3,8.3,18.6,18.6,18.6c10.3,0,18.6-8.3,18.6-18.6C89.8,36.9,81.5,28.6,71.3,28.6z"/>';
+  var svgPrefix = '<svg version="1.1" id="Layer_1">';
+  var svgSuffix = "</svg>";
+  var svgString = svgPrefix + svgCircle + svgSuffix;
+
+  // create the cesium entity
+  var svgEntityImage = svgDataDeclare + svgString;
+
+
+  </script>
+
+  <script>
+    var navParent = document.getElementById('nav-arrows');
+
+    var navElements = navParent.getElementsByTagName('div');
+    navElements[0].tabIndex = 5;
+    navElements[1].tabIndex = 6;
+    navElements[2].tabIndex = 7;
+    navElements[3].tabIndex = 8;
+
+    for (var i=0; i < navElements.length; i++) {
+      navElements[i].onclick = function(param) {
+
+        var x = camera.position.x;
+        var y = camera.position.y;
+        var z = camera.position.z;
+
+        switch(param.srcElement.id) {
+          case 'nav-up':
+            camera.position.z = z + 25;
+            break;
+
+          case 'nav-down':
+            camera.position.z = z - 25;
+            break;
+
+          case 'nav-left':
+            camera.position.x = x - 25;
+            break;
+
+          case 'nav-right':
+            camera.position.x = x + 25;
+            break;
+
+        }
+      }
+      navElements[i].onkeyup = function(param) {
+
+        var x = camera.position.x;
+        var y = camera.position.y;
+        var z = camera.position.z;
+
+        switch(param.srcElement.id) {
+          case 'nav-up':
+
+            if (param.keyCode == 13) {
+              camera.position.z = z + 25;
+            }
+            break;
+
+          case 'nav-down':
+            if (param.keyCode == 13) {
+              camera.position.z = z - 25;
+            }
+            break;
+
+          case 'nav-left':
+            if (param.keyCode == 13) {
+              camera.position.x = x - 25;
+            }
+            break;
+
+          case 'nav-right':
+            if (param.keyCode == 13) {
+              camera.position.x = x + 25;
+            }
+            break;
+          }
+      }
+    }
+
+    var zoomParent = document.getElementById('zoom');
+
+    var zoomElements = zoomParent.getElementsByTagName('div');
+    zoomElements[0].tabIndex = 9;
+    zoomElements[1].tabIndex = 10;
+
+
+    for (var i=0; i < zoomElements.length; i++) {
+      zoomElements[i].onclick = function(param) {
+        var y = camera.position.y;
+
+        switch(param.srcElement.id) {
+          case 'zoom-in':
+            camera.position.y = y + 25;
+            break;
+
+          case 'zoom-out':
+            camera.position.y = y - 25;
+            break;
+        }
+      }
+
+      zoomElements[i].onkeyup = function(param) {
+
+        var y = camera.position.y;
+        switch(param.srcElement.id) {
+          case 'zoom-in':
+            if (param.keyCode == 13) {
+              camera.position.y = y + 160;
+            }
+            break;
+
+          case 'zoom-out':
+            if (param.keyCode == 13) {
+              camera.position.y = y - 160;
+            }
+            break;
+          }
+      }
+    }
+  </script>
+
+  <script>
+
+  Cesium.BingMapsApi.defaultKey = 'mqrOOSbN2SMpDuWhHx0W~HVi_IW2A0UwRAV1xLIZuTQ~AnSezO-xLZ4_s1rf8ydB6Wf0aRdKtw_znPffJQ9qKbntyOPWFvitPVAvxT0v6dib';
+
+  var viewer = new Cesium.Viewer('cesiumContainer', {
+      animation : false,
+      homeButton : false,
+      vrButton : false,
+      infoBox : true,
+      sceneModePicker: false,
+      selectionIndicator: true,
+      timeline : false,
+      navigationHelpButton : false,
+      navigationInstructionsInitiallyVisible: false,
+      scene3DOnly : true,
+      shadows : true,
+      terrainShadows : true,
+      // imageryProvider : new Cesium.createOpenStreetMapImageryProvider({
+          // url : 'https://stamen-tiles.a.ssl.fastly.net/toner-background/'
+          // url : 'http://tile.stamen.com/toner/',
+          // alpha : 0.5
+          // brightness : 1.0,
+          // contrast : 1.0,
+          // hue : 3.0,
+          // saturation : 3.0,
+          //     url : 'http://tile.stamen.com/watercolor/',
+          // 'https://b.tile.openstreetmap.org'
+      // }),
+      baseLayerPicker : true
+  });
+  var camera = viewer.camera;
+  var scene = viewer.scene;
+  var ellipsoid = scene.globe.ellipsoid;
+  var canvas = viewer.canvas;
+  var layers = viewer.scene.imageryLayers;
+  var globe = viewer.scene.globe;
+
+  globe.imageryLayers.removeAll();
+  globe.baseColor = Cesium.Color.fromCssColorString('#f3f3f3');
+
+  var tonerLayer = layers.addImageryProvider(Cesium.createOpenStreetMapImageryProvider({
+    url : 'http://tile.stamen.com/watercolor/'
+  }));
+  tonerLayer.alpha = 0.8;
+
+  canvas.setAttribute('tabindex', '0');
+
+  var dataSource = Cesium.GeoJsonDataSource.load('../data/chinatown2.json').then(function(data)  {
+  // var dataSource = Cesium.GeoJsonDataSource.load('http://qd30.dev/map-data-raw').then(function(data) {
+    console.log(data);
+    viewer.dataSources.add(data);
+    viewer.zoomTo(data);
+    var entities = data.entities.values;
+    console.log('loaded');
+    for (var i = 0; i < entities.length; i++) {
+      var entity = entities[i];
+      entity.polygon.outline = true;
+      entity.polygon.outlineWidth = 1;
+      entity.polygon.outlineColor = Cesium.Color.BLACK;
+      entity.polygon.material = Cesium.Color.fromRandom();
+      if (entity.properties.hasOwnProperty("Levels")) {
+        entity.polygon.extrudedHeight = 0.8 * (entity.properties.Levels * 3);
+      } else if (entity.properties.hasOwnProperty("building:levels")) {
+        entity.polygon.extrudedHeight = 0.8 * (entity.properties['building:levels'] * 3);
+      } else {
+        entity.polygon.extrudedHeight = 0.8 * (3);
+      }
+
+      if (entity.properties.hasOwnProperty("name")) {
+        if (entity.properties.name == "OpenConcept Consulting Inc.") {
+          entity.polygon.material = '../data/blog/OCRoof.jpg'
+        }
+      }
+
+      if (entity.polygon.extrudedHeight._value > 25) {
+        entity.polygon.material = '../data/blog/glass_wall_2.jpg';
+      }
+
+    //
+    //   entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
+    //
+    //   if (entity.properties.hasOwnProperty("color")) {
+    //     entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
+    //   }
+    //
+      if (entity.properties.hasOwnProperty("description")) {
+        entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
+          + '</div>';
+      }
+    }
+  });
+
+  viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";
+
+  var qdDataSource = Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
+  // var dataSource = Cesium.GeoJsonDataSource.load('http://qd30.dev/map-data-raw').then(function(data) {
+    console.log(data);
+    viewer.dataSources.add(data);
+    // viewer.zoomTo(data);
+    var entities = data.entities.values;
+    console.log('loaded');
+    for (var i = 0; i < entities.length; i++) {
+      var entity = entities[i];
+      entity.polygon.outline = true;
+      entity.polygon.outlineWidth = 2.0;
+      entity.polygon.outlineColor = Cesium.Color.BLACK;
+
+      entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
+
+      if (entity.properties.hasOwnProperty("color")) {
+        entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
+      }
+
+      if (entity.properties.hasOwnProperty("description")) {
+        entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
+          + '</div>';
+      }
+    }
+  });
+
+
+  var frame = viewer.infoBox.frame;
+
+  frame.addEventListener('load', function () {
+      var cssLink = frame.contentDocument.createElement('link');
+      cssLink.href = Cesium.buildModuleUrl('../../css/csMap.css');
+      cssLink.rel = 'stylesheet';
+      cssLink.type = 'text/css';
+      frame.contentDocument.head.appendChild(cssLink);
+  }, false);
+
+  </script>
+
+  <script>
+    document.getElementById("cesiumContainer").removeAttribute("tabIndex");
+    // var anchorParent = document.getElementById('categories');
+    // var anchorElements = anchorParent.getElementsByTagName('a');
+    //
+    // for (var i=0; i < anchorElements.length; i++) {
+    //   anchorElements[i].onclick = function(param) {
+    //     var choice = param.srcElement.innerHTML;
+    //     var length = viewer.dataSources.get(0).entities.values.length;
+    //
+    //     for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++)  {
+    //       var entity = viewer.dataSources.get(0).entities.values[i];
+    //       if (entity.properties.name != undefined) {
+    //         if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
+    //           viewer.selectedEntity = entity;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+  </script>
+
+  <script>
+
+    var uiObject = new Array();
+    var ajaxTry = $.ajax({
+      dataType: "json",
+      type: "get",
+      url: "../data/chinatown2.json",
+      cache: false,
+      success: function(data) {
+        console.log(data);
+        for (var i = 0; i < data.features.length; i++) {
+          uiObject[i] = {};
+          var entity = data.features[i];
+          uiObject[i].id = entity.id.substr(4);
+          if (entity.properties.hasOwnProperty('name')) {
+            uiObject[i].name = entity.properties.name;
+          }
+        }
+      }
+    });
+    var form = document.getElementById('map-form');
+    console.log(form);
+  </script>
+
+</body>
+</html>

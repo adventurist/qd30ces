@@ -136,11 +136,6 @@
   // create the cesium entity
   var svgEntityImage = svgDataDeclare + svgString;
 
-  var dataJson = $.getJSON("../data/quartier3.json", function(json) {
-    console.log(json);
-    console.log('loaded');
-  });
-
   var ajaxTry = $.ajax({
     dataType: "json",
     type: "get",

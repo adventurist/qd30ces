@@ -1,0 +1,63 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "way/447041130",
+      "properties": {
+        "@id": "way/447041130",
+        "Levels": "3",
+        "addr:city": "Ottawa",
+        "addr:housename": "OpenConcept Consulting Inc.",
+        "addr:housenumber": "571",
+        "addr:postcode": "K1R 5K1",
+        "addr:street": "Somerset Street West",
+        "building": "yes",
+        "name": "OpenConcept Consulting Inc."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -75.7027671,
+              45.4128499
+            ],
+            [
+              -75.7028218,
+              45.4129238
+            ],
+            [
+              -75.7029066,
+              45.4128952
+            ],
+            [
+              -75.7028464,
+              45.4128206
+            ],
+            [
+              -75.7028366,
+              45.4128241
+            ],
+            [
+              -75.7028271,
+              45.4128138
+            ],
+            [
+              -75.7027939,
+              45.4128274
+            ],
+            [
+              -75.7028014,
+              45.4128371
+            ],
+            [
+              -75.7027671,
+              45.4128499
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
