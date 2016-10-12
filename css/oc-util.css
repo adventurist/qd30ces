@@ -81,7 +81,8 @@
   min-height: 100%;
 }
 
-#nav-up:hover, #nav-down:hover, #nav-left:hover, #nav-right:hover, #zoom-in:hover, #zoom-out:hover {
+#nav-up:hover, #nav-down:hover, #nav-left:hover, #nav-right:hover, #zoom-in:hover, #zoom-out:hover,
+#nav-up:focus, #nav-down:focus, #nav-left:focus, #nav-right:focus, #zoom-in:focus, #zoom-out:focus {
   /*opacity: 0.3;*/
   background-color: #5555ff;
 }
@@ -98,7 +99,7 @@
   background-position: center;
 }
 
-#nav-reset:hover {
+#nav-reset:hover, #nav-reset:focus {
   /*opacity: 0.3;*/
   background-color: #5555ff;
 }
