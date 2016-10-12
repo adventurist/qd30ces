@@ -76,8 +76,8 @@
 
     var navElements = navParent.getElementsByTagName('div');
     navElements[0].tabIndex = 5;
-    navElements[1].tabIndex = 6;
-    navElements[2].tabIndex = 7;
+    navElements[2].tabIndex = 6;
+    navElements[1].tabIndex = 7;
     navElements[3].tabIndex = 8;
     navReset.tabIndex = 9;
 
@@ -153,8 +153,8 @@
     var zoomParent = document.getElementById('zoom');
 
     var zoomElements = zoomParent.getElementsByTagName('div');
-    zoomElements[0].tabIndex = 9;
-    zoomElements[1].tabIndex = 10;
+    zoomElements[0].tabIndex = 10;
+    zoomElements[1].tabIndex = 11;
 
 
     for (var i=0; i < zoomElements.length; i++) {
@@ -391,6 +391,7 @@
         }
         document.onload = function() {
           form.firstElementChild.focus();
+          form.firstElementChild.tabIndex = 1;
         }
       }
     });
