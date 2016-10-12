@@ -1,16 +1,17 @@
-
-
+.cesium-widget-credits, .cesium-viewer-fullscreenContainer {
+  display: none!important;
+}
 
 .cesium-infoBox  {
   width: 600px;
-  height: 480px;
+  height: 550px;
   background: white;
   text-align: center;
 }
 
 .cesium-infoBox-iframe  {
   width: 600px;
-  height: 480px;
+  height: 550px;
   background: white;
 }
 
@@ -25,6 +26,7 @@
 
 .cesium-infoBox-description img {
   padding-left: 25%;
+  height: 33%;
 }
 
 #business-details {
@@ -53,7 +55,25 @@
   list-style: none;
 }
 
+#form-wrap ul {
+  font-size: 150;
+  font-weight: 700;
+}
+
+#form-wrap li:first-child {
+  padding-top: 2%;
+}
+
+#form-wrap li {
+  padding-left: 1%;
+}
+
 #form-wrap a {
   text-decoration: none;
-  color: green;
+  font-size: 120%;
+  color: #0eaa00;
+}
+
+#form-wrap a:hover, #form-wrap a:focus {
+  color: red;
 }

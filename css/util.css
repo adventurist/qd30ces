@@ -79,3 +79,20 @@
 #nav-up:hover, #nav-down:hover, #nav-left:hover, #nav-right:hover, #zoom-in:hover, #zoom-out:hover {
   opacity: 0.3;
 }
+
+#nav-reset {
+  width: 3em;
+  height: 2.5em;
+  display: inline-block;
+  position: relative;
+  margin-left: 1.5em;
+  top: 5em;
+  background-color: #ffffff;
+  background-image: url(../gfx/reset.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#nav-reset:hover {
+  opacity: 0.3;
+}
