@@ -248,31 +248,57 @@
     viewer.dataSources.add(data);
     viewer.zoomTo(data);
     var entities = data.entities.values;
+
     var colorsUsed = [];
     var materialKeys = Object.keys(Cesium.Material);
-    console.log(materialKeys);
     var matCount = 0;
+    var texture = 0;
+
     for (var i = 0; i < entities.length; i++) {
       var entity = entities[i];
       var color = Cesium.Color.fromRandom({
         minimumAlpha : 1.0
       });
       var colorRepeat = false;
+
       for (var c = 0; c < colorsUsed.length; c++) {
-        if (colorsUsed[c] == color) {
+        var diff = {};
+        diff.red = colorsUsed[c].red - color.red;
+        diff.blue = colorsUsed[c].blue - color.blue;
+        diff.green = colorsUsed[c].green - color.green;
+        diff.final = diff.red + diff.blue + diff.green;
+
+        if (diff.final < -2.5) {
+          matCount++;
+          console.log(matCount);
+          console.log(diff.final);
           colorRepeat = true;
         }
       }
-      if (colorRepeat == false) {
+      if (colorRepeat === false) {
         colorsUsed[i] = color;
         entity.polygon.material = color;
       } else {
-
+        texture = texture === 0 ? 1 : 0;
+        console.log('Repetition' + texture);
+        if (texture === 0) {
+          entity.polygon.material = new Cesium.CheckerboardMaterialProperty({
+            evenColor : Cesium.Color.WHITE,
+            oddColor : color,
+            repeat : new Cesium.Cartesian2(4, 4)
+          });
+        } else {
+          entity.polygon.material = new Cesium.StripeMaterialProperty({
+            evenColor : Cesium.Color.WHITE,
+            oddColor : color,
+            repeat : new Cesium.Cartesian2(4, 4)
+          });
+        }
       }
-      entity.polygon.outline = true;
-      entity.polygon.outlineWidth = 1;
-      entity.polygon.outlineColor = Cesium.Color.BLACK;
 
+      entity.polygon.outline = true;
+      entity.polygon.outlineWidth = 1.0;
+      entity.polygon.outlineColor = Cesium.Color.BLACK;
 
       if (entity.properties.hasOwnProperty("Levels")) {
         entity.polygon.extrudedHeight = 0.8 * (entity.properties.Levels * 3);
