@@ -369,6 +369,8 @@
             var choice = param.srcElement.innerHTML;
             var length = viewer.dataSources.get(0).entities.values.length;
 
+            console.log(choice);
+
             for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++)  {
               var entity = viewer.dataSources.get(0).entities.values[i];
               if (entity.properties.name != undefined) {
