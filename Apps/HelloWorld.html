@@ -306,7 +306,8 @@
 
   canvas.setAttribute('tabindex', '0');
 
-  var dataSource = Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
+  var dataSource = new Cesium.GeoJsonDataSource.load('../data/chinatown2.json').then(function(data)  {
+
   // var dataSource = Cesium.GeoJsonDataSource.load('http://qd30.dev/map-data-raw').then(function(data) {
     console.log(data);
     viewer.dataSources.add(data);

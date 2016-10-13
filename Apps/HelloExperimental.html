@@ -248,8 +248,7 @@
 
   canvas.setAttribute('tabindex', -1);
 
-  var dataSource = new Cesium.GeoJsonDataSource();
-  dataSource.load('../data/chinatown2.json').then(function(data)  {
+  var dataSource = new Cesium.GeoJsonDataSource.load('../data/chinatown2.json').then(function(data)  {
     viewer.dataSources.add(data);
     viewer.zoomTo(data);
     var entities = data.entities.values;
@@ -330,28 +329,30 @@
     }
   });
 
-  // var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
-  //
-  //   viewer.dataSources.add(data);
-  //   var entities = data.entities.values;
-  //   for (var i = 0; i < entities.length; i++) {
-  //     var entity = entities[i];
-  //     entity.polygon.outline = true;
-  //     entity.polygon.outlineWidth = 2.0;
-  //     entity.polygon.outlineColor = Cesium.Color.BLACK;
-  //
-  //     entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
-  //
-  //     if (entity.properties.hasOwnProperty("color")) {
-  //       entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
-  //     }
-  //
-  //     if (entity.properties.hasOwnProperty("description")) {
-  //       entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
-  //         + '</div>';
-  //     }
-  //   }
-  // });
+  viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";
+
+  var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
+
+    viewer.dataSources.add(data);
+    var entities = data.entities.values;
+    for (var i = 0; i < entities.length; i++) {
+      var entity = entities[i];
+      entity.polygon.outline = true;
+      entity.polygon.outlineWidth = 2.0;
+      entity.polygon.outlineColor = Cesium.Color.BLACK;
+
+      entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
+
+      if (entity.properties.hasOwnProperty("color")) {
+        entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
+      }
+
+      if (entity.properties.hasOwnProperty("description")) {
+        entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
+          + '</div>';
+      }
+    }
+  });
 
   // var kwDataSource = new Cesium.GeoJsonDataSource.load('../data/kirkwood.json').then(function(data)  {
   //
@@ -381,10 +382,6 @@
   var frame = viewer.infoBox.frame;
 
   frame.addEventListener('load', function () {
-
-    viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";
-
-
     var cssLink = frame.contentDocument.createElement('link');
     cssLink.href = Cesium.buildModuleUrl('../../css/oc-csMap.css');
     cssLink.rel = 'stylesheet';
@@ -392,6 +389,69 @@
     frame.contentDocument.head.appendChild(cssLink);
   }, false);
 
+    // var uiObject = new Array();
+    // var ajaxTry = $.ajax({
+    //   dataType: "json",
+    //   type: "get",
+    //   url: "../data/chinatown2.json",
+    //   cache: false,
+    //   success: function(data) {
+    //     console.log(data);
+    //     for (var i = 0; i < data.features.length; i++) {
+    //       uiObject[i] = {};
+    //       var entity = data.features[i];
+    //       uiObject[i].id = entity.id.substr(4);
+    //       if (entity.properties.hasOwnProperty('name')) {
+    //         uiObject[i].name = entity.properties.name;
+    //       }
+    //     }
+    //
+    //     var form = document.getElementById('categories');
+    //     for (var j = 0; j < 25; j++) {
+    //       if (uiObject[j].hasOwnProperty('name')) {
+    //         var e = document.createElement('li');
+    //         e.setAttribute('value', uiObject[j].name);
+    //         var a = document.createElement('a');
+    //         a.setAttribute('name', 'link' + '-' + uiObject[j].name);
+    //         a.setAttribute('href', '#');
+    //         a.innerHTML = uiObject[j].name;
+    //         e.appendChild(a);
+    //         form.appendChild(e);
+    //       }
+    //     }
+    //     console.log(form);
+    //
+    //
+    //     // document.getElementById("cesiumContainer").removeAttribute("tabIndex");
+    //     var anchorElements = form.getElementsByTagName('a');
+    //
+    //     for (var i=0; i < anchorElements.length; i++) {
+    //       anchorElements[i].onclick = function(param) {
+    //         var choice = param.srcElement.innerHTML;
+    //         var length = viewer.dataSources.get(0).entities.values.length;
+    //
+    //         console.log(choice + ' from ' + length);
+    //
+    //         for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++)  {
+    //           var entity = viewer.dataSources.get(0).entities.values[i];
+    //           console.log(choice.toLowerCase() + '::' + entity.properties.name.toLowerCase());
+    //           if (entity.properties.name != undefined) {
+    //             console.log(choice.toLowerCase() + '::' + entity.properties.name.toLowerCase());
+    //             if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
+    //               viewer.selectedEntity = entity;
+    //               viewer.zoomTo(viewer.selectedEntity, {heading: Cesium.Math.toRadians(5.0), pitch: Cesium.Math.toRadians(-45), range: 500});
+    //
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //     document.onload = function() {
+    //       form.firstElementChild.focus();
+    //       form.firstElementChild.tabIndex = 1;
+    //     }
+    //   }
+    // });
 
     var container = document.getElementById("cesiumContainer");
     document.onkeydown = function(param) {
@@ -443,86 +503,89 @@
     //   }
     // }
 
-  </script>
+    var finalData = new Cesium.GeoJsonDataSource.load('../data/empty.json').then(function(data) {
 
-
-<script>
-
-window.addEventListener('load', function(param) {
-  var uiObject = new Array();
-
-
-    var data = viewer.dataSources.get(0);
-
-    console.log(data);
-    for (var i = 0; i < data.entities.values.length; i++) {
-      uiObject[i] = {};
-      var entity = data.entities.values[i];
-      uiObject[i].id = entity.id.substr(4);
-      if (entity.properties.hasOwnProperty('name')) {
-        uiObject[i].name = entity.properties.name;
-      }
-    }
-
-    var form = document.getElementById('categories');
-    for (var j = 0; j < 25; j++) {
-      if (uiObject[j].hasOwnProperty('name')) {
-        var e = document.createElement('li');
-        e.setAttribute('value', uiObject[j].name);
-        var a = document.createElement('a');
-        a.setAttribute('name', 'link' + '-' + uiObject[j].name);
-        a.setAttribute('href', '#');
-        a.innerHTML = uiObject[j].name;
-        e.appendChild(a);
-        form.appendChild(e);
-      }
-    }
-    console.log(form);
-
-
-    // document.getElementById("cesiumContainer").removeAttribute("tabIndex");
-    var anchorElements = form.getElementsByTagName('a');
-    console.log(anchorElements[1]);
-    console.log(data.entities.values[1]);
-    for (var i=0; i < anchorElements.length; i++) {
-      anchorElements[i].onclick = function(param) {
-        console.log(i + '::element');
-        console.log(data.entities.values);
-        var choice = param.srcElement.innerHTML;
-        var length = data.entities.values.length;
-
-        console.log(choice + ' from ' + length);
-        console.log(data.entities.values);
-        for (var i = 0; i < data.entities.values.length; i++)  {
-          var entity = data.entities.values[i];
-          if (entity.properties.name != undefined) {
-            console.log(choice.toLowerCase() + '::' + entity.properties.name.toLowerCase());
-            console.log(choice.toLowerCase() + '::' + entity.properties.name.toLowerCase());
-            if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
-              viewer.selectedEntity = entity;
-              viewer.zoomTo(viewer.selectedEntity, {heading: Cesium.Math.toRadians(5.0), pitch: Cesium.Math.toRadians(-45), range: 500});
-
+      var uiObject = new Array();
+      var ajaxTry = $.ajax({
+        dataType: "json",
+        type: "get",
+        url: "../data/chinatown2.json",
+        cache: false,
+        success: function(data) {
+          console.log(data);
+          for (var i = 0; i < data.features.length; i++) {
+            uiObject[i] = {};
+            var feature = data.features[i];
+            uiObject[i].id = feature.id.substr(4);
+            if (feature.properties.hasOwnProperty('name')) {
+              uiObject[i].name = feature.properties.name;
             }
           }
+
+          var form = document.getElementById('categories');
+          for (var j = 0; j < 25; j++) {
+            if (uiObject[j].hasOwnProperty('name')) {
+              var e = document.createElement('li');
+              e.setAttribute('value', uiObject[j].name);
+              var a = document.createElement('a');
+              a.setAttribute('name', 'link' + '-' + uiObject[j].name);
+              a.setAttribute('href', '#');
+              a.innerHTML = uiObject[j].name;
+              e.appendChild(a);
+              form.appendChild(e);
+            }
+          }
+          console.log(form);
+
+
+          document.getElementById("cesiumContainer").removeAttribute("tabIndex");
+          var anchorElements = form.getElementsByTagName('a');
+
+          for (var i=0; i < anchorElements.length; i++) {
+            anchorElements[i].onclick = function(param) {
+              var choice = param.srcElement.innerHTML;
+              var chinatown = viewer.dataSources.get(0);
+
+              chinatown.addEventListener('load', function() {
+                var length = chinatown.entities.values.length;
+
+                console.log(choice + ' from ' + length);
+
+                for (var i = 0; i < chinatown.entities.values.length; i++)  {
+                  console.log(chinatown.entities.values);
+                  console.log(i);
+                  var mEntity = chinatown.entities.values[i];
+                  console.log(choice.toLowerCase() + '::' + mEntity.properties.name.toLowerCase());
+                  if (mEntity.properties.name != undefined) {
+                    console.log(choice.toLowerCase() + '::' + mEntity.properties.name.toLowerCase());
+                    if (mEntity.properties.name.toLowerCase() == choice.toLowerCase()) {
+                      viewer.selectedmEntity = mEntity;
+                      viewer.zoomTo(viewer.selectedEntity, {heading: Cesium.Math.toRadians(5.0), pitch: Cesium.Math.toRadians(-45), range: 500});
+
+                    }
+                  }
+                }
+              });
+            }
+          }
+          document.onload = function() {
+            form.firstElementChild.focus();
+            form.firstElementChild.tabIndex = 1;
+          }
         }
-      }
-    }
-    document.onload = function() {
-      form.firstElementChild.focus();
-      form.firstElementChild.tabIndex = 1;
-    }
-  });
+      });
 
 
-
-  // var ajaxTry = $.ajax({
-  //   dataType: "json",
-  //   type: "get",
-  //   url: "../data/chinatown2.json",
-  //   cache: false,
-  //   success: function(data) {})};
+    });
 
 
-</script>
+    var frame = viewer.infoBox.frame;
+
+    frame.addEventListener('load', function () {
+      viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";
+    });
+
+  </script>
+
 </body>
 </html>
