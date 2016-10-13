@@ -83,7 +83,7 @@
 
     for (var i=0; i < navElements.length; i++) {
       navElements[i].onclick = function(param) {
-
+        console.log(camera.position + ' TO ');
         var x = camera.position.x;
         var y = camera.position.y;
         var z = camera.position.z;
@@ -91,22 +91,26 @@
         switch(param.srcElement.id) {
           case 'nav-up':
             camera.position.z = z + 25;
+            console.log(' ' + camera.position);
             break;
 
           case 'nav-down':
             camera.position.z = z - 25;
+            console.log(' ' + camera.position);
             break;
 
           case 'nav-left':
             camera.position.x = x - 25;
+            console.log(' ' + camera.position);
             break;
 
           case 'nav-right':
             camera.position.x = x + 25;
+            console.log(' ' + camera.position);
             break;
         }
       }
-      navElements[i].onkeyup = function(param) {
+      navElements[i].onkeydown = function(param) {
 
         var x = camera.position.x;
         var y = camera.position.y;
@@ -220,7 +224,7 @@
           //     url : 'http://tile.stamen.com/watercolor/',
           // 'https://b.tile.openstreetmap.org'
       // }),
-      baseLayerPicker : false
+      baseLayerPicker : true
   });
   var camera = viewer.camera;
   var scene = viewer.scene;
@@ -240,7 +244,7 @@
   var tonerLayer = layers.addImageryProvider(Cesium.createOpenStreetMapImageryProvider({
     url : 'http://tile.stamen.com/toner/'
   }));
-  tonerLayer.alpha = 0.3;
+  tonerLayer.alpha = 0.2;
 
   canvas.setAttribute('tabindex', -1);
 
@@ -268,7 +272,7 @@
         diff.green = colorsUsed[c].green - color.green;
         diff.final = diff.red + diff.blue + diff.green;
 
-        if (diff.final < -2.5) {
+        if (diff.final < -2.7) {
           matCount++;
           console.log(matCount);
           console.log(diff.final);
