@@ -328,55 +328,55 @@
           + '</div>';
       }
     }
+
+    var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
+
+      viewer.dataSources.add(data);
+      var entities = data.entities.values;
+      for (var i = 0; i < entities.length; i++) {
+        var entity = entities[i];
+        entity.polygon.outline = true;
+        entity.polygon.outlineWidth = 2.0;
+        entity.polygon.outlineColor = Cesium.Color.BLACK;
+
+        entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
+
+        if (entity.properties.hasOwnProperty("color")) {
+          entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
+        }
+
+        if (entity.properties.hasOwnProperty("description")) {
+          entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
+            + '</div>';
+        }
+      }
+    });
+
+    var kwDataSource = new Cesium.GeoJsonDataSource.load('../data/kirkwood.json').then(function(data)  {
+
+      viewer.dataSources.add(data);
+      var entities = data.entities.values;
+      for (var i = 0; i < entities.length; i++) {
+        var entity = entities[i];
+        entity.polygon.outline = true;
+        entity.polygon.outlineWidth = 2.0;
+        entity.polygon.outlineColor = Cesium.Color.BLACK;
+
+        entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
+
+        if (entity.properties.hasOwnProperty("color")) {
+          entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
+        }
+
+        if (entity.properties.hasOwnProperty("description")) {
+          entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
+            + '</div>';
+        }
+      }
+    });
+
+
   });
-
-  var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
-
-    viewer.dataSources.add(data);
-    var entities = data.entities.values;
-    for (var i = 0; i < entities.length; i++) {
-      var entity = entities[i];
-      entity.polygon.outline = true;
-      entity.polygon.outlineWidth = 2.0;
-      entity.polygon.outlineColor = Cesium.Color.BLACK;
-
-      entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
-
-      if (entity.properties.hasOwnProperty("color")) {
-        entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
-      }
-
-      if (entity.properties.hasOwnProperty("description")) {
-        entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
-          + '</div>';
-      }
-    }
-  });
-
-  var kwDataSource = new Cesium.GeoJsonDataSource.load('../data/kirkwood.json').then(function(data)  {
-
-    viewer.dataSources.add(data);
-    var entities = data.entities.values;
-    for (var i = 0; i < entities.length; i++) {
-      var entity = entities[i];
-      entity.polygon.outline = true;
-      entity.polygon.outlineWidth = 2.0;
-      entity.polygon.outlineColor = Cesium.Color.BLACK;
-
-      entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
-
-      if (entity.properties.hasOwnProperty("color")) {
-        entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
-      }
-
-      if (entity.properties.hasOwnProperty("description")) {
-        entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
-          + '</div>';
-      }
-    }
-  });
-
-
 
   var frame = viewer.infoBox.frame;
 
@@ -451,7 +451,7 @@
 window.addEventListener('load', function(param) {
   var uiObject = new Array();
 
-
+    console.log(viewer.dataSources);
     var data = viewer.dataSources.get(0);
 
     console.log(data);
@@ -463,7 +463,7 @@ window.addEventListener('load', function(param) {
         uiObject[i].name = entity.properties.name;
       }
     }
-
+    console.log(uiObject.length);
     var form = document.getElementById('categories');
     for (var j = 0; j < 25; j++) {
       if (uiObject[j].hasOwnProperty('name')) {
@@ -503,6 +503,7 @@ window.addEventListener('load', function(param) {
       form.firstElementChild.tabIndex = 1;
     }
   });
+
 
 </script>
 </body>
