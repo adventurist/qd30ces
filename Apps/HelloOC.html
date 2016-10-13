@@ -408,6 +408,7 @@
             console.log(choice);
 
             for (var i = 0; i < viewer.dataSources.get(0).entities.values.length; i++)  {
+              console.log('trigger');
               var entity = viewer.dataSources.get(0).entities.values[i];
               if (entity.properties.name != undefined) {
                 if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
