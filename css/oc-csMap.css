@@ -56,13 +56,13 @@
   font-family: monospace;
 }
 
-#map-form > #categories {
+#categories {
   font-size: 120%;
-  /*text-decoration: underline;*/
+  text-decoration: underline;
   font-weight: 500;
 }
 
-#map-form > ul > li > a {
+#categories > li > a {
   text-decoration: none!important;
 }
 
@@ -75,7 +75,7 @@
 }
 
 #form-wrap a {
-  text-decoration: none;
+  /*text-decoration: none;*/
   font-size: 120%;
   color: #6e6e6e;
   line-height: 1.6;
