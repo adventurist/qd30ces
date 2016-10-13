@@ -97,6 +97,7 @@
   background-image: url(../gfx/reset.svg);
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 67%;
 }
 
 #nav-reset:hover, #nav-reset:focus {
