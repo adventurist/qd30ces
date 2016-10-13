@@ -330,51 +330,51 @@
     }
   });
 
-  // var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
-  //
-  //   viewer.dataSources.add(data);
-  //   var entities = data.entities.values;
-  //   for (var i = 0; i < entities.length; i++) {
-  //     var entity = entities[i];
-  //     entity.polygon.outline = true;
-  //     entity.polygon.outlineWidth = 2.0;
-  //     entity.polygon.outlineColor = Cesium.Color.BLACK;
-  //
-  //     entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
-  //
-  //     if (entity.properties.hasOwnProperty("color")) {
-  //       entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
-  //     }
-  //
-  //     if (entity.properties.hasOwnProperty("description")) {
-  //       entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
-  //         + '</div>';
-  //     }
-  //   }
-  // });
+  var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
 
-  // var kwDataSource = new Cesium.GeoJsonDataSource.load('../data/kirkwood.json').then(function(data)  {
-  //
-  //   viewer.dataSources.add(data);
-  //   var entities = data.entities.values;
-  //   for (var i = 0; i < entities.length; i++) {
-  //     var entity = entities[i];
-  //     entity.polygon.outline = true;
-  //     entity.polygon.outlineWidth = 2.0;
-  //     entity.polygon.outlineColor = Cesium.Color.BLACK;
-  //
-  //     entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
-  //
-  //     if (entity.properties.hasOwnProperty("color")) {
-  //       entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
-  //     }
-  //
-  //     if (entity.properties.hasOwnProperty("description")) {
-  //       entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
-  //         + '</div>';
-  //     }
-  //   }
-  // });
+    viewer.dataSources.add(data);
+    var entities = data.entities.values;
+    for (var i = 0; i < entities.length; i++) {
+      var entity = entities[i];
+      entity.polygon.outline = true;
+      entity.polygon.outlineWidth = 2.0;
+      entity.polygon.outlineColor = Cesium.Color.BLACK;
+
+      entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
+
+      if (entity.properties.hasOwnProperty("color")) {
+        entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
+      }
+
+      if (entity.properties.hasOwnProperty("description")) {
+        entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
+          + '</div>';
+      }
+    }
+  });
+
+  var kwDataSource = new Cesium.GeoJsonDataSource.load('../data/kirkwood.json').then(function(data)  {
+
+    viewer.dataSources.add(data);
+    var entities = data.entities.values;
+    for (var i = 0; i < entities.length; i++) {
+      var entity = entities[i];
+      entity.polygon.outline = true;
+      entity.polygon.outlineWidth = 2.0;
+      entity.polygon.outlineColor = Cesium.Color.BLACK;
+
+      entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
+
+      if (entity.properties.hasOwnProperty("color")) {
+        entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
+      }
+
+      if (entity.properties.hasOwnProperty("description")) {
+        entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
+          + '</div>';
+      }
+    }
+  });
 
 
 
@@ -477,31 +477,22 @@ window.addEventListener('load', function(param) {
         form.appendChild(e);
       }
     }
-    console.log(form);
+    // console.log(form);
 
 
     // document.getElementById("cesiumContainer").removeAttribute("tabIndex");
     var anchorElements = form.getElementsByTagName('a');
-    console.log(anchorElements[1]);
-    console.log(data.entities.values[1]);
     for (var i=0; i < anchorElements.length; i++) {
       anchorElements[i].onclick = function(param) {
-        console.log(i + '::element');
-        console.log(data.entities.values);
         var choice = param.srcElement.innerHTML;
         var length = data.entities.values.length;
 
-        console.log(choice + ' from ' + length);
-        console.log(data.entities.values);
         for (var i = 0; i < data.entities.values.length; i++)  {
           var entity = data.entities.values[i];
           if (entity.properties.name != undefined) {
-            console.log(choice.toLowerCase() + '::' + entity.properties.name.toLowerCase());
-            console.log(choice.toLowerCase() + '::' + entity.properties.name.toLowerCase());
             if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
               viewer.selectedEntity = entity;
               viewer.zoomTo(viewer.selectedEntity, {heading: Cesium.Math.toRadians(5.0), pitch: Cesium.Math.toRadians(-45), range: 500});
-
             }
           }
         }
@@ -512,16 +503,6 @@ window.addEventListener('load', function(param) {
       form.firstElementChild.tabIndex = 1;
     }
   });
-
-
-
-  // var ajaxTry = $.ajax({
-  //   dataType: "json",
-  //   type: "get",
-  //   url: "../data/chinatown2.json",
-  //   cache: false,
-  //   success: function(data) {})};
-
 
 </script>
 </body>
