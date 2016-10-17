@@ -10,7 +10,7 @@
   <title>Hello World!</title>
   <script src="../Build/CesiumUnminified/Cesium.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-  <script src='http://livejs.com/live.js'></script>
+  // <script src='http://livejs.com/live.js'></script>
   <style>
       @import url(../Build/Cesium/Widgets/widgets.css);
       @import url(../css/oc-util.css);
@@ -329,7 +329,7 @@
       }
     }
 
-    var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
+    var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier2.json').then(function(data)  {
 
       viewer.dataSources.add(data);
       var entities = data.entities.values;
@@ -352,28 +352,28 @@
       }
     });
 
-    var kwDataSource = new Cesium.GeoJsonDataSource.load('../data/kirkwood.json').then(function(data)  {
-
-      viewer.dataSources.add(data);
-      var entities = data.entities.values;
-      for (var i = 0; i < entities.length; i++) {
-        var entity = entities[i];
-        entity.polygon.outline = true;
-        entity.polygon.outlineWidth = 2.0;
-        entity.polygon.outlineColor = Cesium.Color.BLACK;
-
-        entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
-
-        if (entity.properties.hasOwnProperty("color")) {
-          entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
-        }
-
-        if (entity.properties.hasOwnProperty("description")) {
-          entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
-            + '</div>';
-        }
-      }
-    });
+    // var kwDataSource = new Cesium.GeoJsonDataSource.load('../data/kirkwood.json').then(function(data)  {
+    //
+    //   viewer.dataSources.add(data);
+    //   var entities = data.entities.values;
+    //   for (var i = 0; i < entities.length; i++) {
+    //     var entity = entities[i];
+    //     entity.polygon.outline = true;
+    //     entity.polygon.outlineWidth = 2.0;
+    //     entity.polygon.outlineColor = Cesium.Color.BLACK;
+    //
+    //     entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
+    //
+    //     if (entity.properties.hasOwnProperty("color")) {
+    //       entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
+    //     }
+    //
+    //     if (entity.properties.hasOwnProperty("description")) {
+    //       entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
+    //         + '</div>';
+    //     }
+    //   }
+    // });
 
 
   });
@@ -382,7 +382,7 @@
 
   frame.addEventListener('load', function () {
 
-    viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";
+    // viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";
 
 
     var cssLink = frame.contentDocument.createElement('link');
@@ -484,12 +484,14 @@ window.addEventListener('load', function(param) {
     var anchorElements = form.getElementsByTagName('a');
     for (var i=0; i < anchorElements.length; i++) {
       anchorElements[i].onclick = function(param) {
+        console.log('AnchorClick');
         var choice = param.srcElement.innerHTML;
         var length = data.entities.values.length;
 
         for (var i = 0; i < data.entities.values.length; i++)  {
           var entity = data.entities.values[i];
           if (entity.properties.name != undefined) {
+              console.log(entity.properties.name.toLowerCase() + "::" +choice.toLowerCase());
             if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
               viewer.selectedEntity = entity;
               viewer.zoomTo(viewer.selectedEntity, {heading: Cesium.Math.toRadians(5.0), pitch: Cesium.Math.toRadians(-45), range: 500});

@@ -23,7 +23,7 @@
     padding: 6px;
     overflow: auto;
     border-radius: 10px;
-    -moz-user-select: none;
+    -moz-user-select: -moz-none;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;

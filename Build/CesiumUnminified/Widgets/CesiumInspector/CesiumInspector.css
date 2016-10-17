@@ -9,7 +9,7 @@
     display: inline-block;
     position: relative;
     padding: 4px 12px;
-    -moz-user-select: none;
+    -moz-user-select: -moz-none;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
@@ -70,7 +70,7 @@
     border-radius: 5px;
     padding: 3px 7px;
     cursor: pointer;
-    -moz-user-select: none;
+    -moz-user-select: -moz-none;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
