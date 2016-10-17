@@ -64,7 +64,6 @@
   var svgSuffix = "</svg>";
   var svgString = svgPrefix + svgCircle + svgSuffix;
 
-  // create the cesium entity
   var svgEntityImage = svgDataDeclare + svgString;
 
 
@@ -75,20 +74,20 @@
     var navReset = document.getElementById('nav-reset');
 
     var navElements = navParent.getElementsByTagName('div');
-    navElements[0].tabIndex = 5;
-    navElements[2].tabIndex = 6;
-    navElements[1].tabIndex = 7;
-    navElements[3].tabIndex = 8;
-    navReset.tabIndex = 9;
+    navElements[0].tabIndex = 3;
+    navElements[1].tabIndex = 4;
+    navElements[2].tabIndex = 5;
+    navElements[3].tabIndex = 6;
+    navReset.tabIndex = 7;
 
     for (var i=0; i < navElements.length; i++) {
-      navElements[i].onclick = function(param) {
+      navElements[i].addEventListener('click', function(param) {
         console.log(camera.position + ' TO ');
         var x = camera.position.x;
         var y = camera.position.y;
         var z = camera.position.z;
 
-        switch(param.srcElement.id) {
+        switch(param.target.id) {
           case 'nav-up':
             camera.position.z = z + 25;
             console.log(' ' + camera.position);
@@ -109,14 +108,14 @@
             console.log(' ' + camera.position);
             break;
         }
-      }
-      navElements[i].onkeydown = function(param) {
+      });
+      navElements[i].addEventListener('keydown', function(param) {
 
         var x = camera.position.x;
         var y = camera.position.y;
         var z = camera.position.z;
 
-        switch(param.srcElement.id) {
+        switch(param.target.id) {
           case 'nav-up':
 
             if (param.keyCode == 13) {
@@ -142,7 +141,7 @@
             }
           break;
         }
-      }
+      });
 
       navReset.onclick = function(param) {
         gotoChinatown();
@@ -157,15 +156,15 @@
     var zoomParent = document.getElementById('zoom');
 
     var zoomElements = zoomParent.getElementsByTagName('div');
-    zoomElements[0].tabIndex = 10;
-    zoomElements[1].tabIndex = 11;
+    zoomElements[0].tabIndex = 1;
+    zoomElements[1].tabIndex = 2;
 
 
     for (var i=0; i < zoomElements.length; i++) {
-      zoomElements[i].onclick = function(param) {
+      zoomElements[i].addEventListener('click', function(param) {
         var y = camera.position.y;
 
-        switch(param.srcElement.id) {
+        switch(param.target.id) {
           case 'zoom-in':
             camera.position.y = y + 25;
             break;
@@ -174,12 +173,11 @@
             camera.position.y = y - 25;
             break;
         }
-      }
+      });
 
-      zoomElements[i].onkeydown = function(param) {
-
+      zoomElements[i].addEventListener('keydown', function(param) {
         var y = camera.position.y;
-        switch(param.srcElement.id) {
+        switch(param.target.id) {
           case 'zoom-in':
             if (param.keyCode == 13) {
               camera.position.y = y + 160;
@@ -191,8 +189,8 @@
               camera.position.y = y - 160;
             }
             break;
-          }
-      }
+        }
+      });
     }
   </script>
 
@@ -500,7 +498,7 @@ window.addEventListener('load', function(param) {
     }
     document.onload = function() {
       form.firstElementChild.focus();
-      form.firstElementChild.tabIndex = 1;
+      form.firstElementChild.tabIndex = 10;
     }
   });
 

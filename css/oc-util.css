@@ -10,7 +10,6 @@
 
 #nav-arrows {
   border: none;
-  width:8em;
   height:8em;
   display: block;
   position: relative;
@@ -22,7 +21,7 @@
   width:2em;
   height:4em;
   display: block;
-  left: 2.75em;
+  left: 35%;
   position: relative;
 }
 
@@ -46,7 +45,7 @@
   margin-bottom: 2.5%;
   width:2em;
   height:2em;
-  left: 34%;
+  left: 35%;
   background-image: url(../gfx/up.svg);
   background-color: #ffffff;
 }
