@@ -352,37 +352,38 @@
       }
     });
 
-    // var kwDataSource = new Cesium.GeoJsonDataSource.load('../data/kirkwood.json').then(function(data)  {
-    //
-    //   viewer.dataSources.add(data);
-    //   var entities = data.entities.values;
-    //   for (var i = 0; i < entities.length; i++) {
-    //     var entity = entities[i];
-    //     entity.polygon.outline = true;
-    //     entity.polygon.outlineWidth = 2.0;
-    //     entity.polygon.outlineColor = Cesium.Color.BLACK;
-    //
-    //     entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
-    //
-    //     if (entity.properties.hasOwnProperty("color")) {
-    //       entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
-    //     }
-    //
-    //     if (entity.properties.hasOwnProperty("description")) {
-    //       entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
-    //         + '</div>';
-    //     }
-    //   }
-    // });
+    /*var kwDataSource = new Cesium.GeoJsonDataSource.load('../data/kirkwood.json').then(function(data)  {
+
+      viewer.dataSources.add(data);
+      var entities = data.entities.values;
+      for (var i = 0; i < entities.length; i++) {
+        var entity = entities[i];
+        entity.polygon.outline = true;
+        entity.polygon.outlineWidth = 2.0;
+        entity.polygon.outlineColor = Cesium.Color.BLACK;
+
+        entity.polygon.extrudedHeight = 0.5 * (entity.properties.level * 10);
+
+        if (entity.properties.hasOwnProperty("color")) {
+          entity.polygon.material = Cesium.Color.fromCssColorString(entity.properties.color);
+        }
+
+        if (entity.properties.hasOwnProperty("description")) {
+          entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
+            + '</div>';
+        }
+      }
+    });*/
 
 
   });
 
-  // var frame = viewer.infoBox.frame;
+  /*var frame = viewer.infoBox.frame;
+  viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";*/
 
   frame.addEventListener('load', function () {
 
-    // viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";
+
 
 
     var cssLink = frame.contentDocument.createElement('link');
