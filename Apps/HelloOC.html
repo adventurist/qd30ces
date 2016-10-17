@@ -378,8 +378,8 @@
 
   });
 
-  /*var frame = viewer.infoBox.frame;
-  viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";*/
+  var frame = viewer.infoBox.frame;
+  /*viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";*/
 
   frame.addEventListener('load', function () {
 
@@ -483,10 +483,12 @@ window.addEventListener('load', function(param) {
 
     // document.getElementById("cesiumContainer").removeAttribute("tabIndex");
     var anchorElements = form.getElementsByTagName('a');
+    console.log(anchorElements);
+    console.log(anchorElements[0]);
     for (var i=0; i < anchorElements.length; i++) {
-      anchorElements[i].onclick = function(param) {
-        console.log('AnchorClick');
-        var choice = param.srcElement.innerHTML;
+      console.log(i);
+      anchorElements[i].addEventListener('click', function(param) {
+        var choice = param.target.innerHTML;
         var length = data.entities.values.length;
 
         for (var i = 0; i < data.entities.values.length; i++)  {
@@ -499,7 +501,7 @@ window.addEventListener('load', function(param) {
             }
           }
         }
-      }
+      });
     }
     document.onload = function() {
       form.firstElementChild.focus();
