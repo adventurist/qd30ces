@@ -259,45 +259,45 @@
 
     for (var i = 0; i < entities.length; i++) {
       var entity = entities[i];
-      var color = Cesium.Color.fromRandom({
-        minimumAlpha : 1.0
-      });
-      var colorRepeat = false;
-
-      for (var c = 0; c < colorsUsed.length; c++) {
-        var diff = {};
-        diff.red = colorsUsed[c].red - color.red;
-        diff.blue = colorsUsed[c].blue - color.blue;
-        diff.green = colorsUsed[c].green - color.green;
-        diff.final = diff.red + diff.blue + diff.green;
-
-        if (diff.final < -2.7) {
-          matCount++;
-          console.log(matCount);
-          console.log(diff.final);
-          colorRepeat = true;
-        }
-      }
-      if (colorRepeat === false) {
-        colorsUsed[i] = color;
-        entity.polygon.material = color;
-      } else {
-        texture = texture === 0 ? 1 : 0;
-        console.log('Repetition' + texture);
-        if (texture === 0) {
-          entity.polygon.material = new Cesium.CheckerboardMaterialProperty({
-            evenColor : Cesium.Color.WHITE,
-            oddColor : color,
-            repeat : new Cesium.Cartesian2(4, 4)
-          });
-        } else {
-          entity.polygon.material = new Cesium.StripeMaterialProperty({
-            evenColor : Cesium.Color.WHITE,
-            oddColor : color,
-            repeat : new Cesium.Cartesian2(4, 4)
-          });
-        }
-      }
+      // var color = Cesium.Color.fromRandom({
+      //   minimumAlpha : 1.0
+      // });
+      // var colorRepeat = false;
+      // console.log(color);
+      // for (var c = 0; c < colorsUsed.length; c++) {
+      //   var diff = {};
+      //   diff.red = colorsUsed[c].red - color.red;
+      //   diff.blue = colorsUsed[c].blue - color.blue;
+      //   diff.green = colorsUsed[c].green - color.green;
+      //   diff.final = diff.red + diff.blue + diff.green;
+      //
+      //   if (diff.final < -2.7) {
+      //     matCount++;
+      //     console.log(matCount);
+      //     console.log(diff.final);
+      //     colorRepeat = true;
+      //   }
+      // }
+      // if (colorRepeat === false) {
+      //   colorsUsed[i] = color;
+      //   entity.polygon.material = color;
+      // } else {
+      //   texture = texture === 0 ? 1 : 0;
+      //   console.log('Repetition' + texture);
+      //   if (texture === 0) {
+      //     entity.polygon.material = new Cesium.CheckerboardMaterialProperty({
+      //       evenColor : Cesium.Color.WHITE,
+      //       oddColor : color,
+      //       repeat : new Cesium.Cartesian2(4, 4)
+      //     });
+      //   } else {
+      //     entity.polygon.material = new Cesium.StripeMaterialProperty({
+      //       evenColor : Cesium.Color.WHITE,
+      //       oddColor : color,
+      //       repeat : new Cesium.Cartesian2(4, 4)
+      //     });
+      //   }
+      // }
 
       entity.polygon.outline = true;
       entity.polygon.outlineWidth = 1.0;
@@ -311,13 +311,56 @@
         entity.polygon.extrudedHeight = 0.8 * (3);
       }
 
+      var eHeight = entity.polygon.extrudedHeight._value;
+      var red, blue, green;
+
+      if (eHeight < 10) {
+        red = 255/255; green = 204/255; blue = 255/255;
+        green = green - (0.05 * i);
+        /*Base purp = R 255 | G 204 | B 229  || remove green, then reduce other two */
+        entity.polygon.material = new Cesium.Color(red, green, blue, 1);
+        console.log(eHeight + ' is less than 10');
+
+
+      } else if (eHeight < 25) {
+        red = 204/255; green = 255/255; blue = 255/255;
+        red = red - (0.05 * i);
+        /*Base blue = R 204 | G 255 | B 255  || remove red, then reduce other two values */
+        entity.polygon.material = new Cesium.Color(red, green, blue, 1);
+
+        console.log(eHeight + ' is less than 25');
+
+
+      } else if (eHeight < 40) {
+        red = 204/255; green = 255/255; blue = 204/255;
+        red = red - (0.05 * i);
+        blue = blue - (0.05 * i);
+        /*Base Green = R 204 | G 255 | B 204  || remove red/blue, then reduce green */
+        entity.polygon.material = new Cesium.Color(red, green, blue, 1);
+        console.log(eHeight + ' is less than 40');
+
+
+
+      } else if (eHeight > 40) {
+        red = 255/255; green = 229/255; blue = 204/255;
+        blue = blue - (0.08 * i);
+        green = green - (0.04 * i);
+        /*Base orange = R 255 | G 229 | B 204  || remove Blue and Green (fblue), then Gren and Red (fGreen) */
+        entity.polygon.material = new Cesium.Color(red, green, blue, 1);
+        console.log(eHeight + ' is more than 40');
+
+      } else {
+
+        console.log(eHeight + ' is out of range');
+      }
+
       if (entity.properties.hasOwnProperty("name")) {
         if (entity.properties.name == "OpenConcept Consulting Inc.") {
           entity.polygon.material = '../data/blog/OCRoof.jpg'
         }
       }
 
-      if (entity.polygon.extrudedHeight._value > 25) {
+      if (entity.polygon.extrudedHeight._value > 60) {
         entity.polygon.material = '../data/blog/glass_wall_2.jpg';
       }
 
@@ -325,8 +368,8 @@
         entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
           + '</div>';
       }
-    }
 
+    }
     var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier2.json').then(function(data)  {
 
       viewer.dataSources.add(data);
