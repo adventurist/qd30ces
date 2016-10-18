@@ -432,13 +432,13 @@
 
     function gotoChinatown() {
       var pos = Cesium.Ellipsoid.WGS84.cartesianToCartographic(new Cesium.Cartesian3(
-      1108169.336, -4348068.129,
+      1107869.336, -4348068.129,
       4519755));
       pos.latitude = Cesium.Math.toDegrees(pos.latitude);
       pos.longitude = Cesium.Math.toDegrees(pos.longitude);
 
       viewer.camera.flyTo({
-        destination : Cesium.Cartesian3.fromDegrees(pos.longitude, pos.latitude + 0.003, pos.height - 400),
+        destination : Cesium.Cartesian3.fromDegrees(pos.longitude, pos.latitude + 0.002, pos.height - 350),
         orientation : {
             heading : Cesium.Math.toRadians(-1.4),
             pitch : Cesium.Math.toRadians(-41.0),
