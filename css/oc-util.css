@@ -103,3 +103,52 @@
   /*opacity: 0.3;*/
   background-color: #5555ff;
 }
+
+#legend {
+  transform: translateY(50.5em);
+  margin-left: 2%;
+}
+
+#legend-pre {
+  display: inline-block;
+  float: left;
+}
+
+#legend-group {
+  display: inline;
+}
+
+#legend-group div > div.colour-block {
+  font-size: 1.5em;
+  font-weight: 700;
+  width: 25em;
+  height: 2em;
+  margin-top: 2%;
+  border: 1px solid black;
+  text-align: center;
+  line-height: 2em;
+  vertical-align: middle;
+}
+
+#legend-group div.legend-row-left {
+  float: left;
+  max-width: 50%;
+  display: inline;
+  margin-left: 3%;
+}
+
+#legend-group div.legend-row-right {
+  float: right;
+  max-width: 50%;
+  display: inline;
+  margin-right: 3%;
+
+}
+
+#legend-group div.legend-text {
+  display: inline;
+  width: 10em;
+  line-height: 2em;
+  font-size: 1.4em;
+  vertical-align: middle;
+}

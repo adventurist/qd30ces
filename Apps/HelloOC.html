@@ -21,42 +21,57 @@
   </style>
 </head>
 <body>
-  <div id="cesiumContainer"></div>
+  <div id="app-container">
+    <div id="cesiumContainer"></div>
 
-  <div id="form-wrap">
+    <div id="form-wrap">
 
-    <div class="form-container">
-      <form id="map-form" role="search" method="get" class="search-form">
-        <ul class="categories" id="categories">Categories
-        </ul>
-        <br>
-      </form>
+      <div class="form-container">
+        <form id="map-form" role="search" method="get" class="search-form">
+          <ul class="categories" id="categories">Categories
+          </ul>
+          <br>
+        </form>
+      </div>
+    </div>
+    <div class='nav-ui-wrap'>
+      <div id='zoom'>
+        <div id='zoom-in'>
+        </div>
+        <div id='zoom-out'>
+        </div>
+      </div>
+
+
+      <div id='nav-arrows'>
+        <div id='nav-up'>
+        </div>
+        <div id='nav-left'>
+        </div>
+        <div id='nav-down'>
+        </div>
+        <div id='nav-right'>
+        </div>
+      </div>
+
+      <div id ='nav-reset'>
+      </div>
+    </div>
+    <div id ='legend'>
+      <div id="legend-pre"><h2>Legend</h2></div>
+      <div class="legend-container" id="legend-group">
+        <div class='legend-row-left'>
+          <div class='colour-block colour-top' style="background-color: rgba(255,0,255,1);">Purple</div><div class='legend-text'>These are single storey buildings</div>
+          <div class='colour-block colour-bottom' style="background-color: rgba(0,255,255,1);">Blue</div><div class='legend-text'>These are smaller, multi-storey buildings</div>
+        </div>
+        <div class='legend-row-right'>
+          <div class='colour-block colour-top' style="background-color: rgba(31,255,31,1);">Green</div><div class='legend-text'>These are medium, multi-storey buildings</div>
+          <div class='colour-block colour-bottom' style="background-color: rgba(255,118,32,1);">Orange</div><div class='legend-text'>These are the tallest builings</div>
+        </div>
+
+      </div>
     </div>
   </div>
-  <div class='nav-ui-wrap'>
-    <div id='zoom'>
-      <div id='zoom-in'>
-      </div>
-      <div id='zoom-out'>
-      </div>
-    </div>
-
-
-    <div id='nav-arrows'>
-      <div id='nav-up'>
-      </div>
-      <div id='nav-left'>
-      </div>
-      <div id='nav-down'>
-      </div>
-      <div id='nav-right'>
-      </div>
-    </div>
-
-    <div id = 'nav-reset'>
-    </div>
-  </div>
-
   <script>
   var svgDataDeclare = "data:image/svg+xml,";
   var svgCircle = '<path fill-rule="evenodd" clip-rule="evenodd" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M114,45.2        c0,23.6-42.7,95.6-42.7,95.6s-42.7-72-42.7-95.6c0-23.6,19.1-42.7,42.7-42.7C94.9,2.5,114,21.6,114,45.2z M71.3,28.6        c-10.3,0-18.6,8.3-18.6,18.6c0,10.3,8.3,18.6,18.6,18.6c10.3,0,18.6-8.3,18.6-18.6C89.8,36.9,81.5,28.6,71.3,28.6z"/>';
@@ -257,102 +272,78 @@
     var matCount = 0;
     var texture = 0;
 
+    var purpEnt = new Array();
+    var blueEnt = new Array();
+    var grnEnt = new Array();
+    var orngEnt = new Array();
+
     for (var i = 0; i < entities.length; i++) {
       var entity = entities[i];
-      // var color = Cesium.Color.fromRandom({
-      //   minimumAlpha : 1.0
-      // });
-      // var colorRepeat = false;
-      // console.log(color);
-      // for (var c = 0; c < colorsUsed.length; c++) {
-      //   var diff = {};
-      //   diff.red = colorsUsed[c].red - color.red;
-      //   diff.blue = colorsUsed[c].blue - color.blue;
-      //   diff.green = colorsUsed[c].green - color.green;
-      //   diff.final = diff.red + diff.blue + diff.green;
-      //
-      //   if (diff.final < -2.7) {
-      //     matCount++;
-      //     console.log(matCount);
-      //     console.log(diff.final);
-      //     colorRepeat = true;
-      //   }
-      // }
-      // if (colorRepeat === false) {
-      //   colorsUsed[i] = color;
-      //   entity.polygon.material = color;
-      // } else {
-      //   texture = texture === 0 ? 1 : 0;
-      //   console.log('Repetition' + texture);
-      //   if (texture === 0) {
-      //     entity.polygon.material = new Cesium.CheckerboardMaterialProperty({
-      //       evenColor : Cesium.Color.WHITE,
-      //       oddColor : color,
-      //       repeat : new Cesium.Cartesian2(4, 4)
-      //     });
-      //   } else {
-      //     entity.polygon.material = new Cesium.StripeMaterialProperty({
-      //       evenColor : Cesium.Color.WHITE,
-      //       oddColor : color,
-      //       repeat : new Cesium.Cartesian2(4, 4)
-      //     });
-      //   }
-      // }
+
 
       entity.polygon.outline = true;
       entity.polygon.outlineWidth = 1.0;
       entity.polygon.outlineColor = Cesium.Color.BLACK;
 
       if (entity.properties.hasOwnProperty("Levels")) {
-        entity.polygon.extrudedHeight = 0.8 * (entity.properties.Levels * 3);
+        entity.polygon.extrudedHeight = 0.9 * (entity.properties.Levels * 3);
       } else if (entity.properties.hasOwnProperty("building:levels")) {
-        entity.polygon.extrudedHeight = 0.8 * (entity.properties['building:levels'] * 3);
+        entity.polygon.extrudedHeight = 0.9 * (entity.properties['building:levels'] * 3);
       } else {
-        entity.polygon.extrudedHeight = 0.8 * (3);
+        entity.polygon.extrudedHeight = 0.9 * (3);
       }
 
       var eHeight = entity.polygon.extrudedHeight._value;
       var red, blue, green;
-
-      if (eHeight < 10) {
+      console.log(eHeight);
+      if (eHeight < 2.8) {
         red = 255/255; green = 204/255; blue = 255/255;
-        green = green - (0.05 * i);
-        /*Base purp = R 255 | G 204 | B 229  || remove green, then reduce other two */
+        green = green - (0.05 * i) < 0 ? 0 : green - (0.05 * i);
+        purpEnt[i] = {};
+        purpEnt[i].id = entity.id;
         entity.polygon.material = new Cesium.Color(red, green, blue, 1);
-        console.log(eHeight + ' is less than 10');
-
-
+        entity.properties.colour = 'purple';
+        entity.properties.colourOrig = {red, green, blue};
       } else if (eHeight < 25) {
         red = 204/255; green = 255/255; blue = 255/255;
-        red = red - (0.05 * i);
-        /*Base blue = R 204 | G 255 | B 255  || remove red, then reduce other two values */
+        red = red - (0.05 * i) < 0 ? 0 : red - (0.05 * i);
+        blueEnt[i] = {};
+        blueEnt[i].id = entity.id;
         entity.polygon.material = new Cesium.Color(red, green, blue, 1);
-
-        console.log(eHeight + ' is less than 25');
-
+        entity.properties.colour = 'blue';
+        entity.properties.colourOrig = {red, green, blue};
 
       } else if (eHeight < 40) {
-        red = 204/255; green = 255/255; blue = 204/255;
-        red = red - (0.05 * i);
-        blue = blue - (0.05 * i);
-        /*Base Green = R 204 | G 255 | B 204  || remove red/blue, then reduce green */
+        red = 195/255; green = 255/255; blue = 195/255;
+        red = red - (0.05 * i) < 0 ? 0 : red - (0.05 * i);
+        blue = blue - (0.05 * i) < 0 ? 0 : blue - (0.05 * i);
+        grnEnt[i] = {};
+        grnEnt[i].id = entity.id;
         entity.polygon.material = new Cesium.Color(red, green, blue, 1);
-        console.log(eHeight + ' is less than 40');
-
+        entity.properties.colour = 'green';
+        entity.properties.colourOrig = {red, green, blue};
 
 
       } else if (eHeight > 40) {
-        red = 255/255; green = 229/255; blue = 204/255;
-        blue = blue - (0.08 * i);
-        green = green - (0.04 * i);
-        /*Base orange = R 255 | G 229 | B 204  || remove Blue and Green (fblue), then Gren and Red (fGreen) */
+        red = 255/255; green = 238/255; blue = 209/255;
+        // red = red - (0.02 * i);
+        blue = blue - (0.06 * i) < 0 ? 0 : blue - (0.06 * i);
+        green = green - (0.03 * i) < 0 ? 0 : green - (0.03 * i);
+        if (blue == 0 || green == 0) {
+          red =1; green = 118/255; blue = 32/255;
+        }
+        orngEnt[i] = {};
+        orngEnt[i].id = entity.id;
         entity.polygon.material = new Cesium.Color(red, green, blue, 1);
-        console.log(eHeight + ' is more than 40');
+        entity.properties.colour = 'orange';
+        entity.properties.colourOrig = {red, green, blue};
 
       } else {
-
         console.log(eHeight + ' is out of range');
       }
+
+      console.log(entity.properties.name + ' is ');
+      console.log(entity.polygon.material);
 
       if (entity.properties.hasOwnProperty("name")) {
         if (entity.properties.name == "OpenConcept Consulting Inc.") {
@@ -360,16 +351,15 @@
         }
       }
 
-      if (entity.polygon.extrudedHeight._value > 60) {
-        entity.polygon.material = '../data/blog/glass_wall_2.jpg';
-      }
+
 
       if (entity.properties.hasOwnProperty("description")) {
         entity.description = '<div style="height: 420px; width: 500px;">' + entity.properties.description
           + '</div>';
       }
-
     }
+
+    // console.log(entities);
     var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier2.json').then(function(data)  {
 
       viewer.dataSources.add(data);
@@ -491,10 +481,9 @@
 <script>
 
 window.addEventListener('load', function(param) {
-  var uiObject = new Array();
 
-    console.log(viewer.dataSources);
-    var data = viewer.dataSources.get(0);
+  var uiObject = new Array();
+  var data = viewer.dataSources.get(0);
 
     console.log(data);
     for (var i = 0; i < data.entities.values.length; i++) {
@@ -539,6 +528,8 @@ window.addEventListener('load', function(param) {
         }
       });
     }
+
+
     document.onload = function() {
       form.firstElementChild.focus();
       form.firstElementChild.tabIndex = 10;
@@ -546,6 +537,44 @@ window.addEventListener('load', function(param) {
   });
 
 
+</script>
+
+<script>
+// var baseColours = {};
+//
+// baseColours.purple = new Cesium.Color(1, 0, 1, 1);
+// baseColours.blue = new Cesium.Color(0, 1, 1, 1);
+// baseColours.green = new Cesium.Color(31/255, 1, 31/255, 1);
+// baseColours.orange = new Cesium.Color(1, 118/255, 32/255, 1);
+
+var legendParent = document.getElementById('legend-group');
+var legendItems = legendParent.getElementsByTagName('div');
+
+for (var i = 0; i < legendItems.length; i++) {
+  legendItems[i].addEventListener('mouseover', function(param) {
+    // console.log(param);
+    var chosenColour = param.target.innerHTML;
+    for (var j = 0; j < viewer.dataSources.get(0).entities.values.length; j++) {
+      var entity = viewer.dataSources.get(0).entities.values[j];
+      if (entity.properties.colour.toLowerCase() == chosenColour.toLowerCase()) {
+        entity.polygon.material = Cesium.Color.BLACK;
+        entity.polygon.outlineWidth = 4.0;
+      }
+    }
+  });
+
+  legendItems[i].addEventListener('mouseleave', function(param) {
+
+    for (var j = 0; j < viewer.dataSources.get(0).entities.values.length; j++) {
+      var entity = viewer.dataSources.get(0).entities.values[j];
+      var orig = entity.properties.colourOrig;
+        entity.polygon.material = new Cesium.Color(orig.red, orig.green, orig.blue, 1);
+        entity.outlineColor = Cesium.Color.BLACK;
+        entity.polygon.outlineWidth = 1.0;
+    }
+  });
+
+}
 </script>
 </body>
 </html>
