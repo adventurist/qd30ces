@@ -98,6 +98,29 @@
       width: 100%;
     }
 
+
+    .cesium-infoBox {
+      transform: translate(-43em, 4em);
+      font-size: 60%;
+      height: 20em;
+      width: 20em;
+    }
+
+    .cesium-infoBox-description {
+      height: 100%;
+      margin: 0;
+      font-size: 50%;
+    }
+
+    .cesium-infoBox-iframe {
+      width: 20em;
+    }
+
+    .cesium-infoBox-defaultTable th,
+    .cesium-infoBox-defaultTable td {
+      font-size: 50%;
+    }
+
   #form-wrap {
       width: 100%;
        float: none;
@@ -136,7 +159,7 @@ and (min-width: 768px) {
   #form-wrap {
     width: 100%;
     display: inline-block;
-    transform: translateY(-135%);
+    transform: translateY(48em);
     font-size: 70%;
   }
 

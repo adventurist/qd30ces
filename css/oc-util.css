@@ -253,7 +253,7 @@ and (max-width: 1370px) {
   }
   #legend {
     font-size: 65%;
-    transform: translateY(57.5em);
+    transform: translateY(52.5em);
   }
 
   #legend-pre {
