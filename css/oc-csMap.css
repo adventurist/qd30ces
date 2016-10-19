@@ -91,3 +91,60 @@
   color: #5555ff;
   font-weight: 700;
 }
+
+@media screen
+  and (max-width: 768px) {
+    #cesiumContainer {
+      width: 100%;
+    }
+
+  #form-wrap {
+      width: 100%;
+       float: none;
+      position: relative;
+      margin: 1.5%;
+      top: 36.5em;
+      display: inline;
+      font-size: 50%;
+      list-style: none;
+      left: 5em;
+  }
+
+  #form-wrap a {
+    font-size: 105%;
+  }
+
+  #categories {
+    display: inline-block;
+  }
+  #categories span {
+    display: none;
+  }
+
+  #categories li {
+    float:left;
+    display:inline;
+  }
+}
+
+@media screen and (max-width: 1370px)
+and (min-width: 768px) {
+  #cesiumContainer {
+    width: 100%;
+    display: block;
+  }
+  #form-wrap {
+    width: 100%;
+    display: inline-block;
+    transform: translateY(-135%);
+    font-size: 70%;
+  }
+
+  #form-wrap ul, #form-wrap ul li {
+    display: inline-block;
+  }
+
+  #categories span {
+    display: none;
+  }
+}

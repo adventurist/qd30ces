@@ -159,3 +159,104 @@
 .colour-block:focus, .colour-block:hover {
   background-color: #5555ff!important;
 }
+
+/* ----------- Galaxy S4 ----------- */
+
+/* Portrait and Landscape */
+@media screen and (max-width: 768px) {
+
+  #zoom-in, #zoom-out, #nav-up, #nav-down, #nav-left, #nav-right {
+    width: 1em;
+    height: 1em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: inline-block;
+  }
+
+  #zoom-out {
+    margin-top: none;
+  }
+
+    #nav-reset {
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: 0;
+  }
+
+  .nav-ui-wrap {
+    transform: translateY(155%);
+  }
+
+  #nav-arrows {
+    margin-top: 0;
+    width: 50%;
+    height: auto;
+  }
+
+  #zoom {
+    display: inline;
+    left: 0;
+  }
+
+  #nav-up {
+    left: 0;
+    margin-bottom: 0;
+  }
+
+  #legend {
+    float: right;
+    width: 100%;
+    text-align: center;
+    transform: translateY(17em);
+  }
+
+  #legend-group div > div.colour-block  {
+    width: 10%;
+    font-size: 60%;
+    margin-left: 5%;
+    float: none;
+    display: inline-block;
+  }
+
+  #legend-group div.legend-text {
+    display: none;
+  }
+
+  #legend-group div.legend-row-left {
+    margin-left: 0;
+    float: none;
+    }
+
+  #legend-group div.legend-row-right  {
+    float: none;
+  }
+
+  #legend-pre {
+    display: none;
+  }
+}
+
+
+@media screen and (min-width: 640px)
+and (max-width: 840px) {
+  #legend {
+    font-size: 65%;
+    transform: translateY(50em);
+  }
+}
+
+@media screen and (min-width: 840px)
+and (max-width: 1370px) {
+
+  #cesiumContainer {
+    width: 100%;
+  }
+  #legend {
+    font-size: 65%;
+    transform: translateY(57.5em);
+  }
+
+  #legend-pre {
+    display: none;
+  }
+}
