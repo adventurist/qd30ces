@@ -23,7 +23,7 @@
 <body>
   <div id="app-container">
     <div id="cesiumContainer"></div>
-
+    <div id="msg-extra"><h3>Hit "q" for Mtl and "o" for Ottawa</h3></div>
     <div id="form-wrap">
 
       <div class="form-container">
@@ -353,7 +353,7 @@
     }
 
     // console.log(entities);
-    var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier2.json').then(function(data)  {
+    var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
 
       viewer.dataSources.add(data);
       var entities = data.entities.values;
