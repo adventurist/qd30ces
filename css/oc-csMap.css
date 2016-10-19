@@ -63,8 +63,11 @@
 
 #categories {
   font-size: 120%;
-  text-decoration: underline;
   font-weight: 500;
+}
+
+#categories > span {
+  text-decoration: underline;
 }
 
 #categories > li > a {
