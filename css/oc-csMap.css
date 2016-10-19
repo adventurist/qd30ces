@@ -10,13 +10,12 @@ body {
   height: 23em;
   background: white;
   text-align: center;
-  transform: translate(-67em, 16em);
+  transform: translate(-57em, 16em);
   box-shadow: none;
 }
 
 .cesium-infoBox-iframe  {
   width: 22em;
-  height: 25em;
   background: white;
   height: 23em!important;
   box-shadow: 0 0 10px 1px #000;
@@ -181,6 +180,22 @@ and (min-width: 768px) {
 
   #legend-group div.legend-row-right {
     margin-right: 12%;
+  }
+
+  .cesium-infoBox {
+    transform: translate(-35em, 12em);
+    width: 18em;
+    height: 18em;
+  }
+
+  .cesium-infoBox-title {
+    font-size: 72%;
+  }
+
+  .cesium-infoBox-iframe  {
+    width: 18em;
+    height: 18em!important;
+
   }
 
   #form-wrap ul, #form-wrap ul li {
