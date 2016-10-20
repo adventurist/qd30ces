@@ -10,7 +10,7 @@ body {
   height: 23em;
   background: white;
   text-align: center;
-  transform: translate(-50em, 16em);
+  transform: translate(-51.5em, 16em);
   box-shadow: none;
 }
 
@@ -137,7 +137,7 @@ body {
        float: none;
       position: relative;
       margin: 1.5%;
-      transform: translateY(55em);
+      transform: translateY(58em);
       display: inline-block;
       font-size: 50%;
       list-style: none;
@@ -161,7 +161,8 @@ body {
   }
 }
 
-@media screen and (max-width: 1370px)
+
+@media screen and (max-width: 960px)
 and (min-width: 768px) {
   #cesiumContainer {
     width: 100%;
@@ -170,7 +171,7 @@ and (min-width: 768px) {
   #form-wrap {
     width: 100%;
     display: inline-block;
-    transform: translateY(65em);
+    transform: translateY(51em);
     font-size: 70%;
   }
 
@@ -204,5 +205,26 @@ and (min-width: 768px) {
 
   #categories span {
     display: none;
+  }
+
+}
+
+@media screen and (min-width: 960px)
+and (min-width: 1370px) {
+
+
+}
+
+@media screen and (min-width: 1370px)
+and (max-width: 1600px) {
+  .cesium-infoBox {
+    transform: translate(-43em, 16em);
+  }
+}
+
+@media screen and (min-width: 1796px)
+and (max-width: 2438px) {
+  .cesium-infoBox {
+    transform: translate(-62.5em, 16em);
   }
 }

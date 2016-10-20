@@ -208,7 +208,7 @@
     height: 0;
     width: 100%;
     text-align: center;
-    transform: translateY(20em);
+    transform: translateY(26.5em);
   }
 
   #legend-group div > div.colour-block  {
@@ -246,7 +246,7 @@ and (max-width: 1370px) {
   }
   #legend {
     font-size: 65%;
-    transform: translateY(72.5em);
+    transform: translateY(53.5em);
   }
 
   #legend-pre {
