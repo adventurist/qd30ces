@@ -287,21 +287,17 @@
       entity.polygon.outlineColor = Cesium.Color.BLACK;
 
       if (entity.properties.hasOwnProperty("Levels")) {
-        entity.polygon.extrudedHeight = 0.9 * (entity.properties.Levels * 3);
+        entity.polygon.extrudedHeight = getRand(0.6, 2.5) * (0.9 * (entity.properties.Levels * 3));
       } else if (entity.properties.hasOwnProperty("building:levels")) {
-        entity.polygon.extrudedHeight = 0.9 * (entity.properties['building:levels'] * 3);
+        entity.polygon.extrudedHeight = getRand(0.6, 2.5) * (0.9 * (entity.properties['building:levels'] * 3));
       } else {
-        entity.polygon.extrudedHeight = 0.9 * (3);
+        entity.polygon.extrudedHeight = getRand(0.6, 2.5) * (0.9 * (3));
       }
 
       var eHeight = entity.polygon.extrudedHeight._value;
       var red, blue, green;
 
-      // if (entity.properties.hasOwnProperty("name") &&
-      //     entity.properties.name == "OpenConcept Consulting Inc.") {
-      //   entity.polygon.material = '../data/blog/OCRoof.jpg'
-      // } else {
-        if (eHeight < 2.8) {
+        if (eHeight < 4) {
           red = 255/255; green = 204/255; blue = 255/255;
           green = green - (0.05 * i) < 0 ? 0 : green - (0.05 * i);
           purpEnt[i] = {};
@@ -309,7 +305,7 @@
           entity.polygon.material = new Cesium.Color(red, green, blue, 1);
           entity.properties.colour = 'purple';
           entity.properties.colourOrig = {red, green, blue};
-        } else if (eHeight < 25) {
+        } else if (eHeight < 23) {
           red = 204/255; green = 255/255; blue = 255/255;
           red = red - (0.05 * i) < 0 ? 0 : red - (0.05 * i);
           blueEnt[i] = {};
@@ -317,7 +313,7 @@
           entity.polygon.material = new Cesium.Color(red, green, blue, 1);
           entity.properties.colour = 'blue';
           entity.properties.colourOrig = {red, green, blue};
-        } else if (eHeight < 40) {
+        } else if (eHeight < 65) {
           red = 195/255; green = 255/255; blue = 195/255;
           red = red - (0.05 * i) < 0 ? 0 : red - (0.05 * i);
           blue = blue - (0.05 * i) < 0 ? 0 : blue - (0.05 * i);
@@ -328,7 +324,7 @@
           entity.properties.colourOrig = {red, green, blue};
 
 
-        } else if (eHeight > 40) {
+        } else if (eHeight > 65) {
           red = 255/255; green = 238/255; blue = 209/255;
           // red = red - (0.02 * i);
           blue = blue - (0.06 * i) < 0 ? 0 : blue - (0.06 * i);
@@ -349,6 +345,13 @@
       if (entity.properties.hasOwnProperty("description")) {
         entity.description = '<div>' + entity.properties.description
           + '</div>';
+      }
+
+      if (entity.properties.hasOwnProperty("name") &&
+          entity.properties.name == "OpenConcept Consulting Inc.") {
+        entity.polygon.material = '../data/blog/OCRoof.jpg'
+        delete entity.properties.colourOrig;
+        delete entity.properties.colour;
       }
     }
 
@@ -549,18 +552,20 @@ legendItems[2].tabIndex = 10;
 legendItems[3].tabIndex = 11;
 
 for (var i = 0; i < legendItems.length; i++) {
-  legendItems[i].addEventListener('mouseover', function(param) {
+  legendItems[i].addEventListener('click', function(param) {
     var chosenColour = param.target.innerHTML;
     highlight(chosenColour);
   });
 
-  legendItems[i].addEventListener('mouseleave', function() {
-    colourReset();
-  });
+  // legendItems[i].addEventListener('mouseleave', function() {
+  //   colourReset();
+  // });
 
-  legendItems[i].addEventListener('focus', function(param) {
-    var chosenColour = param.target.innerHTML;
-    highlight(chosenColour);
+  legendItems[i].addEventListener('keydown', function(param) {
+    if (param.keyCode == 13) {
+      var chosenColour = param.target.innerHTML;
+      highlight(chosenColour);
+    }
   });
 
   legendItems[i].addEventListener('blur', function() {
@@ -573,9 +578,11 @@ for (var i = 0; i < legendItems.length; i++) {
 function highlight(chosenColour) {
   for (var j = 0; j < viewer.dataSources.get(0).entities.values.length; j++) {
     var entity = viewer.dataSources.get(0).entities.values[j];
-    if (entity.properties.colour.toLowerCase() == chosenColour.toLowerCase()) {
-      entity.polygon.material = Cesium.Color.BLACK;
-      entity.polygon.outlineWidth = 4.0;
+    if (entity.properties.hasOwnProperty('colour')) {
+      if (entity.properties.colour.toLowerCase() == chosenColour.toLowerCase()) {
+        entity.polygon.material = Cesium.Color.BLACK;
+        entity.polygon.outlineWidth = 4.0;
+      }
     }
   }
 }
@@ -583,11 +590,17 @@ function highlight(chosenColour) {
 function colourReset() {
   for (var j = 0; j < viewer.dataSources.get(0).entities.values.length; j++) {
     var entity = viewer.dataSources.get(0).entities.values[j];
-    var orig = entity.properties.colourOrig;
-      entity.polygon.material = new Cesium.Color(orig.red, orig.green, orig.blue, 1);
-      entity.outlineColor = Cesium.Color.BLACK;
-      entity.polygon.outlineWidth = 1.0;
+    if (entity.properties.hasOwnProperty('colourOrig')) {
+      var orig = entity.properties.colourOrig;
+        entity.polygon.material = new Cesium.Color(orig.red, orig.green, orig.blue, 1);
+        entity.outlineColor = Cesium.Color.BLACK;
+        entity.polygon.outlineWidth = 1.0;
+    }
   }
+}
+
+function getRand(max, min) {
+  return (Math.random() * (max - min) + min);
 }
 
 </script>

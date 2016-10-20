@@ -112,6 +112,8 @@
 #legend-pre {
   display: inline-block;
   float: left;
+  font-size: 120%;
+  margin-top: 2.5%;
 }
 
 #legend-group {
