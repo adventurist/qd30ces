@@ -104,6 +104,23 @@
   background-color: #5555ff;
 }
 
+#layer-toggle {
+  width: 2em;
+  height: 2em;
+  margin-left: 32%;
+  position: relative;
+  display: inline-block;
+  background-color: #ffffff;
+  background-image: url(../gfx/globe.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-si1ze: 90%;
+}
+
+#layer-toggle:hover {
+  background-color: #5555ff;
+}
+
 #legend {
   transform: translateY(52em);
   margin-left: 2%;
