@@ -272,7 +272,6 @@
   var canvas = viewer.canvas;
   var layers = viewer.scene.imageryLayers;
   var globe = viewer.scene.globe;
-  console.log(globe.baseColor);
   globe.imageryLayers.removeAll();
   globe.baseColor = Cesium.Color.fromCssColorString('#f3f3f3');
 
@@ -294,19 +293,15 @@
     viewer.zoomTo(data);
     var entities = data.entities.values;
 
-    var colorsUsed = [];
-    var materialKeys = Object.keys(Cesium.Material);
-    var matCount = 0;
-    var texture = 0;
+    var billboards = new Cesium.BillboardCollection();
 
-    var purpEnt = new Array();
-    var blueEnt = new Array();
-    var grnEnt = new Array();
-    var orngEnt = new Array();
+
 
     for (var i = 0; i < entities.length; i++) {
       var entity = entities[i];
-
+      entity.label =  {
+            text : 'Jigga',
+            font : '24px Helvetica'};
 
       entity.polygon.outline = true;
       entity.polygon.outlineWidth = 1.0;
@@ -326,16 +321,12 @@
         if (eHeight < 4) {
           red = 255/255; green = 204/255; blue = 255/255;
           green = green - (0.05 * i) < 0 ? 0 : green - (0.05 * i);
-          purpEnt[i] = {};
-          purpEnt[i].id = entity.id;
           entity.polygon.material = new Cesium.Color(red, green, blue, 1);
           entity.properties.colour = 'purple';
           entity.properties.colourOrig = {red, green, blue};
         } else if (eHeight < 23) {
           red = 204/255; green = 255/255; blue = 255/255;
           red = red - (0.05 * i) < 0 ? 0 : red - (0.05 * i);
-          blueEnt[i] = {};
-          blueEnt[i].id = entity.id;
           entity.polygon.material = new Cesium.Color(red, green, blue, 1);
           entity.properties.colour = 'blue';
           entity.properties.colourOrig = {red, green, blue};
@@ -343,8 +334,6 @@
           red = 195/255; green = 255/255; blue = 195/255;
           red = red - (0.05 * i) < 0 ? 0 : red - (0.05 * i);
           blue = blue - (0.05 * i) < 0 ? 0 : blue - (0.05 * i);
-          grnEnt[i] = {};
-          grnEnt[i].id = entity.id;
           entity.polygon.material = new Cesium.Color(red, green, blue, 1);
           entity.properties.colour = 'green';
           entity.properties.colourOrig = {red, green, blue};
@@ -358,8 +347,6 @@
           if (blue == 0 || green == 0) {
             red =1; green = 118/255; blue = 32/255;
           }
-          orngEnt[i] = {};
-          orngEnt[i].id = entity.id;
           entity.polygon.material = new Cesium.Color(red, green, blue, 1);
           entity.properties.colour = 'orange';
           entity.properties.colourOrig = {red, green, blue};
@@ -367,7 +354,7 @@
         } else {
           console.log(eHeight + ' is out of range');
         }
-      // }
+
       if (entity.properties.hasOwnProperty("description")) {
         entity.description = '<div>' + entity.properties.description
           + '</div>';
@@ -379,8 +366,46 @@
         delete entity.properties.colourOrig;
         delete entity.properties.colour;
       }
-    }
 
+      // if (i == 0) {
+      //   console.log('Adding jigga');
+      //   entity.label =  {
+      //       text : 'jigga',
+      //       font : '24px Helvetica',
+      //       fillColor : Cesium.Color.SKYBLUE,
+      //       outlineColor : Cesium.Color.BLACK,
+      //       outlineWidth : 2,
+      //    // if (i == 0) {
+      //   console.log('Adding jigga');
+      //   entity.label =  {
+      //       text : 'Philadelphia',
+      //       font : '24px Helvetica',
+      //       fillColor : Cesium.Color.SKYBLUE,
+      //       outlineColor : Cesium.Color.BLACK,
+      //       outlineWidth : 2,
+      //       style : Cesium.LabelStyle.FILL_AND_OUTLINE
+      //   }
+      // }     style : Cesium.LabelStyle.FILL_AND_OUTLINE
+      //   }
+      // }
+    }
+    viewer.entities.add({
+        position : new Cesium.Cartesian3.fromDegrees(-75.6972, 45.4215, 100),
+        label : {
+            text : 'Ottawa',
+            fillColor : Cesium.Color.BLUEVIOLET,
+            font : '10px Monospace'
+        }
+    });
+
+    viewer.entities.add({
+        position : new Cesium.Cartesian3.fromDegrees(-73.5673, 45.5017, 100),
+        label : {
+            text : 'Montreal',
+            fillColor : Cesium.Color.CRIMSON,
+            font : '10px Monospace'
+        }
+    });
     // console.log(entities);
     var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
 
@@ -430,6 +455,12 @@
 
         viewer.dataSources.add(Cesium.CzmlDataSource.load('./SampleData/simple.czml'));
 
+        viewer.entities.add({
+        position : new Cesium.Cartesian3(-75.1641667, 39.9522222),
+        label : {
+            text : 'Jigga'
+        }
+    });
 
   });
 
@@ -465,6 +496,7 @@
     //     gotoChinatown();
     //   }
     // }
+
 
   </script>
 
