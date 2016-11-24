@@ -74,13 +74,19 @@
     </div>
   </div>
   <script>
-  var svgDataDeclare = "data:image/svg+xml,";
-  var svgCircle = '<path fill-rule="evenodd" clip-rule="evenodd" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M114,45.2        c0,23.6-42.7,95.6-42.7,95.6s-42.7-72-42.7-95.6c0-23.6,19.1-42.7,42.7-42.7C94.9,2.5,114,21.6,114,45.2z M71.3,28.6        c-10.3,0-18.6,8.3-18.6,18.6c0,10.3,8.3,18.6,18.6,18.6c10.3,0,18.6-8.3,18.6-18.6C89.8,36.9,81.5,28.6,71.3,28.6z"/>';
-  var svgPrefix = '<svg version="1.1" id="Layer_1">';
-  var svgSuffix = "</svg>";
-  var svgString = svgPrefix + svgCircle + svgSuffix;
 
-  var svgEntityImage = svgDataDeclare + svgString;
+  // Asynchronous get request
+  var dataJson = $.getJSON("../data/chinatown2.json", function(json) {
+    console.log(json);
+  });
+  //
+  // var svgDataDeclare = "data:image/svg+xml,";
+  // var svgCircle = '<path fill-rule="evenodd" clip-rule="evenodd" stroke="#FFFFFF" stroke-width="2" stroke-miterlimit="10" d="M114,45.2        c0,23.6-42.7,95.6-42.7,95.6s-42.7-72-42.7-95.6c0-23.6,19.1-42.7,42.7-42.7C94.9,2.5,114,21.6,114,45.2z M71.3,28.6        c-10.3,0-18.6,8.3-18.6,18.6c0,10.3,8.3,18.6,18.6,18.6c10.3,0,18.6-8.3,18.6-18.6C89.8,36.9,81.5,28.6,71.3,28.6z"/>';
+  // var svgPrefix = '<svg version="1.1" id="Layer_1">';
+  // var svgSuffix = "</svg>";
+  // var svgString = svgPrefix + svgCircle + svgSuffix;
+  //
+  // var svgEntityImage = svgDataDeclare + svgString;
 
 
   </script>
@@ -264,7 +270,14 @@
           //     url : 'http://tile.stamen.com/watercolor/',
           // 'https://b.tile.openstreetmap.org'
       // }),
-      baseLayerPicker : true
+    // clock: new Cesium.Clock({
+    //   startTime : Cesium.JulianDate(2456002, 19090.367315716276),
+    //   currentTime : Cesium.JulianDate(2456002, 19090.467315716276),
+    //   stopTime : Cesium.JulianDate(2456002, 19090.567315716276),
+    //   clockRange : Cesium.ClockRange.LOOP_STOP,
+    //   clockStep : Cesium.ClockStep.SYSTEM_CLOCK_MULTIPLIER
+    // }),
+    baseLayerPicker : true
   });
   var camera = viewer.camera;
   var scene = viewer.scene;
@@ -273,17 +286,26 @@
   var layers = viewer.scene.imageryLayers;
   var globe = viewer.scene.globe;
   globe.imageryLayers.removeAll();
-  globe.baseColor = Cesium.Color.fromCssColorString('#f3f3f3');
+  // globe.baseColor = Cesium.Color.fromCssColorString('#f3f3f3');
+  globe.baseColor = Cesium.Color.fromCssColorString('#FFFFFF');
 
   var tonerLayer = layers.addImageryProvider(Cesium.createOpenStreetMapImageryProvider({
-    url : 'http://tile.stamen.com/toner/'
+    // url : 'http://tile.stamen.com/toner/'
+    url: 'https://b.tile.openstreetmap.org'
   }));
-  tonerLayer.alpha = 0.2;
+  // tonerLayer.alpha = 0.2;
   // var tonerLayer = layers.addImageryProvider(Cesium.createOpenStreetMapImageryProvider({
   //   url : 'http://tile.stamen.com/watercolor/'
   // }));
   // tonerLayer.alpha = 0.8;
 
+  // var terrainProvider = new Cesium.CesiumTerrainProvider({
+  //   url : '//assets.agi.com/stk-terrain/world',
+  // 	requestVertexNormals: true
+  // });
+  // viewer.terrainProvider = terrainProvider;
+  // viewer.scene.globe.enableLighting = true;
+  var pinBuilder = new Cesium.PinBuilder();
 
   canvas.setAttribute('tabindex', -1);
 
@@ -299,9 +321,19 @@
 
     for (var i = 0; i < entities.length; i++) {
       var entity = entities[i];
-      entity.label =  {
-            text : 'Jigga',
-            font : '24px Helvetica'};
+
+      var mLabel = {
+        text: entity.properties.name,
+        font : '24px Helvetica',
+        fillColor : Cesium.Color.WHITE,
+        outlineColor : Cesium.Color.BLACK,
+        outlineWidth : 4,
+        style : Cesium.LabelStyle.FILL_AND_OUTLINE,
+        verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+        pixelOffset : new Cesium.Cartesian2(0, -9)
+      };
+
+      entity.label = new Cesium.LabelGraphics(mLabel);
 
       entity.polygon.outline = true;
       entity.polygon.outlineWidth = 1.0;
@@ -465,12 +497,8 @@
   });
 
   var frame = viewer.infoBox.frame;
-  /*viewer.infoBox.frame.sandbox = "allow-same-origin allow-top-navigation allow-pointer-lock allow-popups allow-forms allow-scripts";*/
 
   frame.addEventListener('load', function () {
-
-
-
 
     var cssLink = frame.contentDocument.createElement('link');
     cssLink.href = Cesium.buildModuleUrl('../../css/oc-csMap.css');
@@ -480,25 +508,25 @@
   }, false);
 
 
-    var container = document.getElementById("cesiumContainer");
-    document.onkeydown = function(param) {
-      if (param.keyCode == 81) {
-        gotoQD30();
-      }
-
-      if (param.keyCode == 79) {
-        gotoChinatown();
-      }
+  var container = document.getElementById("cesiumContainer");
+  document.onkeydown = function(param) {
+    if (param.keyCode == 81) {
+      gotoQD30();
     }
 
-    // document.onclick = function(param) {
-    //   if (viewer.selectedEntity == undefined) {
-    //     gotoChinatown();
-    //   }
-    // }
+    if (param.keyCode == 79) {
+      gotoChinatown();
+    }
+  }
+
+  // document.onclick = function(param) {
+  //   if (viewer.selectedEntity == undefined) {
+  //     gotoChinatown();
+  //   }
+  // }
 
 
-  </script>
+</script>
 
 
 <script>
@@ -507,6 +535,7 @@ window.addEventListener('load', function(param) {
 
   var uiObject = new Array();
   var data = viewer.dataSources.get(0);
+  console.log(data);
 
     for (var i = 0; i < data.entities.values.length; i++) {
       uiObject[i] = {};
@@ -530,7 +559,6 @@ window.addEventListener('load', function(param) {
       }
     }
 
-    // document.getElementById("cesiumContainer").removeAttribute("tabIndex");
     var anchorElements = form.getElementsByTagName('a');
     for (var i=0; i < anchorElements.length; i++) {
       anchorElements[i].addEventListener('click', function(param) {
@@ -540,23 +568,75 @@ window.addEventListener('load', function(param) {
         for (var i = 0; i < data.entities.values.length; i++)  {
           var entity = data.entities.values[i];
           if (entity.properties.name != undefined) {
-            /*console.log(entity.properties.name.toLowerCase() + "::" +choice.toLowerCase());*/
             if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
+              console.log(viewer.entities);
+              var pCoords = entity.polygon.hierarchy.getValue(viewer.clock.currentTime);
+              var mX = 0.2 * (pCoords.positions[0].x + pCoords.positions[1].x + pCoords.positions[2].x + pCoords.positions[3].x + pCoords.positions[4].x);
+              var mY = 0.2 * (pCoords.positions[0].y + pCoords.positions[1].y + pCoords.positions[2].y + pCoords.positions[3].y + pCoords.positions[4].y);
+              var mZ = 0.2 * (pCoords.positions[0].z + pCoords.positions[1].z + pCoords.positions[2].z + pCoords.positions[3].z + pCoords.positions[4].z);
+              console.log(pCoords.positions[0]);
+
+
+              // var selectedPin = viewer.entities.add({
+              //     name : 'Selected Boutique',
+              //     position : [mX, mY, mZ],
+              //     billboard : {
+              //         image : pinBuilder.fromUrl('../gfx/markPin.png', Cesium.Color.BLACK, 500),
+              //         verticalOrigin : Cesium.VerticalOrigin.BOTTOM + 50
+              //     }
+              // });
+
+
+              var features = dataJson.responseJSON.features
+              for (var j = 0; j < features.length; j++) {
+                if (entity.id == features[j].id) {
+                  console.log(features[j]);
+                  console.log(entity);
+                  console.log(viewer.entities.values);
+                  for (z = 0; z < viewer.entities.values.length; z++) {
+                    console.log(viewer.entities.values[z].name);
+                    if (viewer.entities.values[z].name == 'selBoutique') {
+                      viewer.entities.remove(viewer.entities.values[z]);
+                    }
+                  }
+
+                  var mid = Math.round(features[j].geometry.coordinates[0].length / 4);
+                  console.log(mid);
+                  var geometry = features[j].geometry.coordinates[0][mid];
+                  var mPos = pCoords.positions[2];
+                  // mPos.y = mPos.y - 20;
+                  var selectedPin = viewer.entities.add({
+                    name : 'selBoutique',
+                    position : mPos,
+                      label: {
+                        text: entity.name,
+                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM},
+                    billboard : {
+                      image : '../gfx/marker.png',
+                      verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+                      eyeOffset: new Cesium.Cartesian3(0, 2, 0)
+                    }
+                  });
+                }
+              }
+
               viewer.selectedEntity = entity;
               viewer.zoomTo(viewer.selectedEntity, {heading: Cesium.Math.toRadians(5.0), pitch: Cesium.Math.toRadians(-45), range: 500});
+
+
+
+
             }
           }
         }
       });
     }
 
-
     document.onload = function() {
       form.firstElementChild.focus();
       form.firstElementChild.tabIndex = 13;
     }
   });
-
 
 </script>
 
@@ -582,10 +662,6 @@ for (var i = 0; i < legendItems.length; i++) {
     highlight(chosenColour);
   });
 
-  // legendItems[i].addEventListener('mouseleave', function() {
-  //   colourReset();
-  // });
-
   legendItems[i].addEventListener('keydown', function(param) {
     if (param.keyCode == 13) {
       var chosenColour = param.target.innerHTML;
@@ -596,7 +672,6 @@ for (var i = 0; i < legendItems.length; i++) {
   legendItems[i].addEventListener('blur', function() {
     colourReset();
   });
-
 
 }
 
@@ -674,7 +749,6 @@ function gotoQD30() {
     }
   });
 }
-
 </script>
 </body>
 </html>

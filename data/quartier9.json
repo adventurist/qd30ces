@@ -1,0 +1,32 @@
+{
+	"type": "FeatureCollection",
+	"generator": "overpass-turbo",
+	"copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+	"timestamp": "2016-09-12T19:22:48Z",
+	"features": [{
+				"type": "Feature",
+				"id": "way/0",
+				"properties": {
+					"addr": "2123 Main street",
+					"phone": "514 514 4514",
+					"website": "www.quartierdix30.com",
+					"logo": "files/logos/boutique/Logo.jpg",
+					"description": "<div id='boutique-Boutique ONE'><h2>Boutique ONE</h2><img src='files/logos/boutique/Logo.jpg'></img><div id='business-details'><p>The best boutique on this side of the rive-sud. Borne of the gestalt family heirloom fund, Boutique ONE offers an exquisite range of poultry-related furniture, a wise selection of choice driftwood, and luxurious bathing equipment.</p><br /> <
+						br / >
+						<
+						p > Such offerings are rarely all sold under one roof,
+					and that is why we are named ONE boutique < /p><br / >
+					<
+					br / >
+					<
+					p > & nbsp; < /p><br / >
+					<
+					br / >
+					<
+					p > & nbsp; < /p><br / >
+					<
+					/div></div > "},"
+					geometry ": {"
+					type ":"
+					Polygon ","
+					coordinates ":[[[1,1]]]}}]}
