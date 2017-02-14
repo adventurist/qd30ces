@@ -8,7 +8,7 @@
   <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
   <title>Hello from OpenConcept!</title>
-  <script src="../Build/CesiumUnminified/Cesium.js"></script>
+  <script src="../Build/Cesium/Cesium.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script>/*src='http://livejs.com/live.js'*/</script>
   <style>
@@ -251,14 +251,17 @@
       homeButton : false,
       vrButton : false,
       infoBox : true,
+      geocoder : false,
       sceneModePicker: false,
       selectionIndicator: true,
       timeline : false,
       navigationHelpButton : false,
       navigationInstructionsInitiallyVisible: false,
-      scene3DOnly : true,
+      scene3DOnly : false,
       shadows : true,
       terrainShadows : true,
+      baseLayerPicker : false
+  });
       // imageryProvider : new Cesium.createOpenStreetMapImageryProvider({
           // url : 'https://stamen-tiles.a.ssl.fastly.net/toner-background/'
           // url : 'http://tile.stamen.com/toner/',
@@ -277,8 +280,6 @@
     //   clockRange : Cesium.ClockRange.LOOP_STOP,
     //   clockStep : Cesium.ClockStep.SYSTEM_CLOCK_MULTIPLIER
     // }),
-    baseLayerPicker : true
-  });
   var camera = viewer.camera;
   var scene = viewer.scene;
   var ellipsoid = scene.globe.ellipsoid;
@@ -286,26 +287,11 @@
   var layers = viewer.scene.imageryLayers;
   var globe = viewer.scene.globe;
   globe.imageryLayers.removeAll();
-  // globe.baseColor = Cesium.Color.fromCssColorString('#f3f3f3');
-  globe.baseColor = Cesium.Color.fromCssColorString('#FFFFFF');
-
+  globe.baseColor = Cesium.Color.fromCssColorString('#f3f3f3');
   var tonerLayer = layers.addImageryProvider(Cesium.createOpenStreetMapImageryProvider({
-    // url : 'http://tile.stamen.com/toner/'
-    url: 'https://b.tile.openstreetmap.org'
+      url : 'http://tile.stamen.com/toner/'
   }));
-  // tonerLayer.alpha = 0.2;
-  // var tonerLayer = layers.addImageryProvider(Cesium.createOpenStreetMapImageryProvider({
-  //   url : 'http://tile.stamen.com/watercolor/'
-  // }));
-  // tonerLayer.alpha = 0.8;
-
-  // var terrainProvider = new Cesium.CesiumTerrainProvider({
-  //   url : '//assets.agi.com/stk-terrain/world',
-  // 	requestVertexNormals: true
-  // });
-  // viewer.terrainProvider = terrainProvider;
-  // viewer.scene.globe.enableLighting = true;
-  var pinBuilder = new Cesium.PinBuilder();
+  tonerLayer.alpha = 0.2;
 
   canvas.setAttribute('tabindex', -1);
 
@@ -314,10 +300,6 @@
     viewer.dataSources.add(data);
     viewer.zoomTo(data);
     var entities = data.entities.values;
-
-    var billboards = new Cesium.BillboardCollection();
-
-
 
     for (var i = 0; i < entities.length; i++) {
       var entity = entities[i];
@@ -336,33 +318,33 @@
       entity.label = new Cesium.LabelGraphics(mLabel);
 
       entity.polygon.outline = true;
-      entity.polygon.outlineWidth = 1.0;
+      entity.polygon.outlineWidth = 1.2;
       entity.polygon.outlineColor = Cesium.Color.BLACK;
 
       if (entity.properties.hasOwnProperty("Levels")) {
-        entity.polygon.extrudedHeight = getRand(0.6, 2.5) * (0.9 * (entity.properties.Levels * 3));
+        entity.polygon.extrudedHeight = getRand(0.6, 2.5) * (0.9 * (entity.properties.Levels * 1));
       } else if (entity.properties.hasOwnProperty("building:levels")) {
-        entity.polygon.extrudedHeight = getRand(0.6, 2.5) * (0.9 * (entity.properties['building:levels'] * 3));
+        entity.polygon.extrudedHeight = getRand(0.6, 2.5) * (0.9 * (entity.properties['building:levels'] * 1));
       } else {
-        entity.polygon.extrudedHeight = getRand(0.6, 2.5) * (0.9 * (3));
+        entity.polygon.extrudedHeight = getRand(0.6, 2.5) * (0.9 * (1));
       }
 
       var eHeight = entity.polygon.extrudedHeight._value;
       var red, blue, green;
 
-        if (eHeight < 4) {
+        if (eHeight < 1.5) {
           red = 255/255; green = 204/255; blue = 255/255;
           green = green - (0.05 * i) < 0 ? 0 : green - (0.05 * i);
           entity.polygon.material = new Cesium.Color(red, green, blue, 1);
           entity.properties.colour = 'purple';
           entity.properties.colourOrig = {red, green, blue};
-        } else if (eHeight < 23) {
+        } else if (eHeight < 7.5) {
           red = 204/255; green = 255/255; blue = 255/255;
           red = red - (0.05 * i) < 0 ? 0 : red - (0.05 * i);
           entity.polygon.material = new Cesium.Color(red, green, blue, 1);
           entity.properties.colour = 'blue';
           entity.properties.colourOrig = {red, green, blue};
-        } else if (eHeight < 65) {
+        } else if (eHeight < 22.5) {
           red = 195/255; green = 255/255; blue = 195/255;
           red = red - (0.05 * i) < 0 ? 0 : red - (0.05 * i);
           blue = blue - (0.05 * i) < 0 ? 0 : blue - (0.05 * i);
@@ -371,7 +353,7 @@
           entity.properties.colourOrig = {red, green, blue};
 
 
-        } else if (eHeight > 65) {
+        } else if (eHeight > 22.5) {
           red = 255/255; green = 238/255; blue = 209/255;
           // red = red - (0.02 * i);
           blue = blue - (0.06 * i) < 0 ? 0 : blue - (0.06 * i);
@@ -398,28 +380,6 @@
         delete entity.properties.colourOrig;
         delete entity.properties.colour;
       }
-
-      // if (i == 0) {
-      //   console.log('Adding jigga');
-      //   entity.label =  {
-      //       text : 'jigga',
-      //       font : '24px Helvetica',
-      //       fillColor : Cesium.Color.SKYBLUE,
-      //       outlineColor : Cesium.Color.BLACK,
-      //       outlineWidth : 2,
-      //    // if (i == 0) {
-      //   console.log('Adding jigga');
-      //   entity.label =  {
-      //       text : 'Philadelphia',
-      //       font : '24px Helvetica',
-      //       fillColor : Cesium.Color.SKYBLUE,
-      //       outlineColor : Cesium.Color.BLACK,
-      //       outlineWidth : 2,
-      //       style : Cesium.LabelStyle.FILL_AND_OUTLINE
-      //   }
-      // }     style : Cesium.LabelStyle.FILL_AND_OUTLINE
-      //   }
-      // }
     }
     viewer.entities.add({
         position : new Cesium.Cartesian3.fromDegrees(-75.6972, 45.4215, 100),
@@ -439,7 +399,7 @@
         }
     });
     // console.log(entities);
-    var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier3.json').then(function(data)  {
+    var qdDataSource = new Cesium.GeoJsonDataSource.load('../data/quartier_en.json').then(function(data)  {
 
       viewer.dataSources.add(data);
       var entities = data.entities.values;
@@ -517,7 +477,7 @@
     if (param.keyCode == 79) {
       gotoChinatown();
     }
-  }
+  };
 
   // document.onclick = function(param) {
   //   if (viewer.selectedEntity == undefined) {
@@ -531,50 +491,50 @@
 
 <script>
 
-window.addEventListener('load', function(param) {
+//window.addEventListener('load', function(param) {
+//
+//  var uiObject = new Array();
+//  var data = viewer.dataSources.get(0);
+//  console.log(data);
+//    var uiObject = new Array();
+//    for (var i = 0; i < data.entities.values.length; i++) {
+//      uiObject[i] = {};
+//      var entity = data.entities.values[i];
+//      uiObject[i].id = entity.id.substr(4);
+//      if (entity.properties.hasOwnProperty('name')) {
+//        uiObject[i].name = entity.properties.name;
+//      }
+//    }
+//    var form = document.getElementById('categories');
+//    for (var j = 0; j < 25; j++) {
+//      if (uiObject[j].hasOwnProperty('name')) {
+//        var e = document.createElement('li');
+//        e.setAttribute('value', uiObject[j].name);
+//        var a = document.createElement('a');
+//        a.setAttribute('name', 'link' + '-' + uiObject[j].name);
+//        a.setAttribute('href', '#');
+//        a.innerHTML = uiObject[j].name;
+//        e.appendChild(a);
+//        form.appendChild(e);
+//      }
+//    }
 
-  var uiObject = new Array();
-  var data = viewer.dataSources.get(0);
-  console.log(data);
-
-    for (var i = 0; i < data.entities.values.length; i++) {
-      uiObject[i] = {};
-      var entity = data.entities.values[i];
-      uiObject[i].id = entity.id.substr(4);
-      if (entity.properties.hasOwnProperty('name')) {
-        uiObject[i].name = entity.properties.name;
-      }
-    }
-    var form = document.getElementById('categories');
-    for (var j = 0; j < 25; j++) {
-      if (uiObject[j].hasOwnProperty('name')) {
-        var e = document.createElement('li');
-        e.setAttribute('value', uiObject[j].name);
-        var a = document.createElement('a');
-        a.setAttribute('name', 'link' + '-' + uiObject[j].name);
-        a.setAttribute('href', '#');
-        a.innerHTML = uiObject[j].name;
-        e.appendChild(a);
-        form.appendChild(e);
-      }
-    }
-
-    var anchorElements = form.getElementsByTagName('a');
-    for (var i=0; i < anchorElements.length; i++) {
-      anchorElements[i].addEventListener('click', function(param) {
-        var choice = param.target.innerHTML;
-        var length = data.entities.values.length;
-
-        for (var i = 0; i < data.entities.values.length; i++)  {
-          var entity = data.entities.values[i];
-          if (entity.properties.name != undefined) {
-            if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
-              console.log(viewer.entities);
-              var pCoords = entity.polygon.hierarchy.getValue(viewer.clock.currentTime);
-              var mX = 0.2 * (pCoords.positions[0].x + pCoords.positions[1].x + pCoords.positions[2].x + pCoords.positions[3].x + pCoords.positions[4].x);
-              var mY = 0.2 * (pCoords.positions[0].y + pCoords.positions[1].y + pCoords.positions[2].y + pCoords.positions[3].y + pCoords.positions[4].y);
-              var mZ = 0.2 * (pCoords.positions[0].z + pCoords.positions[1].z + pCoords.positions[2].z + pCoords.positions[3].z + pCoords.positions[4].z);
-              console.log(pCoords.positions[0]);
+//    var anchorElements = form.getElementsByTagName('a');
+//    for (var i=0; i < anchorElements.length; i++) {
+//      anchorElements[i].addEventListener('click', function(param) {
+//        var choice = param.target.innerHTML;
+//        var length = data.entities.values.length;
+//
+//        for (var i = 0; i < data.entities.values.length; i++)  {
+//          var entity = data.entities.values[i];
+//          if (entity.properties.name != undefined) {
+//            if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
+//              console.log(viewer.entities);
+//              var pCoords = entity.polygon.hierarchy.getValue(viewer.clock.currentTime);
+//              var mX = 0.2 * (pCoords.positions[0].x + pCoords.positions[1].x + pCoords.positions[2].x + pCoords.positions[3].x + pCoords.positions[4].x);
+//              var mY = 0.2 * (pCoords.positions[0].y + pCoords.positions[1].y + pCoords.positions[2].y + pCoords.positions[3].y + pCoords.positions[4].y);
+//              var mZ = 0.2 * (pCoords.positions[0].z + pCoords.positions[1].z + pCoords.positions[2].z + pCoords.positions[3].z + pCoords.positions[4].z);
+//              console.log(pCoords.positions[0]);
 
 
               // var selectedPin = viewer.entities.add({
@@ -587,56 +547,289 @@ window.addEventListener('load', function(param) {
               // });
 
 
-              var features = dataJson.responseJSON.features
-              for (var j = 0; j < features.length; j++) {
-                if (entity.id == features[j].id) {
-                  console.log(features[j]);
-                  console.log(entity);
-                  console.log(viewer.entities.values);
-                  for (z = 0; z < viewer.entities.values.length; z++) {
-                    console.log(viewer.entities.values[z].name);
-                    if (viewer.entities.values[z].name == 'selBoutique') {
-                      viewer.entities.remove(viewer.entities.values[z]);
-                    }
-                  }
+//              var features = dataJson.responseJSON.features
+//              for (var j = 0; j < features.length; j++) {
+//                if (entity.id == features[j].id) {
+//                  console.log(features[j]);
+//                  console.log(entity);
+//                  console.log(viewer.entities.values);
+//                  for (z = 0; z < viewer.entities.values.length; z++) {
+//                    console.log(viewer.entities.values[z].name);
+//                    if (viewer.entities.values[z].name == 'selBoutique') {
+//                      viewer.entities.remove(viewer.entities.values[z]);
+//                    }
+//                  }
+//
+//                  var mid = Math.round(features[j].geometry.coordinates[0].length / 4);
+//                  console.log(mid);
+//                  var geometry = features[j].geometry.coordinates[0][mid];
+//                  var mPos = pCoords.positions[2];
+//                  // mPos.y = mPos.y - 20;
+//                  var selectedPin = viewer.entities.add({
+//                    name : 'selBoutique',
+//                    position : mPos,
+//                      label: {
+//                        text: entity.name,
+//                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM},
+//                    billboard : {
+//                      image : '../gfx/marker.png',
+//                      verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
+//                      eyeOffset: new Cesium.Cartesian3(0, 2, 0)
+//                    }
+//                  });
+//                }
+//              }
 
-                  var mid = Math.round(features[j].geometry.coordinates[0].length / 4);
-                  console.log(mid);
-                  var geometry = features[j].geometry.coordinates[0][mid];
-                  var mPos = pCoords.positions[2];
-                  // mPos.y = mPos.y - 20;
-                  var selectedPin = viewer.entities.add({
-                    name : 'selBoutique',
-                    position : mPos,
-                      label: {
-                        text: entity.name,
-                        verticalOrigin: Cesium.VerticalOrigin.BOTTOM},
-                    billboard : {
-                      image : '../gfx/marker.png',
-                      verticalOrigin : Cesium.VerticalOrigin.BOTTOM,
-                      eyeOffset: new Cesium.Cartesian3(0, 2, 0)
-                    }
-                  });
-                }
-              }
+//              viewer.selectedEntity = entity;
+//              viewer.zoomTo(viewer.selectedEntity, {heading: Cesium.Math.toRadians(5.0), pitch: Cesium.Math.toRadians(-45), range: 500});
+//
+//
+//
+//
+//            }
+//          }
+//        }
+//      });
+//    }
 
-              viewer.selectedEntity = entity;
-              viewer.zoomTo(viewer.selectedEntity, {heading: Cesium.Math.toRadians(5.0), pitch: Cesium.Math.toRadians(-45), range: 500});
+//    document.onload = function() {
+//      form.firstElementChild.focus();
+//      form.firstElementChild.tabIndex = 13;
+//    }
+//  });
 
 
 
+    window.onload = function() {
 
+        var data = viewer.dataSources.get(0);
+
+        var uiObject = new Array();
+        for (var i = 0; i < data.entities.values.length; i++) {
+            uiObject[i] = {};
+            var entity = data.entities.values[i];
+            uiObject[i].id = entity.id.substr(4);
+            if (entity.properties.hasOwnProperty('name')) {
+                uiObject[i].name = entity.properties.name;
             }
-          }
         }
-      });
-    }
 
-    document.onload = function() {
-      form.firstElementChild.focus();
-      form.firstElementChild.tabIndex = 13;
+        var form = document.getElementById('categories');
+        for (var j = 0; j < 25; j++) {
+            if (uiObject[j].hasOwnProperty('name')) {
+                var e = document.createElement('li');
+                e.setAttribute('value', uiObject[j].name);
+                var a = document.createElement('a');
+                a.setAttribute('name', 'link' + '-' + uiObject[j].name);
+                a.setAttribute('href', '#');
+                a.innerHTML = uiObject[j].name;
+                e.appendChild(a);
+                form.appendChild(e);
+            }
+        }
+
+        var anchorElements = form.getElementsByTagName('a');
+
+        for (var k = 0; k < anchorElements.length; k++) {
+
+            anchorElements[k].addEventListener('click', function(param) {
+                var choice = param.target.innerHTML;
+                var length = data.entities.values.length;
+
+                for (var i = 0; i < data.entities.values.length; i++) {
+                    var entity = data.entities.values[i];
+                    if (entity.properties.name != undefined) {
+                        if (entity.properties.name.toLowerCase() == choice.toLowerCase()) {
+                            selectStore(entity, data);
+                        }
+
+                    }
+                }
+            });
+        }
+
+
+        var clickHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        clickHandler.setInputAction(function(movement) {
+            var pickedObject = scene.pick(movement.position);
+            console.log(pickedObject);
+            if (Cesium.defined(pickedObject)) {
+                for (var i = 0; i < data.entities.values.length; i++)  {
+                    var entity = data.entities.values[i];
+                    if (entity.properties.hasOwnProperty('name') && pickedObject.hasOwnProperty('properties') && pickedObject.properties.hasOwnProperty('name')) {
+                        if (entity.properties.name.toLowerCase() == pickedObject.properties.name.toLowerCase()) {
+                            console.log('All requirements satisfied to explore building');
+                            exploreStore(entity, data);
+                        }
+                    }
+                }
+            }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+
+        function selectStore(entity, data) {
+            var pCoords = entity.polygon.hierarchy.getValue(viewer.clock.currentTime);
+            var avgPoint = Math.round(pCoords.positions.length / 2);
+            var topPoint = 0;
+
+            for (var xy = 0; xy < pCoords.positions.length - 1; xy++) {
+                if (pCoords.positions[xy+1].x > pCoords.positions[xy].x) {
+                    topPoint = xy;
+                }
+            }
+
+            var pos = Cesium.Ellipsoid.WGS84.cartesianToCartographic(pCoords.positions[avgPoint]);
+            pos.latitude = Cesium.Math.toDegrees(pos.latitude);
+            pos.longitude = Cesium.Math.toDegrees(pos.longitude);
+
+            viewer.camera.flyTo({
+                destination : Cesium.Cartesian3.fromDegrees(pos.longitude, pos.latitude - 0.001, 500),
+                orientation : {
+                    heading : 5.51747,
+                    pitch : -1.419427,
+                    roll : 6.2675
+                },
+                duration: 1
+            });
+
+            colourReset();
+
+            console.log(viewer.entities);
+
+            var selectionOutline = viewer.entities.add({
+               name : 'selectionOutline',
+               polyline : {
+                 positions : pCoords.positions,
+                 width : 8,
+                 material : new Cesium.PolylineGlowMaterialProperty({
+                   glowPower : 0.7,
+                   color : Cesium.Color.fromCssColorString('#008B8B'),
+                   extrudedHeight : entity.polygon.extrudedHeight + 20
+                 })
+               }
+             });
+
+            entity.polygon.material = Cesium.Color.fromCssColorString('#000000');
+            entity.polygon.material.outlineColor = Cesium.Color.fromCssColorString('#008B8B');
+            entity.polygon.material.outlineWidth = 5;
+            viewer.selectedEntity = entity;
+        }
+
+        function exploreStore(entity, data) {
+            var pCoords = entity.polygon.hierarchy.getValue(viewer.clock.currentTime);
+            var cartographic = new Cesium.Cartographic();
+            var camHeight = ellipsoid.cartesianToCartographic(camera.position, cartographic).height;
+            // var pos = Cesium.Ellipsoid.WGS84.cartesianToCartographic(pCoords.positions[0]);
+            // pos.latitude = Cesium.Math.toDegrees(pos.latitude);
+            // pos.longitude = Cesium.Math.toDegrees(pos.longitude);
+
+            var avgPoint = Math.round(pCoords.positions.length / 2);
+
+
+            var pos = Cesium.Ellipsoid.WGS84.cartesianToCartographic(pCoords.positions[avgPoint]);
+            pos.latitude = Cesium.Math.toDegrees(pos.latitude);
+            pos.longitude = Cesium.Math.toDegrees(pos.longitude);
+
+            // var topPoint = 0;
+            //
+            // for (var xy = 0; xy < pCoords.positions.length - 1; xy++) {
+            //     if (pCoords.positions[xy+1].x > pCoords.positions[xy].x) {
+            //         topPoint = xy;
+            //     }
+            // }
+
+            viewer.camera.flyTo({
+                destination : Cesium.Cartesian3.fromDegrees(pos.longitude, pos.latitude, camHeight),
+                orientation : {
+                    heading : camera.heading
+                },
+                duration: 1
+            });
+
+            colourReset();
+
+            // pCoords.positions.forEach(function(position) {
+            //     position.x += 0.33;
+            //     position.y += 0.33;
+            // });
+
+             var selectionOutline = viewer.entities.add({
+               name : 'selectionOutline',
+               polyline : {
+                 positions : pCoords.positions,
+                 width : 8,
+                 material : new Cesium.PolylineGlowMaterialProperty({
+                   glowPower : 0.7,
+                   color : Cesium.Color.fromCssColorString('#008B8B'),
+                   extrudedHeight : entity.polygon.extrudedHeight + 20
+                 })
+               }
+             });
+            entity.polygon.material = Cesium.Color.fromCssColorString('#000000');
+            entity.polygon.material.outlineColor = Cesium.Color.fromCssColorString('#008B8B');
+            entity.polygon.material.outlineWidth = 5;
+            viewer.selectedEntity = entity;
+        }
+
+//        function highlightByType(type, data) {
+//            colourReset();
+//            // for (z = 0; z < viewer.entities.values.length; z++) {
+//            //     if (viewer.entities.values[z].name.substring(0, 16) == 'selectionOutline') {
+//            //         viewer.entities.remove(viewer.entities.values[z]);
+//            //     }
+//            // }
+//            for (var j = 0; j < data.entities.values.length; j++) {
+//                var entity = data.entities.values[j];
+//                if (entity.properties.hasOwnProperty('storetypes')) {
+//                    if (entity.properties.storetypes.toLowerCase().match(type)) {
+//                        var pCoords = entity.polygon.hierarchy.getValue(viewer.clock.currentTime);
+//                        matched = true;
+//                        entity.polygon.material = Cesium.Color.fromCssColorString('#000000');
+//                        entity.polygon.material.outlineColor = Cesium.Color.fromCssColorString('#008B8B');
+//                        entity.polygon.material.outlineWidth = 5;
+//
+//                         viewer.entities.add({
+//                           name : 'selectionOutline',
+//                           polyline : {
+//                             positions : pCoords.positions,
+//                             width : 4,
+//                             material : new Cesium.PolylineGlowMaterialProperty({
+//                               glowPower : 0.5,
+//                               color : Cesium.Color.fromCssColorString('#008B8B'),
+//                               extrudedHeight : entity.polygon.extrudedHeight + 20
+//                             })
+//                           }
+//                         });
+//                    }
+//                }
+//            }
+//        }
+    };
+
+function colourReset() {
+    for (var e = viewer.entities.values.length - 1; e >= 0; e--) {
+        if (viewer.entities.values[e].name == 'selectionOutline') {
+            viewer.entities.remove(viewer.entities.values[e]);
+        }
     }
-  });
+    for (z = viewer.dataSources.get(0).entities.values.length -1; z >= 0; z--) {
+        console.dir(viewer.dataSources.get(0).entities.values[z]);
+        if (viewer.dataSources.get(0).entities.values[z].hasOwnProperty("name") && viewer.dataSources.get(0).entities.values[z].name.substring(0, 16) == 'selectionOutline') {
+            viewer.dataSources.get(0).entities.remove(viewer.dataSources.get(0).entities.values[z]);
+        }
+    }
+    for (var j = 0; j < viewer.dataSources.get(0).entities.values.length; j++) {
+        var entity = viewer.dataSources.get(0).entities.values[j];
+        if (entity.properties.hasOwnProperty('colour')) {
+            if (entity.properties.hasOwnProperty('colourOrig')) {
+                var orig = entity.properties.colourOrig;
+                entity.polygon.material = new Cesium.Color(orig.red, orig.green, orig.blue, 1);
+                entity.outlineColor = Cesium.Color.BLACK;
+                entity.polygon.outlineWidth = 1.2;
+            }
+        }
+    }
+}
 
 </script>
 
@@ -680,24 +873,38 @@ function highlight(chosenColour) {
     var entity = viewer.dataSources.get(0).entities.values[j];
     if (entity.properties.hasOwnProperty('colour')) {
       if (entity.properties.colour.toLowerCase() == chosenColour.toLowerCase()) {
-        entity.polygon.material = Cesium.Color.BLACK;
-        entity.polygon.outlineWidth = 4.0;
+          var pCoords = entity.polygon.hierarchy.getValue(viewer.clock.currentTime);
+          var selectionOutline = viewer.entities.add({
+              name : 'selectionOutline',
+              polyline : {
+                  positions : pCoords.positions,
+                  width : 8,
+                  material : new Cesium.PolylineGlowMaterialProperty({
+                      glowPower : 0.7,
+                      color : Cesium.Color.fromCssColorString('#008B8B'),
+                      extrudedHeight : entity.polygon.extrudedHeight + 20
+                  })
+              }
+          });
+          entity.polygon.material = Cesium.Color.fromCssColorString('#000000');
+          entity.polygon.material.outlineColor = Cesium.Color.fromCssColorString('#008B8B');
+          entity.polygon.material.outlineWidth = 5;
       }
     }
   }
 }
 
-function colourReset() {
-  for (var j = 0; j < viewer.dataSources.get(0).entities.values.length; j++) {
-    var entity = viewer.dataSources.get(0).entities.values[j];
-    if (entity.properties.hasOwnProperty('colourOrig')) {
-      var orig = entity.properties.colourOrig;
-        entity.polygon.material = new Cesium.Color(orig.red, orig.green, orig.blue, 1);
-        entity.outlineColor = Cesium.Color.BLACK;
-        entity.polygon.outlineWidth = 1.0;
-    }
-  }
-}
+//function colourReset() {
+//  for (var j = 0; j < viewer.dataSources.get(0).entities.values.length; j++) {
+//    var entity = viewer.dataSources.get(0).entities.values[j];
+//    if (entity.properties.hasOwnProperty('colourOrig')) {
+//      var orig = entity.properties.colourOrig;
+//        entity.polygon.material = new Cesium.Color(orig.red, orig.green, orig.blue, 1);
+//        entity.outlineColor = Cesium.Color.BLACK;
+//        entity.polygon.outlineWidth = 1.0;
+//    }
+//  }
+//}
 
 function getRand(max, min) {
   return (Math.random() * (max - min) + min);

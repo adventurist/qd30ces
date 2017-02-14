@@ -5,33 +5,122 @@ body {
   display: none!important;
 }
 
+.cesium-selection-wrapper svg {
+  fill: #e5fffd;
+}
+
+.cesium-viewer-geocoderContainer {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
 .cesium-infoBox  {
-  width: 22em;
-  height: 23em;
+  width: 18em;
+  height: 15em;
+  position: absolute;
+  left: 0;
+  top: calc(100% - 320px);
   background: white;
   text-align: center;
-  transform: translate(-51.5em, 16em);
   box-shadow: none;
+  font-family: Metric, sans-serif;
+  border: 0;
+  -webkit-transform: translate(-100%, 0);
+  -moz-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
+}
+
+.cesium-infoBox-visible {
+  -webkit-transform: translate(0%, 0);
+  -moz-transform: translate(0%, 0);
+  transform: translate(0%, 0);
+}
+
+.cesium-infoBox-title {
+  display: none;
 }
 
 .cesium-infoBox-iframe  {
-  width: 22em;
+  width: 18em;
   background: white;
-  height: 23em!important;
-  box-shadow: 0 0 10px 1px #000;
+  height: 15em!important;
+  box-shadow: 0 0 10px -2px #000;
+}
+
+.cesium-infoBox-camera {
+  display: none!important;
 }
 
 .cesium-infoBox-description {
-  color: #001919;
-  text-align: center;
+  color: #000000;
+  font-family: Metric, sans-serif;
 }
 
-.cesium-infoBox-description h1 {
-  font-size: 135%;
+.cesium-infoBox-description > div {
+
 }
+
+.cesium-infoBox-description a:link {
+  color: #000000;
+}
+
+.cesium-infoBox-description a:hover {
+  text-decoration: underline!important;
+  background-color: #fcc300!important;
+}
+
+.cesium-infoBox-description .boutique-infobox > a:hover {
+  background-color: inherit!important;
+}
+
+.cesium-infoBox-description h1 h2{
+  color: #000000;
+  text-align: center;
+  display: inline-block!important;
+}
+
+.cesium-infoBox-description #marker-img {
+  height: 36px;
+  background-image: url('../gfx/icon_mappointer-b.svg');
+  width: 36px;
+  background-size: 100%;
+  display: block;
+  float: left;
+  position: relative;
+  top: 16px;
+}
+
 
 .cesium-infoBox-description img {
+  display: none;
   height: 20%;
+  max-width: 16em;
+}
+
+.cesium-selection-wrapper svg {
+  -webkit-transition:visibility 0s 0s,opacity 0s ease-in;
+  -moz-transition: visibility 0s 0s, opacity 0s ease-in;
+  transition:visibility 0s 0s,opacity 0s ease-in;
+}
+
+.cesium-selection-wrapper-visible {
+  -webkit-transition: opacity 0s ease-out;
+  -moz-transition: opacity 0s ease-out;
+  transition: opacity 0s ease-out;
 }
 
 #business-details {
@@ -207,39 +296,4 @@ and (min-width: 768px) {
     display: none;
   }
 
-}
-
-@media screen and (min-width: 960px)
-and (max-width: 1150px) {
-  .cesium-infoBox {
-    transform: translate(-38.5em, 5em);
-    width: 16em;
-  }
-
-  .cesium-infoBox-iframe  {
-    width: 16em;
-  }
-
-}
-
-@media screen and (min-width: 1150px)
-and (max-width: 1370px) {
-  .cesium-infoBox {
-    transform: translate(-33.5em, 5em);
-
-  }
-}
-
-@media screen and (min-width: 1370px)
-and (max-width: 1600px) {
-  .cesium-infoBox {
-    transform: translate(-43em, 12em);
-  }
-}
-
-@media screen and (min-width: 1796px)
-and (max-width: 2438px) {
-  .cesium-infoBox {
-    transform: translate(-62.5em, 16em);
-  }
 }
